@@ -1,0 +1,13 @@
+Client 1:		storej3ybtf5b6wunqsshpublicip1.westeurope.cloudapp.azure.com
+Client 2:		storej3ybtf5b6wunqsshpublicip2.westeurope.cloudapp.azure.com
+Client 3:		storej3ybtf5b6wunqsshpublicip3.westeurope.cloudapp.azure.com
+Middleware 1:	storej3ybtf5b6wunqsshpublicip4.westeurope.cloudapp.azure.com
+Middleware 2:	storej3ybtf5b6wunqsshpublicip5.westeurope.cloudapp.azure.com
+Server 1:		storej3ybtf5b6wunqsshpublicip6.westeurope.cloudapp.azure.com
+Server 2:		storej3ybtf5b6wunqsshpublicip7.westeurope.cloudapp.azure.com
+Server 3:		storej3ybtf5b6wunqsshpublicip8.westeurope.cloudapp.azure.com
+
+
+clients:	cssh dcetin@storej3ybtf5b6wunqsshpublicip{1,2,3}.westeurope.cloudapp.azure.com
+mws:		cssh dcetin@storej3ybtf5b6wunqsshpublicip{4,5}.westeurope.cloudapp.azure.com
+servers:	cssh dcetin@storej3ybtf5b6wunqsshpublicip{6,7,8}.westeurope.cloudapp.azure.com
