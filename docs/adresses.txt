@@ -1,0 +1,21 @@
+Client 1:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip1.westeurope.cloudapp.azure.com
+Client 2:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip2.westeurope.cloudapp.azure.com
+Client 3:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip3.westeurope.cloudapp.azure.com
+Middleware 1:	SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip4.westeurope.cloudapp.azure.com
+Middleware 2:	SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip5.westeurope.cloudapp.azure.com
+Server 1:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip6.westeurope.cloudapp.azure.com
+Server 2:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip7.westeurope.cloudapp.azure.com
+Server 3:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip8.westeurope.cloudapp.azure.com
+
+clients:	SSH_AUTH_SOCK=0 cssh dcetin@storej3ybtf5b6wunqsshpublicip{1,2,3}.westeurope.cloudapp.azure.com
+mws:		SSH_AUTH_SOCK=0 cssh dcetin@storej3ybtf5b6wunqsshpublicip{4,5}.westeurope.cloudapp.azure.com
+servers:	SSH_AUTH_SOCK=0 cssh dcetin@storej3ybtf5b6wunqsshpublicip{6,7,8}.westeurope.cloudapp.azure.com
+
+Client 1:		10.0.0.6
+Client 2:		10.0.0.10
+Client 3:		10.0.0.7
+Middleware 1:	10.0.0.4
+Middleware 2:	10.0.0.11
+Server 1:		10.0.0.5
+Server 2:		10.0.0.9
+Server 3:		10.0.0.8
