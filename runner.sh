@@ -49,22 +49,28 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-# Example runs without experiment details
+# Local examples:
 # cli: ./runner.sh -mtype cli -mno 1 -ipadd 127.0.0.1 -pno 1453
 # mw: ./runner.sh -mtype mw -mno 1 -ipadd 127.0.0.1 -pno 1453 -pairs "127.0.0.1:11211 127.0.0.1:11212"
 # svr: ./runner.sh -mtype svr -mno 1 -pno 11211
 
-#CSB2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 10 
+# Remote examples:
+# cli: ./runner.sh -mtype cli -mno 1 -ipadd 127.0.0.1 -pno 1453
+# mw: ./runner.sh -mtype mw -mno 1 -ipadd 127.0.0.1 -pno 1453 -pairs "127.0.0.1:11211 127.0.0.1:11212"
+# svr: ./runner.sh -mtype svr -mno 1 -pno 11211
 
-# Remote paths
-MLOC=""
-JAR=""
-RESBASE=""
+# CSB1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
+# CSB2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 
 # Local paths
 MLOC="/home/doruk/Desktop/asl/memtier_benchmark-master/memtier_benchmark"
 JAR="/home/doruk/Desktop/asl/asl-fall18-project/dist/middleware-dcetin.jar"
 RESBASE="/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
+
+# Remote paths
+MLOC="/home/dcetin/memtier_benchmark-master/memtier_benchmark"
+JAR="/home/dcetin/asl-fall18-project/dist/middleware-dcetin.jar"
+RESBASE="/home/dcetin/asl-fall18-project/res/"
 
 RES="${RESBASE}nsvr=${NSVR}/ncli=${NLCI}/icli=${ICLI}/tcli=${TCLI}/vcli=${VCLI}/wrkld=${WRKLD}/mgshrd=${MGSHRD}/mgsize=${MGSIZE}/nmw=${NMW}/tmw=${TMW}/ttime=${TTIME}/"
 mkdir -p $RES
@@ -80,7 +86,7 @@ else
 		CLOUT="${RES}cliout${MNO}rep${REP}.out"
 		CLSTT="${RES}cli${MNO}rep${REP}"
 		case $MTYPE in
-			"cli")
+			"cli") # TODO: no support for multiget
 				$MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
 				sleep 5
 				;;

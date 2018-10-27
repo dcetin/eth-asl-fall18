@@ -5,6 +5,7 @@ import numpy as np
 from summarizer import getAvgClientStat
 
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
+resbase = ""
 
 vlist = [1,2,4]
 reps = [1,2,3]
@@ -20,7 +21,7 @@ for vcli in vlist:
 			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + "1:0" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=10/"
 			fcli = "cli" + str(cli) + "rep" + str(rep) + "-1-0-0.csv"
 			fname = fmain + fcli
-			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(resbase, fname, 1, 1)
+			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(resbase, fname, 5, 5)
 			# print fcli, avgSetThru, avgSetLat
 			setThru.append(avgSetThru)
 			setLat.append(avgSetLat)
