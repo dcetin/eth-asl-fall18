@@ -26,3 +26,4 @@ def getAvgClientStat(base, fname, warmup, cooldown):
 	avgGetLat = totGetLat / seconds
 
 	return avgSetThru, avgGetThru, avgSetLat, avgGetLat
+

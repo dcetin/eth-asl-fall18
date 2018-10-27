@@ -4,12 +4,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from summarizer import getAvgClientStat
 
-resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
-resbase = ""
+resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 
-vlist = [1,2,4]
+vlist = [1,2]
 reps = [1,2,3]
-clis = [1,2]
+clis = [1,2,3]
 
 setThru = []
 setLat = []
@@ -23,7 +22,7 @@ for vcli in vlist:
 			fcli = "cli" + str(cli) + "rep" + str(rep) + "-1-0-0.csv"
 			fname = fmain + fcli
 			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(resbase, fname, 5, 5)
-			# print fcli, avgSetThru, avgSetLat
+			print str(vcli), fcli, avgSetThru, avgSetLat
 			setThru.append(avgSetThru)
 			setLat.append(avgSetLat)
 			getThru.append(avgGetThru)
@@ -43,13 +42,12 @@ getLat = getLat.reshape(len(vlist),len(reps),len(clis))
 thru = setThru
 lat = setLat
 
-if (0):
+if (1):
 	aggThru = np.sum(thru, 2)
 	y = np.average(aggThru, 1)
 	yerr = np.std(aggThru, 1)
 
 	vlist = np.asarray(vlist)
-	vlist = np.asarray([1,2,4])
 	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Throughput', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel("Throughput (ops/sec)")
@@ -59,7 +57,7 @@ if (0):
 	plt.legend(loc='upper right')
 	plt.xticks(vlist)
 	plt.show()
-	plt.clear()
+	plt.clf()
 
 if (0):
 	aggLat = np.divide(np.sum(np.multiply(thru, lat), 2), np.sum(thru, 2))
@@ -68,7 +66,6 @@ if (0):
 	yerr = np.std(aggLat, 1)
 
 	vlist = np.asarray(vlist)
-	vlist = np.asarray([1,2,4])
 	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Latency', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel("Latency (μsec)")
@@ -78,4 +75,4 @@ if (0):
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.show()
-	plt.clear()
+	plt.clf()
