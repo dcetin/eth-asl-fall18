@@ -18,7 +18,8 @@ getLat = []
 for vcli in vlist:
 	for rep in reps:
 		for cli in clis:
-			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + "1:0" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=10/"
+			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + "1:0" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/"
+			# fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + "1:0" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/"
 			fcli = "cli" + str(cli) + "rep" + str(rep) + "-1-0-0.csv"
 			fname = fmain + fcli
 			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(resbase, fname, 5, 5)
