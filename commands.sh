@@ -1,4 +1,4 @@
-# Addresses
+# CONNECTION
 	# SSH commands for each VM
 	Client 1:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip1.westeurope.cloudapp.azure.com
 	Client 2:		SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip2.westeurope.cloudapp.azure.com
@@ -27,6 +27,7 @@
 	git clone https://gitlab.ethz.ch/dcetin/asl-fall18-project.git
 	# Check the number of threads in memcached server
 	echo -e 'stats\r\nquit' | nc 0.0.0.0 11211 | grep "threads"
+	echo -e 'stats\r\nquit' | nc 10.0.0.5 11211 | grep "threads"
 
 # BASELINE 1
 	# Clients

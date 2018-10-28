@@ -58,14 +58,14 @@ setlat = setlat.reshape(len(vlist),len(reps))
 # print setlat
 
 if (1):
-	settpt = settpt / 1000.0
+	settpt = settpt
 	y = np.average(settpt, 1)
 	yerr = np.std(settpt, 1)
 
 	vlist = np.asarray(vlist)
 	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Throughput', marker='o', capsize=2, capthick=1)
 
-	plt.ylabel("Throughput (1000 ops/sec)")
+	plt.ylabel("Throughput (ops/sec)")
 	plt.xlabel("Virtual clients per instance")
 	plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center')
 	plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center')

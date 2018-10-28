@@ -68,9 +68,9 @@ JAR="/home/doruk/Desktop/asl/asl-fall18-project/dist/middleware-dcetin.jar"
 RESBASE="/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
 
 # Remote paths
-# MLOC="/home/dcetin/memtier_benchmark-master/memtier_benchmark"
-# JAR="/home/dcetin/asl-fall18-project/dist/middleware-dcetin.jar"
-# RESBASE="/home/dcetin/asl-fall18-project/res/"
+MLOC="/home/dcetin/memtier_benchmark-master/memtier_benchmark"
+JAR="/home/dcetin/asl-fall18-project/dist/middleware-dcetin.jar"
+RESBASE="/home/dcetin/asl-fall18-project/res/"
 
 RES="${RESBASE}nsvr=${NSVR}/ncli=${NLCI}/icli=${ICLI}/tcli=${TCLI}/vcli=${VCLI}/wrkld=${WRKLD}/mgshrd=${MGSHRD}/mgsize=${MGSIZE}/nmw=${NMW}/tmw=${TMW}/ttime=${TTIME}/"
 mkdir -p $RES
