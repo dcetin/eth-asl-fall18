@@ -1,6 +1,6 @@
-def getAvgClientStat(base, fname, warmup, cooldown):
+def getAvgClientStat(fname, warmup, cooldown):
 
-	with open(base + fname) as f:
+	with open(fname) as f:
 	    content = f.readlines()
 	content = [x.strip() for x in content]
 
@@ -12,6 +12,7 @@ def getAvgClientStat(base, fname, warmup, cooldown):
 	totSetLat = 0
 	totGetLat = 0
 	for x in range(baseIdx, lastIdx):
+		# print content[x]
 		data = content[x].split(",")
 		totSetThru += float(data[1])
 		totSetLat += float(data[2])
@@ -26,4 +27,3 @@ def getAvgClientStat(base, fname, warmup, cooldown):
 	avgGetLat = totGetLat / seconds
 
 	return avgSetThru, avgGetThru, avgSetLat, avgGetLat
-
