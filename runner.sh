@@ -59,8 +59,8 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # mw: ./runner.sh -mtype mw -mno 1 -ipadd 127.0.0.1 -pno 1453 -pairs "127.0.0.1:11211 127.0.0.1:11212"
 # svr: ./runner.sh -mtype svr -mno 1 -pno 11211
 
-# CSB1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
-# CSB2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+# CS Baesline-1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
+# CS Baesline-2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 
 # Local paths
 MLOC="/home/doruk/Desktop/asl/memtier_benchmark-master/memtier_benchmark"
