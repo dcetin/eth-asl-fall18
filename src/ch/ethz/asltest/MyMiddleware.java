@@ -74,10 +74,11 @@ public class MyMiddleware {
 		List<ClientData> clientDataList = Collections.synchronizedList(new ArrayList<ClientData>());
 		BlockingQueue<RequestData> requestQueue = new LinkedBlockingQueue<RequestData>();
 		List<RequestData> finishedList = Collections.synchronizedList(new ArrayList<RequestData>());
+		List<Integer> responseHistogram = Collections.synchronizedList(new ArrayList<Integer>());
 
 		// initalize the server socket and the net thread
 		ServerSocket welcomingSocket = new ServerSocket(portNumber);
-		new clientHandler(clientDataList, requestQueue, finishedList, timeoutSecs).start();
+		new clientHandler(clientDataList, requestQueue, finishedList, timeoutSecs, responseHistogram).start();
 
 		// initialize the worker threads
 		for (int i = 0; i < this.numThreadsPTP; i++)
@@ -148,14 +149,16 @@ public class MyMiddleware {
 		private List<RequestData> finishedList;
 		private int uniReqNum;
 		private int timeoutSecs;
+		private List<Integer> responseHistogram;
 
-		public clientHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, List<RequestData> finishedList, int timeoutSecs)
+		public clientHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, List<RequestData> finishedList, int timeoutSecs, List<Integer> responseHistogram)
 		{
 			this.finishedList = finishedList;
 			this.clientDataList = clientDataList;
 			this.requestQueue = requestQueue;
 			this.uniReqNum = -1;
 			this.timeoutSecs = timeoutSecs;
+			this.responseHistogram = responseHistogram;
 		}
 
 		public void run() {
@@ -172,9 +175,10 @@ public class MyMiddleware {
 					{
 						if(verboseAggr)
 						{
+							log("STAT START");
 							log("secs" + sep + "qlen" + sep + "thru" + sep + "msrt" + sep + "items" + sep + "nset" + sep + "nget" + sep + "nmget" + sep + "sqt" + sep + "gqt" + sep + "mqt" + sep + "swt" + sep + "gwt" + sep + "mwt");
 						}
-						new ScheduledControl(clientDataList, requestQueue, finishedList, initDelaySecs, periodSecs).runCheck();
+						new ScheduledControl(clientDataList, requestQueue, finishedList, initDelaySecs, periodSecs, responseHistogram).runCheck();
 						firstReq = false;
 					}
 
@@ -248,9 +252,18 @@ public class MyMiddleware {
 			}
 
 			// out of the while loop, net thread will finish soon enough
-			if(verboseLogs)
-				log("Printing summary...");
-
+			if(verboseAggr)
+			{
+				log("STAT END");
+				log("HIST START");
+				int nbins = responseHistogram.size();
+				//log("Latency (<= 100mirosec),Count");
+				log_int(nbins);
+				for (int i = 0; i < nbins; i++) {
+					//log("   " + String.valueOf((i+1)*100) + ": " + String.valueOf(responseHistogram.get(i)));
+				}
+				log("HIST END");
+			}				
 			// finish process, killing all the other threads
 			if(verboseLogs)
 				log("Killing all threads...");
@@ -334,7 +347,6 @@ public class MyMiddleware {
 						inputLine = clientListenStream.readLine();
 						if (inputLine != null)
 						{
-							//TODO: if you open the socket at the very beginning it fucks up the throughput, which currently is fucked up indeed
 							if(verboseLogs)
 							{
 								log("Thread #" + String.valueOf(serverHandlerID));
@@ -532,8 +544,9 @@ public class MyMiddleware {
 		private int baseIdx;
 		private int endIdx;
 		private int totalTime;
+		private List<Integer> responseHistogram;
 
-		public ScheduledControl(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, List<RequestData> finishedList, int initDelaySecs, int periodSecs)
+		public ScheduledControl(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, List<RequestData> finishedList, int initDelaySecs, int periodSecs, List<Integer> responseHistogram)
 		{
 			this.finishedList = finishedList;
 			this.clientDataList = clientDataList;
@@ -543,6 +556,7 @@ public class MyMiddleware {
 			this.baseIdx = 0;
 			this.endIdx = 0;
 			this.totalTime = initDelaySecs;
+			this.responseHistogram = responseHistogram;
 		}
 
 	    private final ScheduledExecutorService scheduler =
@@ -572,6 +586,14 @@ public class MyMiddleware {
 							RequestData rq = finishedList.get(i);
 							double queuetime = interval(rq.ns_netThreadReceived, rq.ns_workerThreadReceived, 0);
 							double worktime = interval(rq.ns_workerThreadReceived, rq.ns_workerThreadFinished, 0);
+
+							double responseTime = (queuetime + worktime); // in seconds
+							responseTime = responseTime * Math.pow(10, 6); // in microseconds
+							int newIdx = (int)responseTime / 100;
+							// log_double(responseTime);
+							while(responseHistogram.size() < newIdx + 1)
+								responseHistogram.add(0);
+							responseHistogram.set(newIdx, responseHistogram.get(newIdx)+1);
 
 							//if (verboseAggr)
 							//	log(itos(rq.requestNumber) + sep + itos(rq.serverHandlerID) + sep + itos(rq.sentServer));

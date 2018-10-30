@@ -1,3 +1,23 @@
+import numpy as np
+
+def getAvgClientStat(fname, warmup, cooldown):
+	with open(fname) as f:
+	    content = f.readlines()
+	content = [x.strip() for x in content]
+
+	baseIdx = content.index("STAT START") + 2 + warmup
+	lastIdx = content.index("STAT END") - cooldown
+	headerIdx = content.index("STAT START") + 1
+	colsize = len(content[headerIdx].split(",")) - 1
+	seconds = (lastIdx - baseIdx)
+	runsum = np.zeros(colsize,)
+	for x in range(baseIdx, lastIdx):
+		data = content[x].split(",")
+		data = np.asarray(data[1:], dtype="float32")
+		runsum += data
+	data = data / seconds
+	return data
+
 def getAvgClientStat(fname, warmup, cooldown):
 
 	with open(fname) as f:

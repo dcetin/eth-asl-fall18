@@ -59,8 +59,8 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # mw: ./runner.sh -mtype mw -mno 1 -ipadd 127.0.0.1 -pno 1453 -pairs "127.0.0.1:11211 127.0.0.1:11212"
 # svr: ./runner.sh -mtype svr -mno 1 -pno 11211
 
-# CS Baesline-1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
-# CS Baesline-2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+# csb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
+# csb2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 
 # Local paths
 MLOC="/home/doruk/Desktop/asl/memtier_benchmark-master/memtier_benchmark"
@@ -86,13 +86,17 @@ else
 		CLOUT="${RES}cliout${MNO}rep${REP}.out"
 		CLSTT="${RES}cli${MNO}rep${REP}"
 		case $MTYPE in
-			"cli") # TODO: no support for multiget
-				$MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
+			"cli") # TODO: not tested with multiget
+				if [ $MGSHRD == "false" ]; then
+					$MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
+				else
+					$MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
+				fi
 				sleep 5
 				;;
 			"mw")
 				java -jar $JAR -l $IPADD -p $PNO -t $TMW -s $MGSHRD -m $PAIRS > $MWOUT
-				sleep 3
+				# sleep 1
 				;;
 		esac
 	done

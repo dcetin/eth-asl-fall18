@@ -58,8 +58,9 @@
 	./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.5 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 	./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.9 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 	# Servers
-	SSH_AUTH_SOCK=0 cssh dcetin@storej3ybtf5b6wunqsshpublicip{6,7}.westeurope.cloudapp.azure.com
+	SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip6.westeurope.cloudapp.azure.com
 	./runner.sh -mtype svr -mno 1 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	SSH_AUTH_SOCK=0 ssh dcetin@storej3ybtf5b6wunqsshpublicip7.westeurope.cloudapp.azure.com
 	./runner.sh -mtype svr -mno 2 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 	# Copy results
 	SSH_AUTH_SOCK=0  scp -qr dcetin@storej3ybtf5b6wunqsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
