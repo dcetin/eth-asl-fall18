@@ -19,9 +19,9 @@ if experiment == "1-wo":
 if experiment == "1-ro":
 	vlist = [1,2,4,8,16,32] # CS Baseline-1, read only
 if experiment == "2-wo":
-	vlist = [1,2,3,4,6,8] # CS Baseline-2, write only
+	vlist = [1,2,3,4,8,16,32] # CS Baseline-2, write only
 if experiment == "2-ro":
-	vlist = [1,2,3,4,6,8] # CS Baseline-2, read only
+	vlist = [1,2,3,4,6,8,16,32] # CS Baseline-2, read only
 reps = [1,2,3]
 
 settpt = []
