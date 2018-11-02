@@ -51,39 +51,48 @@
 	./runner.sh -mtype dstat -dsmt svr -mno 1 -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 	# Servers
 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
-	./runner.sh -mtype svr -mno 1 -pno 11211 -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	./runner.sh -mtype svr -mno 1 -pno 11211 -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli VAR -wrkld VAR -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps NA -ttime NA
 	# Copy results
 	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
 	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip2.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client2res
 	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip3.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client3res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server1res
 	# Merge results
 	rsync -a /home/doruk/Desktop/client1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
 	rsync -a /home/doruk/Desktop/client2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
 	rsync -a /home/doruk/Desktop/client3res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
 	# Remove temporary results
 	rm -rf /home/doruk/Desktop/client1res/
 	rm -rf /home/doruk/Desktop/client2res/
 	rm -rf /home/doruk/Desktop/client3res/
+	rm -rf /home/doruk/Desktop/server1res/
 	# Remove results permanently
 	rm -rf /home/doruk/Desktop/asl/asl-fall18-project/res/
 
-# # BASELINE 2
-# 	# Clients
-# 	SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,1,6,7}.westeurope.cloudapp.azure.com
-# 	./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.6 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# 	./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.5 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# 	./runner.sh -dsmt svr -mno 1 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# 	./runner.sh -dsmt svr -mno 2 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# 	# Servers
-# 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
-# 	./runner.sh -mtype svr -mno 1 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip7.westeurope.cloudapp.azure.com
-# 	./runner.sh -mtype svr -mno 2 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# 	# Copy results
-# 	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
-# 	# Merge results
-# 	rsync -a /home/doruk/Desktop/client1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-# 	# Remove temporary results
-# 	rm -rf /home/doruk/Desktop/client1res/
-# 	# Remove results permanently
-# 	rm -rf /home/doruk/Desktop/asl/asl-fall18-project/res/
+# BASELINE 2
+	# Clients
+	SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,1,6,7}.westeurope.cloudapp.azure.com
+	./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.6 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.5 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	./runner.sh -dsmt svr -mno 1 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	./runner.sh -dsmt svr -mno 2 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	# Servers
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 1 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip7.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 2 -pno 11211 -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+	# Copy results
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip7.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server2res
+	# Merge results
+	rsync -a /home/doruk/Desktop/client1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	# Remove temporary results
+	rm -rf /home/doruk/Desktop/client1res/
+	rm -rf /home/doruk/Desktop/server1res/
+	rm -rf /home/doruk/Desktop/server2res/
+	# Remove results permanently
+	rm -rf /home/doruk/Desktop/asl/asl-fall18-project/res/

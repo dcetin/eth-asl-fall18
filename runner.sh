@@ -58,6 +58,10 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # csb2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 # mwb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 1 -tmw ~ -reps 3 -ttime 100
 # mwb2: -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 100
+# tpfw: -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 0:1 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 100
+# mgs: 
+# mgns: 
+# 2k: 
 
 # Local paths
 MLOC="/home/doruk/Desktop/asl/memtier_benchmark-master/memtier_benchmark"
@@ -70,15 +74,13 @@ JAR="/home/dcetin/asl-fall18-project/dist/middleware-dcetin.jar"
 RESBASE="/home/dcetin/asl-fall18-project/res/"
 
 RES="${RESBASE}nsvr=${NSVR}/ncli=${NLCI}/icli=${ICLI}/tcli=${TCLI}/vcli=${VCLI}/wrkld=${WRKLD}/mgshrd=${MGSHRD}/mgsize=${MGSIZE}/nmw=${NMW}/tmw=${TMW}/ttime=${TTIME}/"
-mkdir -p $RES
 
 if [ $MTYPE == "svr" ]
 then
 	sudo service memcached stop
-	# SVRWAIT=$(($TEST * $REPS + 10))
-	# (dstat -cdngy 1 $SVRWAIT > $DSTATOUT &) ; memcached -t 1 -p $PNO
 	memcached -t 1 -p $PNO
 else
+	mkdir -p $RES
 	for REP in $(seq 1 $REPS);
 	do
 		MWOUT="${RES}mwout${MNO}rep${REP}.out"

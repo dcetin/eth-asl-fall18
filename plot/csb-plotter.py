@@ -15,7 +15,7 @@ experiment = sys.argv[1] # e.g. "1-wo"
 out_format = sys.argv[2] # e.g. "show" or "save"
 
 if experiment == "1-wo":
-	vlist = [1,2,3,4,8,16,24,32,40,48,64] # CS Baseline-1, write only
+	vlist = [1,2,4,8,16,20,24,32,48,64] # CS Baseline-1, write only
 if experiment == "1-ro":
 	vlist = [1,2,4,8,16,32] # CS Baseline-1, read only
 if experiment == "2-wo":
