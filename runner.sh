@@ -104,7 +104,7 @@ else
 				;;
 			"mw")
 				java -jar $JAR -l $IPADD -p $PNO -t $TMW -s $MGSHRD -m $PAIRS > $MWOUT
-				# sleep 1
+				sleep 1
 				;;
 		esac
 	done

@@ -16,12 +16,16 @@ out_format = sys.argv[2] # e.g. "show" or "save"
 
 if experiment == "1-wo":
 	vlist = [1,2,4,8,16,20,24,32,48,64] # CS Baseline-1, write only
+	load = "1:0"
 if experiment == "1-ro":
 	vlist = [1,2,4,8,16,32] # CS Baseline-1, read only
+	load = "0:1"
 if experiment == "2-wo":
-	vlist = [1,2,3,4,6,8] # CS Baseline-2, write only
+	vlist = [1,2,3,4,8,16,32] # CS Baseline-2, write only
+	load = "1:0"
 if experiment == "2-ro":
-	vlist = [1,2,3,4,6,8] # CS Baseline-2, read only
+	vlist = [1,2,3,4,6,8,16,32] # CS Baseline-2, read only
+	load = "0:1"
 reps = [1,2,3]
 
 settpt = []
@@ -34,14 +38,7 @@ for vcli in vlist:
 		rep_setlat = []
 		rep_gettpt = []
 		rep_getlat = []
-		if experiment == "1-wo":
-			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + "1:0" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv" # CS Baseline-1, write only
-		if experiment == "1-ro":
-			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + "0:1" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv" # CS Baseline-1, read only
-		if experiment == "2-wo":
-			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + "1:0" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv" # CS Baseline-2, write only
-		if experiment == "2-ro":
-			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + "0:1" + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv" # CS Baseline-2, read only
+		fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv"
 		fnamelist = glob.glob(resbase + fmain)
 		# print len(fnamelist)
 		for filename in fnamelist:

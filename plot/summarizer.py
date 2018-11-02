@@ -1,6 +1,10 @@
 import numpy as np
 
 def getMiddlewareStatHist(fname, warmup, cooldown):
+
+	# Data header:
+	# secs,qlen,thru,msrt,items,nset,nget,nmget,sqt,gqt,mqt,swt,gwt,mwt
+
 	with open(fname) as f:
 	    content = f.readlines()
 	content = [x.strip() for x in content]
@@ -23,9 +27,9 @@ def getMiddlewareStatHist(fname, warmup, cooldown):
 	baseIdx = content.index("HIST START") + 2
 	lastIdx = content.index("HIST END")
 	for x in range(baseIdx, lastIdx):
-		data = content[x].split(" ")
-		val.append(data[0])
-		ws.append(data[1])
+		temp = content[x].split(" ")
+		val.append(temp[0])
+		ws.append(temp[1])
 
 	val = np.asarray(val, dtype="int")
 	ws = np.asarray(ws, dtype="int")
