@@ -45,22 +45,19 @@ case $key in
 	shift 2 ;; # Repetitions
 	-ttime|--testtime) TTIME=$2
 	shift 2 ;; # Test time
+
+	# dstat parameter
+	-dsmt|--dstatmachinetype) DSMT=$2
+	shift 2 ;; # mw or svr
 esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-# Local examples:
-# cli: ./runner.sh -mtype cli -mno 1 -ipadd 127.0.0.1 -pno 1453
-# mw: ./runner.sh -mtype mw -mno 1 -ipadd 127.0.0.1 -pno 1453 -pairs "127.0.0.1:11211 127.0.0.1:11212"
-# svr: ./runner.sh -mtype svr -mno 1 -pno 11211
-
-# Remote examples:
-# cli: ./runner.sh -mtype cli -mno 1 -ipadd 127.0.0.1 -pno 1453
-# mw: ./runner.sh -mtype mw -mno 1 -ipadd 127.0.0.1 -pno 1453 -pairs "127.0.0.1:11211 127.0.0.1:11212"
-# svr: ./runner.sh -mtype svr -mno 1 -pno 11211
-
+template: -nsvr ~ -ncli ~ -icli ~ -tcli ~ -vcli ~ -wrkld ~ -mgshrd ~ -mgsize ~ -nmw ~ -tmw ~ -reps ~ -ttime ~
 # csb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
 # csb2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
+# mwb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 1 -tmw ~ -reps 3 -ttime 100
+# mwb2: -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 100
 
 # Local paths
 MLOC="/home/doruk/Desktop/asl/memtier_benchmark-master/memtier_benchmark"
@@ -78,19 +75,27 @@ mkdir -p $RES
 if [ $MTYPE == "svr" ]
 then
 	sudo service memcached stop
+	# SVRWAIT=$(($TEST * $REPS + 10))
+	# (dstat -cdngy 5 $SVRWAIT > $DSTATOUT &) ; memcached -t 1 -p $PNO
 	memcached -t 1 -p $PNO
 else
 	for REP in $(seq 1 $REPS);
 	do
-		MWOUT="${RES}mwout${MNO}rep${REP}.txt"
+		MWOUT="${RES}mwout${MNO}rep${REP}.out"
 		CLOUT="${RES}cliout${MNO}rep${REP}.out"
 		CLSTT="${RES}cli${MNO}rep${REP}"
+
 		case $MTYPE in
+			"dstat")
+				DSTATOUT="${RES}dstatout-${DSMT}${MNO}rep${REP}.out"
+				dstat -cdngy 5 $TTIME > $DSTATOUT
+				;;
 			"cli") # TODO: not tested with multiget
-				if [ $MGSHRD == "false" ]; then
-					$MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
+				DSTATOUT="${RES}dstatout-${MTYPE}${MNO}rep${REP}.out"
+				if [ $MGSIZE == "NA" ]; then
+					(dstat -cdngy 5 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
 				else
-					$MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
+					(dstat -cdngy 5 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
 				fi
 				sleep 5
 				;;

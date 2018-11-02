@@ -1,6 +1,6 @@
 import numpy as np
 
-def getAvgClientStat(fname, warmup, cooldown):
+def getMiddlewareStatHist(fname, warmup, cooldown):
 	with open(fname) as f:
 	    content = f.readlines()
 	content = [x.strip() for x in content]
@@ -16,7 +16,21 @@ def getAvgClientStat(fname, warmup, cooldown):
 		data = np.asarray(data[1:], dtype="float32")
 		runsum += data
 	data = data / seconds
-	return data
+
+	val = []
+	ws = []
+
+	baseIdx = content.index("HIST START") + 2
+	lastIdx = content.index("HIST END")
+	for x in range(baseIdx, lastIdx):
+		data = content[x].split(" ")
+		val.append(data[0])
+		ws.append(data[1])
+
+	val = np.asarray(val, dtype="int")
+	ws = np.asarray(ws, dtype="int")
+
+	return data, val, ws
 
 def getAvgClientStat(fname, warmup, cooldown):
 

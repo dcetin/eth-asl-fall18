@@ -73,17 +73,17 @@ public class MyMiddleware {
 		// initialize the lists
 		List<ClientData> clientDataList = Collections.synchronizedList(new ArrayList<ClientData>());
 		BlockingQueue<RequestData> requestQueue = new LinkedBlockingQueue<RequestData>();
-		List<RequestData> finishedList = Collections.synchronizedList(new ArrayList<RequestData>());
+		BlockingQueue<RequestData> finishedQueue = new LinkedBlockingQueue<RequestData>();
 		List<Integer> responseHistogram = Collections.synchronizedList(new ArrayList<Integer>());
 
 		// initalize the server socket and the net thread
 		ServerSocket welcomingSocket = new ServerSocket(portNumber);
-		new clientHandler(clientDataList, requestQueue, finishedList, timeoutSecs, responseHistogram).start();
+		new clientHandler(clientDataList, requestQueue, finishedQueue, timeoutSecs, responseHistogram).start();
 
 		// initialize the worker threads
 		for (int i = 0; i < this.numThreadsPTP; i++)
 		{
-			new serverHandler(clientDataList, requestQueue, ipArray, portArray, readSharded, finishedList, i).start();
+			new serverHandler(clientDataList, requestQueue, ipArray, portArray, readSharded, finishedQueue, i).start();
 		}
 
 		try {
@@ -146,14 +146,14 @@ public class MyMiddleware {
 	private static class clientHandler extends Thread {
 		private List<ClientData> clientDataList;
 		private BlockingQueue<RequestData> requestQueue;
-		private List<RequestData> finishedList;
+		private BlockingQueue<RequestData> finishedQueue;
 		private int uniReqNum;
 		private int timeoutSecs;
 		private List<Integer> responseHistogram;
 
-		public clientHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, List<RequestData> finishedList, int timeoutSecs, List<Integer> responseHistogram)
+		public clientHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, BlockingQueue<RequestData> finishedQueue, int timeoutSecs, List<Integer> responseHistogram)
 		{
-			this.finishedList = finishedList;
+			this.finishedQueue = finishedQueue;
 			this.clientDataList = clientDataList;
 			this.requestQueue = requestQueue;
 			this.uniReqNum = -1;
@@ -178,7 +178,7 @@ public class MyMiddleware {
 							log("STAT START");
 							log("secs" + sep + "qlen" + sep + "thru" + sep + "msrt" + sep + "items" + sep + "nset" + sep + "nget" + sep + "nmget" + sep + "sqt" + sep + "gqt" + sep + "mqt" + sep + "swt" + sep + "gwt" + sep + "mwt");
 						}
-						new ScheduledControl(clientDataList, requestQueue, finishedList, initDelaySecs, periodSecs, responseHistogram).runCheck();
+						new ScheduledControl(clientDataList, requestQueue, finishedQueue, initDelaySecs, periodSecs, responseHistogram).runCheck();
 						firstReq = false;
 					}
 
@@ -260,10 +260,10 @@ public class MyMiddleware {
 				//log("Latency (<= 100mirosec),Count");
 				log_int(nbins);
 				for (int i = 0; i < nbins; i++) {
-					//log("   " + String.valueOf((i+1)*100) + ": " + String.valueOf(responseHistogram.get(i)));
+					log("   " + String.valueOf(i) + " " + String.valueOf(responseHistogram.get(i)));
 				}
 				log("HIST END");
-			}				
+			}	
 			// finish process, killing all the other threads
 			if(verboseLogs)
 				log("Killing all threads...");
@@ -275,7 +275,7 @@ public class MyMiddleware {
 	private static class serverHandler extends Thread {
 		private List<ClientData> clientDataList;
 		private BlockingQueue<RequestData> requestQueue;
-		private List<RequestData> finishedList;
+		private BlockingQueue<RequestData> finishedQueue;
 		private int serverHandlerID;
 		private List<String> ipArray;
 		private List<Integer> portArray;
@@ -292,7 +292,7 @@ public class MyMiddleware {
 		private BufferedReader serverListenStream;
 
 		public serverHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, 
-			List<String> ipArray, List<Integer> portArray, boolean readSharded, List<RequestData> finishedList, int serverHandlerID)
+			List<String> ipArray, List<Integer> portArray, boolean readSharded, BlockingQueue<RequestData> finishedQueue, int serverHandlerID)
 		{
 			this.clientDataList = clientDataList;
 			this.requestQueue = requestQueue;
@@ -300,7 +300,7 @@ public class MyMiddleware {
 			this.ipArray = ipArray;
 			this.portArray = portArray;
 			this.readSharded = readSharded;
-			this.finishedList = finishedList;
+			this.finishedQueue = finishedQueue;
 
 			this.curGetServer = 0;
 			this.serverCount = ipArray.size();
@@ -519,7 +519,7 @@ public class MyMiddleware {
 						// record the time when the execution finished
 						long ns_workerThreadFinished = System.nanoTime();
 						rq.ns_workerThreadFinished = ns_workerThreadFinished;
-						finishedList.add(rq);
+						finishedQueue.put(rq);
 
 					} catch (InterruptedException e) {
 						System.out.println(e.getMessage());
@@ -538,23 +538,21 @@ public class MyMiddleware {
 		// TODO: currently calculates throghput not for gets inside multigets
 		private List<ClientData> clientDataList;
 		private BlockingQueue<RequestData> requestQueue;
-		private List<RequestData> finishedList;
+		private BlockingQueue<RequestData> finishedQueue;
 		private int initDelaySecs;
 		private int periodSecs;
-		private int baseIdx;
-		private int endIdx;
+		private int newItems;
 		private int totalTime;
 		private List<Integer> responseHistogram;
 
-		public ScheduledControl(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, List<RequestData> finishedList, int initDelaySecs, int periodSecs, List<Integer> responseHistogram)
+		public ScheduledControl(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, BlockingQueue<RequestData> finishedQueue, int initDelaySecs, int periodSecs, List<Integer> responseHistogram)
 		{
-			this.finishedList = finishedList;
+			this.finishedQueue = finishedQueue;
 			this.clientDataList = clientDataList;
 			this.requestQueue = requestQueue;
 			this.initDelaySecs = initDelaySecs;
 			this.periodSecs = periodSecs;
-			this.baseIdx = 0;
-			this.endIdx = 0;
+			this.newItems = 0;
 			this.totalTime = initDelaySecs;
 			this.responseHistogram = responseHistogram;
 		}
@@ -568,7 +566,7 @@ public class MyMiddleware {
 	                {
 	                	// TODO: run dstat, iperf or such
 						// iterate over the finished requests
-						endIdx = finishedList.size();
+						newItems = finishedQueue.size();
 						// iterate over finished requests
 						int n_set = 0;
 						int n_get = 0;
@@ -582,44 +580,47 @@ public class MyMiddleware {
 						double mget_queuetime = 0;
 						double mget_worktime = 0;
 
-						for (int i = baseIdx; i < endIdx; i++) {
-							RequestData rq = finishedList.get(i);
-							double queuetime = interval(rq.ns_netThreadReceived, rq.ns_workerThreadReceived, 0);
-							double worktime = interval(rq.ns_workerThreadReceived, rq.ns_workerThreadFinished, 0);
+						try
+						{
+							for (int i = 0; i < newItems; i++) {
+								RequestData rq = finishedQueue.take();
+								double queuetime = interval(rq.ns_netThreadReceived, rq.ns_workerThreadReceived, 0);
+								double worktime = interval(rq.ns_workerThreadReceived, rq.ns_workerThreadFinished, 0);
 
-							double responseTime = (queuetime + worktime); // in seconds
-							responseTime = responseTime * Math.pow(10, 6); // in microseconds
-							int newIdx = (int)responseTime / 100;
-							// log_double(responseTime);
-							while(responseHistogram.size() < newIdx + 1)
-								responseHistogram.add(0);
-							responseHistogram.set(newIdx, responseHistogram.get(newIdx)+1);
+								double responseTime = (queuetime + worktime); // in seconds
+								responseTime = responseTime * Math.pow(10, 6); // in microseconds
+								int newIdx = (int)responseTime / 100;
+								while(responseHistogram.size() < newIdx + 1)
+									responseHistogram.add(0);
+								responseHistogram.set(newIdx, responseHistogram.get(newIdx)+1);
 
-							//if (verboseAggr)
-							//	log(itos(rq.requestNumber) + sep + itos(rq.serverHandlerID) + sep + itos(rq.sentServer));
+								//if (verboseAggr)
+								//	log(itos(rq.requestNumber) + sep + itos(rq.serverHandlerID) + sep + itos(rq.sentServer));
 
-							n_miss += rq.cacheMisses;
-							n_item += rq.itemsToGet;
-							if (rq.reqType == 0)
-							{
-								n_set++;
-								set_worktime += worktime;
-								set_queuetime += queuetime;
+								n_miss += rq.cacheMisses;
+								n_item += rq.itemsToGet;
+								if (rq.reqType == 0)
+								{
+									n_set++;
+									set_worktime += worktime;
+									set_queuetime += queuetime;
+								}
+								else if (rq.reqType == 1)
+								{
+									n_get++;
+									get_worktime += worktime;
+									get_queuetime += queuetime;
+								}
+								else if (rq.reqType == 2)
+								{
+									n_mget++;
+									mget_worktime += worktime;
+									mget_queuetime += queuetime;
+								}
 							}
-							else if (rq.reqType == 1)
-							{
-								n_get++;
-								get_worktime += worktime;
-								get_queuetime += queuetime;
-							}
-							else if (rq.reqType == 2)
-							{
-								n_mget++;
-								mget_worktime += worktime;
-								mget_queuetime += queuetime;
-							}
+						} catch (InterruptedException e) {
+							System.out.println(e.getMessage());
 						}
-
 						// average the values
 						if(!(n_set == 0 && n_get == 0 && n_mget == 0))
 						{
@@ -631,14 +632,13 @@ public class MyMiddleware {
 							double avg_mget_worktime = mget_worktime / n_mget;
 							double miss_ratio = (1.0 * n_miss) / n_item;
 
-							double throughput = ((endIdx-baseIdx) * 1.0) / periodSecs; // ops/sec
+							double throughput = (newItems * 1.0) / periodSecs; // ops/sec
 							if(verboseAggr)
 								log(itos(totalTime) + sep + itos(requestQueue.size()) + sep + dtos2(throughput) + sep + dtos2(miss_ratio) + sep + n_item + sep + itos(n_set) + sep + itos(n_get) + sep + itos(n_mget) + sep + dtos2(avg_set_queuetime) + sep + dtos2(avg_get_queuetime) + sep + dtos2(avg_mget_queuetime) + sep + dtos2(avg_set_worktime) + sep + dtos2(avg_get_worktime) + sep + dtos2(avg_mget_worktime));
 						}
 
 						// for the next aggregation
-						baseIdx = endIdx;
-						totalTime += periodSecs;
+						newItems = 0;
 	                }
 	            };
 

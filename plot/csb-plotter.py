@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import matplotlib.pyplot as plt
 import numpy as np
 from summarizer import getAvgClientStat
+from summarizer import getMiddlewareStatHist
 import glob
 import sys
 
@@ -11,6 +12,7 @@ resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 
 # CHOOSE THE EXPERIMENT TYPE
 experiment = sys.argv[1] # e.g. "1-wo"
+out_format = sys.argv[2] # e.g. "show" or "save"
 
 if experiment == "1-wo":
 	vlist = [1,2,3,4,8,16,24,32,40,48,64] # CS Baseline-1, write only
@@ -91,7 +93,7 @@ latavg = np.average(lat * 1000, 1)
 laterr = np.std(lat * 1000, 1)
 latlabel = "Latency (msec)"
 
-if (0):
+if (1):
 	y = tptavg
 	yerr = tpterr
 
@@ -100,18 +102,24 @@ if (0):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Virtual clients per instance")
-	# plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-1
-	# plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center') # CS Baseline-1
-	plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-2
-	plt.figtext(.5,.90,'Baseline without middleware, two servers', fontsize=9, ha='center') # CS Baseline-2
+	if experiment == "1-wo" or experiment == "1-ro":
+		plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-1
+		plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center') # CS Baseline-1
+	if experiment == "2-wo" or experiment == "2-ro":
+		plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-2
+		plt.figtext(.5,.90,'Baseline without middleware, two servers', fontsize=9, ha='center') # CS Baseline-2
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
-	plt.show()
-	plt.clf()
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/csb" + experiment + "-tp" + ".png")
+		plt.clf()
 
-if (0):
+if (1):
 	y = latavg
 	yerr = laterr
 
@@ -120,16 +128,22 @@ if (0):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Virtual clients per instance")
-	# plt.figtext(.5,.94,'Latency versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-1
-	# plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center') # CS Baseline-1
-	plt.figtext(.5,.94,'Latency versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-2
-	plt.figtext(.5,.90,'Baseline without middleware, two servers', fontsize=9, ha='center') # CS Baseline-2
+	if experiment == "1-wo" or experiment == "1-ro":
+		plt.figtext(.5,.94,'Latency versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-1
+		plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center') # CS Baseline-1
+	if experiment == "2-wo" or experiment == "2-ro":
+		plt.figtext(.5,.94,'Latency versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-2
+		plt.figtext(.5,.90,'Baseline without middleware, two servers', fontsize=9, ha='center') # CS Baseline-2
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
-	plt.show()
-	plt.clf()
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/csb" + experiment + "-lat" + ".png")
+		plt.clf()
 
 tptavg = np.average(tpt, 1)
 tpterr = np.std(tpt, 1)
