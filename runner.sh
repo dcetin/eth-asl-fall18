@@ -53,7 +53,7 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-template: -nsvr ~ -ncli ~ -icli ~ -tcli ~ -vcli ~ -wrkld ~ -mgshrd ~ -mgsize ~ -nmw ~ -tmw ~ -reps ~ -ttime ~
+# template: -nsvr ~ -ncli ~ -icli ~ -tcli ~ -vcli ~ -wrkld ~ -mgshrd ~ -mgsize ~ -nmw ~ -tmw ~ -reps ~ -ttime ~
 # csb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
 # csb2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
 # mwb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 1 -tmw ~ -reps 3 -ttime 100
@@ -76,7 +76,7 @@ if [ $MTYPE == "svr" ]
 then
 	sudo service memcached stop
 	# SVRWAIT=$(($TEST * $REPS + 10))
-	# (dstat -cdngy 5 $SVRWAIT > $DSTATOUT &) ; memcached -t 1 -p $PNO
+	# (dstat -cdngy 1 $SVRWAIT > $DSTATOUT &) ; memcached -t 1 -p $PNO
 	memcached -t 1 -p $PNO
 else
 	for REP in $(seq 1 $REPS);
@@ -88,14 +88,15 @@ else
 		case $MTYPE in
 			"dstat")
 				DSTATOUT="${RES}dstatout-${DSMT}${MNO}rep${REP}.out"
-				dstat -cdngy 5 $TTIME > $DSTATOUT
+				dstat -cdngy 1 $TTIME > $DSTATOUT
+				sleep 5
 				;;
 			"cli") # TODO: not tested with multiget
 				DSTATOUT="${RES}dstatout-${MTYPE}${MNO}rep${REP}.out"
 				if [ $MGSIZE == "NA" ]; then
-					(dstat -cdngy 5 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
+					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
 				else
-					(dstat -cdngy 5 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
+					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
 				fi
 				sleep 5
 				;;
