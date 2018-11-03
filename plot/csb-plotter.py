@@ -26,6 +26,8 @@ if experiment == "2-wo":
 if experiment == "2-ro":
 	vlist = [1,2,3,4,6,8,16,32] # CS Baseline-2, read only
 	load = "0:1"
+if experiment == "2-ro":
+	vlist = [1,2,3,4,6,8,16,32] # CS Baseline-2, read only
 reps = [1,2,3]
 
 settpt = []
