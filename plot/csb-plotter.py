@@ -26,8 +26,6 @@ if experiment == "2-wo":
 if experiment == "2-ro":
 	vlist = [1,2,3,4,6,8,16,32] # CS Baseline-2, read only
 	load = "0:1"
-if experiment == "2-ro":
-	vlist = [1,2,3,4,6,8,16,32] # CS Baseline-2, read only
 reps = [1,2,3]
 
 settpt = []
@@ -40,9 +38,12 @@ for vcli in vlist:
 		rep_setlat = []
 		rep_gettpt = []
 		rep_getlat = []
-		fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv"
+		if experiment == "1-ro" or experiment == "1-wo":
+			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv"
+		if experiment == "2-ro" or experiment == "2-wo":
+			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv"
 		fnamelist = glob.glob(resbase + fmain)
-		# print len(fnamelist)
+		# print rep, vcli, len(fnamelist)
 		for filename in fnamelist:
 			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(filename, 5, 5)
 			fcli = filename.split("/")[-1]
@@ -51,6 +52,10 @@ for vcli in vlist:
 			rep_setlat.append(avgSetLat)
 			rep_gettpt.append(avgGetThru)
 			rep_getlat.append(avgGetLat)
+			if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
+				print rep, vcli, fcli, avgSetThru
+			if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
+				print rep, vcli, fcli, avgGetThru
 		rep_settpt = np.asarray(rep_settpt)
 		rep_setlat = np.asarray(rep_setlat)
 		rep_gettpt = np.asarray(rep_gettpt)
