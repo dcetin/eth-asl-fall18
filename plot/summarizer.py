@@ -3,7 +3,7 @@ import numpy as np
 def getMiddlewareStatHist(fname, warmup, cooldown):
 
 	# Data header:
-	# secs,qlen,thru,msrt,items,nset,nget,nmget,sqt,gqt,mqt,swt,gwt,mwt
+	# secs: qlen,thru,msrt,items,nset,nget,nmget,sqt,gqt,mqt,swt,gwt,mwt
 
 	with open(fname) as f:
 	    content = f.readlines()
@@ -19,7 +19,7 @@ def getMiddlewareStatHist(fname, warmup, cooldown):
 		data = content[x].split(",")
 		data = np.asarray(data[1:], dtype="float32")
 		runsum += data
-	data = data / seconds
+	data = runsum / (seconds)
 
 	val = []
 	ws = []

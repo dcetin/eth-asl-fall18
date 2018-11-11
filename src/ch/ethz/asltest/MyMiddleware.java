@@ -77,7 +77,7 @@ public class MyMiddleware {
 		List<Integer> responseHistogram = Collections.synchronizedList(new ArrayList<Integer>());
 
 		// initalize the server socket and the net thread
-		ServerSocket welcomingSocket = new ServerSocket(portNumber);
+		ServerSocket welcomingSocket = new ServerSocket(portNumber, 512); // small backlog could result in lost connections
 		new clientHandler(clientDataList, requestQueue, finishedQueue, timeoutSecs, responseHistogram).start();
 
 		// initialize the worker threads

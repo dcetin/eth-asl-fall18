@@ -75,6 +75,9 @@ RESBASE="/home/dcetin/asl-fall18-project/res/"
 
 RES="${RESBASE}nsvr=${NSVR}/ncli=${NLCI}/icli=${ICLI}/tcli=${TCLI}/vcli=${VCLI}/wrkld=${WRKLD}/mgshrd=${MGSHRD}/mgsize=${MGSIZE}/nmw=${NMW}/tmw=${TMW}/ttime=${TTIME}/"
 
+# Test paths
+# RES="${RESBASE}csb1wo/"
+
 if [ $MTYPE == "svr" ]
 then
 	sudo service memcached stop
