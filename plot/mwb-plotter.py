@@ -23,12 +23,12 @@ if experiment == "1-ro":
 	tlist = [8,16,32,64]
 	load = "0:1"
 if experiment == "2-wo":
-	vlist = [] # MW Baseline-2, write only
-	tlist = []
+	vlist = [1,4,8,12,16,32,48] # MW Baseline-2, write only
+	tlist = [8,16,32,64]
 	load = "1:0"
 if experiment == "2-ro":
-	vlist = [] # MW Baseline-2, read only
-	tlist = []
+	vlist = [1,2,3,4,8,32] # MW Baseline-2, read only
+	tlist = [8,16,32,64]
 	load = "0:1"
 reps = [1,2,3]
 
@@ -56,7 +56,10 @@ for tmw in tlist:
 
 	for vcli in vlist:
 		for rep in reps:
-			fbase = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=1/tmw=" + str(tmw) + "/ttime=70/"
+			if experiment == "1-wo" or experiment == "1-ro":
+				fbase = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=1/tmw=" + str(tmw) + "/ttime=70/"
+			if experiment == "2-wo" or experiment == "2-ro":
+				fbase = "nsvr=1/ncli=3/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=2/tmw=" + str(tmw) + "/ttime=70/"
 			fmain = fbase  + "*rep" + str(rep) + "*.csv"
 			cli_rep_settpt = []
 			cli_rep_setlat = []
@@ -183,11 +186,11 @@ for tmw in tlist:
 		laterr = np.std(cli_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
-		# print "vcli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on clients"
-		# print "-"*50
-		# for i in range(0, len(vlist)):
-		# 	print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
-		# print " "
+		print "vcli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on clients"
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
+		print " "
 
 	# Middleware aggregation
 	if (1):
@@ -213,11 +216,11 @@ for tmw in tlist:
 		laterr = np.std(mw_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
-		# print "vcli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on middlewares"
-		# print "-"*50
-		# for i in range(0, len(vlist)):
-		# 	print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
-		# print " "
+		print "vcli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on middlewares"
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
+		print " "
 
 # Client plots
 if (1):
@@ -243,7 +246,7 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/csb" + experiment + "-tp" + "_cli.png")
+		plt.savefig("./out/mwb" + experiment + "-tp" + "_cli.png")
 		plt.clf()
 
 if (1):
@@ -269,7 +272,7 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/csb" + experiment + "-lat" + "_cli.png")
+		plt.savefig("./out/mwb" + experiment + "-lat" + "_cli.png")
 		plt.clf()
 
 # Middleware plots
@@ -296,7 +299,7 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/csb" + experiment + "-tp" + "_mw.png")
+		plt.savefig("./out/mwb" + experiment + "-tp" + "_mw.png")
 		plt.clf()
 
 if (1):
@@ -322,5 +325,5 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/csb" + experiment + "-lat" + "_mw.png")
+		plt.savefig("./out/mwb" + experiment + "-lat" + "_mw.png")
 		plt.clf()

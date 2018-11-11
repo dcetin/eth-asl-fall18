@@ -39,6 +39,13 @@
 	sudo apt install dstat
 	# Install iperf3
 	sudo apt-get install iperf3
+	# iperf3 on server mode
+	iperf3 -s
+	# iperf3 on client mode with all used options
+	iperf3 -c 10.0.0.X -P 1 > iperf3-EXP.out
+	iperf3 -c 10.0.0.X -P 1 -R > iperf3-EXP-P1-R.out
+	# Copy iperf3 results
+	SSH_AUTH_SOCK=0  scp -r dcetin@storelrt4zinzjmismsshpublicipX.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/iperf* /home/doruk/Desktop/
 	# Clone git repo
 	git clone https://gitlab.ethz.ch/dcetin/asl-fall18-project.git
 	# Check the number of threads in memcached server
@@ -153,24 +160,82 @@
 	./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs 10.0.0.6:11211 -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip5.westeurope.cloudapp.azure.com
 	./runner.sh -mtype mw -mno 2 -ipadd 10.0.0.9 -pno 1453 -pairs 10.0.0.6:11211 -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	# # Servers on VM 6
-	# SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
-	# ./runner.sh -mtype svr -mno 1 -pno 11211
-	# # Copy results
-	# SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
-	# SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip2.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client2res
-	# SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip3.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client3res
-	# SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/mw1res
-	# SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server1res
-	# # Merge results
-	# rsync -a /home/doruk/Desktop/client1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	# rsync -a /home/doruk/Desktop/client2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	# rsync -a /home/doruk/Desktop/client3res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	# rsync -a /home/doruk/Desktop/mw1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	# rsync -a /home/doruk/Desktop/server1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	# # Remove temporary results
-	# rm -rf /home/doruk/Desktop/client1res/
-	# rm -rf /home/doruk/Desktop/client2res/
-	# rm -rf /home/doruk/Desktop/client3res/
-	# rm -rf /home/doruk/Desktop/mw1res/
-	# rm -rf /home/doruk/Desktop/server1res/
+	# Servers on VM 6
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 1 -pno 11211
+	# Copy results
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip2.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client2res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip3.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client3res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/mw1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip5.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/mw2res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server1res
+	# Merge results
+	rsync -a /home/doruk/Desktop/client1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/client2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/client3res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/mw1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/mw2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	# Remove temporary results
+	rm -rf /home/doruk/Desktop/client1res/
+	rm -rf /home/doruk/Desktop/client2res/
+	rm -rf /home/doruk/Desktop/client3res/
+	rm -rf /home/doruk/Desktop/mw1res/
+	rm -rf /home/doruk/Desktop/mw2res/
+	rm -rf /home/doruk/Desktop/server1res/
+
+# THROUGHPUT FOR WRITES
+	# Clients on VMs 1,2,3
+	SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,1,2,2,3,3,4,5,6,7,8}.westeurope.cloudapp.azure.com
+	./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 3 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 4 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 5 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 6 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	# dstat on VMs 4,5,6
+	./runner.sh -mtype dstat -dsmt mw -mno 1 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt mw -mno 2 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt svr -mno 1 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt svr -mno 2 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt svr -mno 3 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	# Middlewares on VMs 4,5
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com
+	./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs 10.0.0.6:11211 -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip5.westeurope.cloudapp.azure.com
+	./runner.sh -mtype mw -mno 2 -ipadd 10.0.0.9 -pno 1453 -pairs 10.0.0.6:11211 -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	# Servers on VMS 6,7, 8
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 1 -pno 11211
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip7.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 2 -pno 11211
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip8.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 3 -pno 11211
+	# Copy results
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip1.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip2.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client2res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip3.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/client3res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/mw1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip5.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/mw2res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server1res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip7.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server2res
+	SSH_AUTH_SOCK=0  scp -qr dcetin@storelrt4zinzjmismsshpublicip8.westeurope.cloudapp.azure.com:/home/dcetin/asl-fall18-project/res /home/doruk/Desktop/server3res
+	# Merge results
+	rsync -a /home/doruk/Desktop/client1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/client2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/client3res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/mw1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/mw2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server1res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server2res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/server3res/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	# Remove temporary results
+	rm -rf /home/doruk/Desktop/client1res/
+	rm -rf /home/doruk/Desktop/client2res/
+	rm -rf /home/doruk/Desktop/client3res/
+	rm -rf /home/doruk/Desktop/mw1res/
+	rm -rf /home/doruk/Desktop/mw2res/
+	rm -rf /home/doruk/Desktop/server1res/
+	rm -rf /home/doruk/Desktop/server2res/
+	rm -rf /home/doruk/Desktop/server3res/

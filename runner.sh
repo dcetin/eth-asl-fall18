@@ -56,9 +56,9 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # template: -nsvr ~ -ncli ~ -icli ~ -tcli ~ -vcli ~ -wrkld ~ -mgshrd ~ -mgsize ~ -nmw ~ -tmw ~ -reps ~ -ttime ~
 # csb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100 
 # csb2: -nsvr 2 -ncli 1 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw NA -tmw NA -reps 3 -ttime 100
-# mwb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 1 -tmw ~ -reps 3 -ttime 100
-# mwb2: -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 100
-# tpfw: -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 0:1 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 100
+# mwb1: -nsvr 1 -ncli 3 -icli 1 -tcli 2 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 1 -tmw ~ -reps 3 -ttime 70
+# mwb2: -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+# tpfw: -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
 # mgs: 
 # mgns: 
 # 2k: 
@@ -94,7 +94,7 @@ else
 			"dstat")
 				DSTATOUT="${RES}dstatout-${DSMT}${MNO}rep${REP}.out"
 				dstat -cdngy 1 $TTIME > $DSTATOUT
-				sleep 5
+				sleep 10
 				;;
 			"cli") # TODO: not tested with multiget
 				DSTATOUT="${RES}dstatout-${MTYPE}${MNO}rep${REP}.out"
@@ -103,7 +103,7 @@ else
 				else
 					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
 				fi
-				sleep 5
+				sleep 10
 				;;
 			"mw")
 				java -jar $JAR -l $IPADD -p $PNO -t $TMW -s $MGSHRD -m $PAIRS > $MWOUT
