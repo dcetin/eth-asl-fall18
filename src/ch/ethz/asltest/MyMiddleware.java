@@ -280,6 +280,7 @@ public class MyMiddleware {
 		private List<String> ipArray;
 		private List<Integer> portArray;
 		private Integer curGetServer;
+		private Integer firstSentServer;
 		private Integer serverCount;
 		private boolean readSharded;
 
@@ -368,6 +369,7 @@ public class MyMiddleware {
 									serverSocket = serverSocketList.get(i);
 									serverSendStream = serverSendStreamList.get(i);
 									serverListenStream = serverListenStreamList.get(i);
+
 									//Relay the query to server
 									serverSendStream.println(inputLine + "\r");
 									if(verboseLogs) 
@@ -376,6 +378,12 @@ public class MyMiddleware {
 									if(verboseLogs) 
 										log("S" + i + ":   |-> " + data);
 									serverSendStream.flush();
+								}
+								for(int i = 0; i< serverCount; i++) {
+									serverSocket = serverSocketList.get(i);
+									serverSendStream = serverSendStreamList.get(i);
+									serverListenStream = serverListenStreamList.get(i);
+
 									//Wait for server to send a reply
 									answerLine1 = serverListenStream.readLine();
 									if(verboseLogs) 
@@ -384,7 +392,7 @@ public class MyMiddleware {
 									if (!answerLine1.equals("STORED"))
 										replyLine = answerLine1;
 								}
-								// eelay the reply to the client, it's either and error message or it is STORED
+								// relay the reply to the client, it's either and error message or it is STORED
 								clientReplyStream.println(replyLine + "\r");
 								if(verboseLogs) 
 									log("C" + clientNumber + ": <-|   " + replyLine);
@@ -464,17 +472,38 @@ public class MyMiddleware {
 										getArray.add(req);
 										baseIdx += thisBatch;
 									}
+
 									// send the newly created requests to each server, continuing the round robin
+									firstSentServer = curGetServer;
 									for (int i = 0; i < serverCount; i++) {
+										if (itemSplit.get(i) == 0)
+										{
+											continue;
+										}
 										inputLine = getArray.get(i);
 										serverSocket = serverSocketList.get(curGetServer);
 										serverSendStream = serverSendStreamList.get(curGetServer);
 										serverListenStream = serverListenStreamList.get(curGetServer);
+
 										//Relay the query to server
 										serverSendStream.println(inputLine);
 										if(verboseLogs) 
 											log("S" + curGetServer + ":   |-> " + inputLine + "\r");
 										serverSendStream.flush();
+										//Proceed with the round robin
+										curGetServer = (curGetServer == serverCount - 1) ? 0 : curGetServer+1;
+									}
+									curGetServer = firstSentServer;
+									for (int i = 0; i < serverCount; i++) {
+										if (itemSplit.get(i) == 0)
+										{
+											continue;
+										}
+										inputLine = getArray.get(i);
+										serverSocket = serverSocketList.get(curGetServer);
+										serverSendStream = serverSendStreamList.get(curGetServer);
+										serverListenStream = serverListenStreamList.get(curGetServer);
+
 										//Wait for server to send a reply
 										while (true) {
 											answerLine1 = serverListenStream.readLine();
@@ -493,6 +522,7 @@ public class MyMiddleware {
 										//Proceed with the round robin
 										curGetServer = (curGetServer == serverCount - 1) ? 0 : curGetServer+1;
 									}
+
 									// calculate the cache misses for this query
 									curCacheMisses = itemsToGet - nonEndLinesReceived / 2;
 									rq.cacheMisses += curCacheMisses;

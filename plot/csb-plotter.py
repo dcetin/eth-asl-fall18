@@ -52,10 +52,10 @@ for vcli in vlist:
 			rep_setlat.append(avgSetLat)
 			rep_gettpt.append(avgGetThru)
 			rep_getlat.append(avgGetLat)
-			if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
-				print rep, vcli, fcli, avgSetThru
-			if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
-				print rep, vcli, fcli, avgGetThru
+			# if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
+			# 	print rep, vcli, fcli, avgSetThru
+			# if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
+			# 	print rep, vcli, fcli, avgGetThru
 		rep_settpt = np.asarray(rep_settpt)
 		rep_setlat = np.asarray(rep_setlat)
 		rep_gettpt = np.asarray(rep_gettpt)
@@ -97,56 +97,66 @@ latavg = np.average(lat * 1000, 1)
 laterr = np.std(lat * 1000, 1)
 latlabel = "Latency (msec)"
 
+tptitle = 'Throughput versus number of clients'
+lattitle = 'Latency versus number of clients'
+vlist = np.asarray(vlist)
+if experiment == "1-wo" or experiment == "1-ro":
+	cliMult = 6
+	subtitle = 'Baseline without middleware, one server'
+if experiment == "2-wo" or experiment == "2-ro":
+	cliMult = 2
+	subtitle = 'Baseline without middleware, two servers'
+vlist = vlist * cliMult
+xticks = vlist
+if experiment == "1-wo":
+	xticks = np.delete(xticks, 1)
+
+if experiment == "1-wo" or experiment == "2-wo":
+	subtitle = subtitle + ', write-only load'
+if experiment == "1-ro" or experiment == "2-ro":
+	subtitle = subtitle + ', read-only load'
+
+import matplotlib
+matplotlib.rc('xtick', labelsize=10) 
+
 if (1):
 	y = tptavg
 	yerr = tpterr
-
-	vlist = np.asarray(vlist)
 	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Throughput', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
-	plt.xlabel("Virtual clients per instance")
-	if experiment == "1-wo" or experiment == "1-ro":
-		plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-1
-		plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center') # CS Baseline-1
-	if experiment == "2-wo" or experiment == "2-ro":
-		plt.figtext(.5,.94,'Throughput versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-2
-		plt.figtext(.5,.90,'Baseline without middleware, two servers', fontsize=9, ha='center') # CS Baseline-2
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,tptitle, fontsize=14, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/csb" + experiment + "-tp" + ".png")
+		plt.savefig("./out/plot/csb" + experiment + "-tp" + ".png")
 		plt.clf()
 
 if (1):
 	y = latavg
 	yerr = laterr
-
-	vlist = np.asarray(vlist)
 	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Latency', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
-	plt.xlabel("Virtual clients per instance")
-	if experiment == "1-wo" or experiment == "1-ro":
-		plt.figtext(.5,.94,'Latency versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-1
-		plt.figtext(.5,.90,'Baseline without middleware, one server', fontsize=9, ha='center') # CS Baseline-1
-	if experiment == "2-wo" or experiment == "2-ro":
-		plt.figtext(.5,.94,'Latency versus virtual clients per client instance', fontsize=14, ha='center') # CS Baseline-2
-		plt.figtext(.5,.90,'Baseline without middleware, two servers', fontsize=9, ha='center') # CS Baseline-2
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,lattitle, fontsize=14, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/csb" + experiment + "-lat" + ".png")
+		plt.savefig("./out/plot/csb" + experiment + "-lat" + ".png")
 		plt.clf()
 
 tptavg = np.average(tpt, 1)
@@ -159,4 +169,4 @@ latlabel = "Latency (msec)"
 print "vcli" + "\t" + tptlabel + "\t" + latlabel
 print "-"*50
 for i in range(0, len(vlist)):
-	print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
+	print (str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')

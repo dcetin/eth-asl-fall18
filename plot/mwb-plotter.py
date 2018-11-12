@@ -75,10 +75,10 @@ for tmw in tlist:
 				cli_rep_setlat.append(avgSetLat)
 				cli_rep_gettpt.append(avgGetThru)
 				cli_rep_getlat.append(avgGetLat)
-				if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
-					print tmw, rep, vcli, fcli, avgSetThru
-				if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
-					print tmw, rep, vcli, fcli, avgGetThru
+				# if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
+				# 	print tmw, rep, vcli, fcli, avgSetThru
+				# if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
+				# 	print tmw, rep, vcli, fcli, avgGetThru
 			cli_rep_settpt = np.asarray(cli_rep_settpt)
 			cli_rep_setlat = np.asarray(cli_rep_setlat)
 			cli_rep_gettpt = np.asarray(cli_rep_gettpt)
@@ -189,7 +189,7 @@ for tmw in tlist:
 		print "vcli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on clients"
 		print "-"*50
 		for i in range(0, len(vlist)):
-			print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
+			print (str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
 		print " "
 
 	# Middleware aggregation
@@ -219,26 +219,43 @@ for tmw in tlist:
 		print "vcli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on middlewares"
 		print "-"*50
 		for i in range(0, len(vlist)):
-			print str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]
+			print (str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
 		print " "
+
+vlist = np.asarray(vlist)
+tptitle = 'Throughput versus number of clients for diff. # worker threads in mw'
+lattitle = 'Latency versus number of clients for diff. # worker threads in mw'
+vlist = np.asarray(vlist)
+if experiment == "1-wo" or experiment == "1-ro":
+	cliMult = 6
+	subtitle = 'Baseline with middleware, one middleware, measured on clients'
+if experiment == "2-wo" or experiment == "2-ro":
+	cliMult = 6
+	subtitle = 'Baseline with middleware, two middlewares, measured on clients'
+vlist = vlist * cliMult
+xticks = vlist
+if experiment == "1-wo":
+	xticks = np.delete(xticks, 1)
+
+if experiment == "1-wo" or experiment == "2-wo":
+	subtitle = subtitle + ', write-only load'
+if experiment == "1-ro" or experiment == "2-ro":
+	subtitle = subtitle + ', read-only load'
+
 
 # Client plots
 if (1):
-	vlist = np.asarray(vlist)
-
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = cli_tpt_plot[i]
 		line = plt.errorbar(x=vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
-	plt.xlabel("Virtual clients per instance")
-	if experiment == "1-wo" or experiment == "1-ro":
-		plt.figtext(.5,.94,'Throughput versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-1
-		plt.figtext(.5,.90,'Baseline with middleware, one middleware, measured on clients', fontsize=9, ha='center') # MW Baseline-1
-	if experiment == "2-wo" or experiment == "2-ro":
-		plt.figtext(.5,.94,'Throughput versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-2
-		plt.figtext(.5,.90,'Baseline with middleware, two middlewares, measured on clients', fontsize=9, ha='center') # MW Baseline-2
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
+	if experiment == "1-ro" or experiment == "2-ro":
+		plt.legend(loc='lower right')
 	plt.xticks(vlist)
 	plt.ylim((0,cli_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
@@ -246,24 +263,18 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/mwb" + experiment + "-tp" + "_cli.png")
+		plt.savefig("./out/plot/mwb" + experiment + "-tp" + "_cli.png")
 		plt.clf()
 
 if (1):
-	vlist = np.asarray(vlist)
-
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = cli_lat_plot[i]
 		line = plt.errorbar(x=vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
-	plt.xlabel("Virtual clients per instance")
-	if experiment == "1-wo" or experiment == "1-ro":
-		plt.figtext(.5,.94,'Latency versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-1
-		plt.figtext(.5,.90,'Baseline with middleware, one middleware, measured on clients', fontsize=9, ha='center') # MW Baseline-1
-	if experiment == "2-wo" or experiment == "2-ro":
-		plt.figtext(.5,.94,'Latency versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-2
-		plt.figtext(.5,.90,'Baseline with middleware, two middlewares, measured on clients', fontsize=9, ha='center') # MW Baseline-2
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,cli_lat_maxy*1.2))
@@ -272,26 +283,22 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/mwb" + experiment + "-lat" + "_cli.png")
+		plt.savefig("./out/plot/mwb" + experiment + "-lat" + "_cli.png")
 		plt.clf()
 
 # Middleware plots
 if (1):
-	vlist = np.asarray(vlist)
-
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = mw_tpt_plot[i]
 		line = plt.errorbar(x=vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
-	plt.xlabel("Virtual clients per instance")
-	if experiment == "1-wo" or experiment == "1-ro":
-		plt.figtext(.5,.94,'Throughput versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-1
-		plt.figtext(.5,.90,'Baseline with middleware, one middleware, measured on clients', fontsize=9, ha='center') # MW Baseline-1
-	if experiment == "2-wo" or experiment == "2-ro":
-		plt.figtext(.5,.94,'Throughput versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-2
-		plt.figtext(.5,.90,'Baseline with middleware, two middlewares, measured on clients', fontsize=9, ha='center') # MW Baseline-2
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
+	if experiment == "1-ro" or experiment == "2-ro":
+		plt.legend(loc='lower right')
 	plt.xticks(vlist)
 	plt.ylim((0,mw_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
@@ -299,24 +306,18 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/mwb" + experiment + "-tp" + "_mw.png")
+		plt.savefig("./out/plot/mwb" + experiment + "-tp" + "_mw.png")
 		plt.clf()
 
 if (1):
-	vlist = np.asarray(vlist)
-
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = mw_lat_plot[i]
 		line = plt.errorbar(x=vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
-	plt.xlabel("Virtual clients per instance")
-	if experiment == "1-wo" or experiment == "1-ro":
-		plt.figtext(.5,.94,'Latency versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-1
-		plt.figtext(.5,.90,'Baseline with middleware, one middleware, measured on clients', fontsize=9, ha='center') # MW Baseline-1
-	if experiment == "2-wo" or experiment == "2-ro":
-		plt.figtext(.5,.94,'Latency versus virtual clients p.c.i. for different thread pool sizes', fontsize=12, ha='center') # MW Baseline-2
-		plt.figtext(.5,.90,'Baseline with middleware, two middlewares, measured on clients', fontsize=9, ha='center') # MW Baseline-2
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,mw_lat_maxy*1.2))
@@ -325,5 +326,5 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/mwb" + experiment + "-lat" + "_mw.png")
+		plt.savefig("./out/plot/mwb" + experiment + "-lat" + "_mw.png")
 		plt.clf()

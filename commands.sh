@@ -55,6 +55,16 @@
 	# Populate the database
 	./memtier_benchmark --server=10.0.0.X --port=11211 --clients=1 --threads=1 --test-time=15 --ratio=1:0 --expiry-range=9999-10000 --data-size=4096 --key-maximum=9900 --protocol=memcache_text --hide-histogram --key-pattern=S:S --debug
 
+# PLOTTING
+	python csb-plotter.py 1-ro save > out/summary/csb1-ro-summary.txt
+	python csb-plotter.py 1-wo save > out/summary/csb1-wo-summary.txt
+	python csb-plotter.py 2-ro save > out/summary/csb2-ro-summary.txt
+	python csb-plotter.py 2-wo save > out/summary/csb2-wo-summary.txt
+	python mwb-plotter.py 1-ro save > out/summary/mwb1-ro-summary.txt
+	python mwb-plotter.py 1-wo save > out/summary/mwb1-wo-summary.txt
+	python mwb-plotter.py 2-ro save > out/summary/mwb2-ro-summary.txt
+	python mwb-plotter.py 2-wo save > out/summary/mwb2-wo-summary.txt
+
 # CLIENT-SERVER BASELINE 1
 	# Clients on VMs 1,2,3
 	SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,2,3,6}.westeurope.cloudapp.azure.com
@@ -188,23 +198,23 @@
 # THROUGHPUT FOR WRITES
 	# Clients on VMs 1,2,3
 	SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,1,2,2,3,3,4,5,6,7,8}.westeurope.cloudapp.azure.com
-	./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype cli -mno 3 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype cli -mno 4 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype cli -mno 5 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype cli -mno 6 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	# dstat on VMs 4,5,6
-	./runner.sh -mtype dstat -dsmt mw -mno 1 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype dstat -dsmt mw -mno 2 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype dstat -dsmt svr -mno 1 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype dstat -dsmt svr -mno 2 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
-	./runner.sh -mtype dstat -dsmt svr -mno 3 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 3 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 4 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 5 -ipadd 10.0.0.10 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype cli -mno 6 -ipadd 10.0.0.9 -pno 1453 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	# dstat on VMs 4,5,6,7,8
+	./runner.sh -mtype dstat -dsmt mw -mno 1 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt mw -mno 2 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt svr -mno 1 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt svr -mno 2 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
+	./runner.sh -mtype dstat -dsmt svr -mno 3 -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
 	# Middlewares on VMs 4,5
 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com
-	./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs 10.0.0.6:11211 -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs "10.0.0.6:11211 10.0.0.5:11211 10.0.0.11:11211" -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip5.westeurope.cloudapp.azure.com
-	./runner.sh -mtype mw -mno 2 -ipadd 10.0.0.9 -pno 1453 -pairs 10.0.0.6:11211 -nsvr 1 -ncli 3 -icli 2 -tcli 1 -vcli ~ -wrkld ~ -mgshrd NA -mgsize NA -nmw 2 -tmw ~ -reps 3 -ttime 70
+	./runner.sh -mtype mw -mno 2 -ipadd 10.0.0.9 -pno 1453 -pairs "10.0.0.6:11211 10.0.0.5:11211 10.0.0.11:11211" -nsvr 3 -ncli 3 -icli 2 -tcli 1 -vcli 1 -wrkld 1:0 -mgshrd NA -mgsize NA -nmw 2 -tmw 8 -reps 3 -ttime 70
 	# Servers on VMS 6,7, 8
 	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
 	./runner.sh -mtype svr -mno 1 -pno 11211
