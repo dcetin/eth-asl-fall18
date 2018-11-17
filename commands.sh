@@ -55,6 +55,15 @@
 	# Populate the database
 	./memtier_benchmark --server=10.0.0.X --port=11211 --clients=1 --threads=1 --test-time=15 --ratio=1:0 --expiry-range=9999-10000 --data-size=4096 --key-maximum=9900 --protocol=memcache_text --hide-histogram --key-pattern=S:S --debug
 
+# COPYING EXPERIMENT RESULTS
+	rsync -a /home/doruk/Desktop/experiment-results/csb/csb1/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/experiment-results/csb/csb2/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/experiment-results/mwb/mwb1-ro/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/experiment-results/mwb/mwb2-ro/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/experiment-results/mwb/mwb1-wo/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/experiment-results/mwb/mwb2-wo/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/experiment-results/tpfw/tpfw/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+
 # PLOTTING
 	python csb-plotter.py 1-ro save > out/summary/csb1-ro-summary.txt
 	python csb-plotter.py 1-wo save > out/summary/csb1-wo-summary.txt
@@ -64,6 +73,7 @@
 	python mwb-plotter.py 1-wo save > out/summary/mwb1-wo-summary.txt
 	python mwb-plotter.py 2-ro save > out/summary/mwb2-ro-summary.txt
 	python mwb-plotter.py 2-wo save > out/summary/mwb2-wo-summary.txt
+	python tpfw-plotter.py save > out/summary/tpfw-summary.txt
 
 # CLIENT-SERVER BASELINE 1
 	# Clients on VMs 1,2,3

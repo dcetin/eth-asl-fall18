@@ -52,10 +52,10 @@ for vcli in vlist:
 			rep_setlat.append(avgSetLat)
 			rep_gettpt.append(avgGetThru)
 			rep_getlat.append(avgGetLat)
-			# if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
-			# 	print rep, vcli, fcli, avgSetThru
-			# if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
-			# 	print rep, vcli, fcli, avgGetThru
+			if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
+				print rep, vcli, fcli, avgSetThru
+			if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
+				print rep, vcli, fcli, avgGetThru
 		rep_settpt = np.asarray(rep_settpt)
 		rep_setlat = np.asarray(rep_setlat)
 		rep_gettpt = np.asarray(rep_gettpt)
@@ -97,8 +97,11 @@ latavg = np.average(lat * 1000, 1)
 laterr = np.std(lat * 1000, 1)
 latlabel = "Latency (msec)"
 
-tptitle = 'Throughput versus number of clients'
+tpttitle = 'Throughput versus number of clients'
 lattitle = 'Latency versus number of clients'
+law_lattitle = 'Actual and predicted latency versus number of clients'
+law_tpttitle = 'Actual and predicted throughput versus number of clients'
+
 vlist = np.asarray(vlist)
 if experiment == "1-wo" or experiment == "1-ro":
 	cliMult = 6
@@ -106,8 +109,8 @@ if experiment == "1-wo" or experiment == "1-ro":
 if experiment == "2-wo" or experiment == "2-ro":
 	cliMult = 2
 	subtitle = 'Baseline without middleware, two servers'
-vlist = vlist * cliMult
-xticks = vlist
+mult_vlist = vlist * cliMult
+xticks = mult_vlist
 if experiment == "1-wo":
 	xticks = np.delete(xticks, 1)
 
@@ -122,11 +125,11 @@ matplotlib.rc('xtick', labelsize=10)
 if (1):
 	y = tptavg
 	yerr = tpterr
-	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Throughput', marker='o', capsize=2, capthick=1)
+	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Throughput', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=14, ha='center')
+	plt.figtext(.5,.94,tpttitle, fontsize=14, ha='center')
 	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(xticks)
@@ -142,7 +145,7 @@ if (1):
 if (1):
 	y = latavg
 	yerr = laterr
-	line = plt.errorbar(x=vlist, y=y, yerr=yerr, label='Avg. Latency', marker='o', capsize=2, capthick=1)
+	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Latency', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
@@ -166,7 +169,65 @@ latavg = np.average(lat * 1000, 1)
 laterr = np.std(lat * 1000, 1)
 latlabel = "Latency (msec)"
 
-print "vcli" + "\t" + tptlabel + "\t" + latlabel
+print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel
 print "-"*50
 for i in range(0, len(vlist)):
-	print (str(vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
+	print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
+
+law_lat = np.transpose(np.transpose(1/tpt) * mult_vlist)
+law_latavg = np.average(1000 * law_lat, 1)
+law_laterr = np.std(1000 * law_lat, 1)
+latavg = np.average(1000 * lat, 1)
+laterr = np.std(1000 * lat, 1)
+
+law_tpt = np.transpose(np.transpose(1/lat) * mult_vlist)
+law_tptavg = np.average(law_tpt / 1000.0, 1)
+law_tpterr = np.std(law_tpt / 1000.0, 1)
+tptavg = np.average(tpt / 1000.0, 1)
+tpterr = np.std(tpt / 1000.0, 1)
+
+if (1):
+	y = law_tptavg
+	yerr = law_tpterr
+	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Predicted throughput', marker='o', capsize=2, capthick=1)
+	y = tptavg
+	yerr = tpterr
+	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Actual throughput', marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(latlabel)
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,law_tpttitle, fontsize=14, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(xticks)
+	plt.ylim((0,np.max(y)*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/csb" + experiment + "-law_tpt" + ".png")
+		plt.clf()
+
+if (1):
+	y = law_latavg
+	yerr = law_laterr
+	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Predicted latency', marker='o', capsize=2, capthick=1)
+	y = latavg
+	yerr = laterr
+	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Actual latency', marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(latlabel)
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,law_lattitle, fontsize=14, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(xticks)
+	plt.ylim((0,np.max(y)*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/csb" + experiment + "-law_lat" + ".png")
+		plt.clf()
