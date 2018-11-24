@@ -22,15 +22,27 @@ cli_lat_plot = []
 cli_tpt_maxy = 0
 cli_lat_maxy = 0
 
-law_tpt_plot = []
-law_lat_plot = []
-law_tpt_maxy = 0
-law_lat_maxy = 0
-
 mw_tpt_plot = []
 mw_lat_plot = []
 mw_tpt_maxy = 0
 mw_lat_maxy = 0
+
+law_cli_tpt_plot = []
+law_cli_lat_plot = []
+law_cli_tpt_maxy = 0
+law_cli_lat_maxy = 0
+
+law_mw_tpt_plot = []
+law_mw_lat_plot = []
+law_mw_tpt_maxy = 0
+law_mw_lat_maxy = 0
+
+mw_qlen_plot = []
+mw_qtime_plot = []
+mw_wtime_plot = []
+mw_qlen_maxy = 0
+mw_qtime_maxy = 0
+mw_wtime_maxy = 0
 
 for tmw_idx, tmw in enumerate(tlist):
 
@@ -39,6 +51,10 @@ for tmw_idx, tmw in enumerate(tlist):
 
 	mw_settpt = []
 	mw_setlat = []
+
+	mw_qlen = []
+	mw_qtime = []
+	mw_wtime = []
 
 	vlist = vcli_lists[tmw_idx]
 
@@ -63,13 +79,25 @@ for tmw_idx, tmw in enumerate(tlist):
 
 			mw_rep_settpt = []
 			mw_rep_setlat = []
+
+			mw_rep_qlen = []
+			mw_rep_qtime = []
+			mw_rep_wtime = []
+
 			fmain = fbase + "mwout*rep" + str(rep) + ".out"
 			fnamelist = glob.glob(resbase + fmain)
 			for filename in fnamelist:
 				data, times, counts = getMiddlewareStatHist(filename, 5, 5)
 				# print tmw, vcli, rep, filename.split("/")[-1]
+				mw_rep_qlen.append(float(data[0]))
 				mw_rep_settpt.append(float(data[4]))
 				mw_rep_setlat.append(float(data[7]) + float(data[10]))
+				mw_rep_qtime.append(float(data[7]))
+				mw_rep_wtime.append(float(data[10]))
+
+			mw_rep_qlen = np.asarray(mw_rep_qlen)
+			mw_rep_qtime = np.asarray(mw_rep_qtime)
+			mw_rep_wtime = np.asarray(mw_rep_wtime)
 			mw_rep_settpt = np.asarray(mw_rep_settpt)
 			mw_rep_setlat = np.asarray(mw_rep_setlat)
 
@@ -85,6 +113,15 @@ for tmw_idx, tmw in enumerate(tlist):
 			mw_settpt.append(tot_mw_rep_settpt)
 			mw_setlat.append(avg_mw_rep_setlat)
 
+			weighted_qtime = np.multiply(mw_rep_settpt, mw_rep_qtime)
+			avg_mw_rep_qtime = np.divide(np.sum(weighted_qtime), tot_mw_rep_settpt)
+			weighted_wtime = np.multiply(mw_rep_settpt, mw_rep_wtime)
+			avg_mw_rep_wtime = np.divide(np.sum(weighted_wtime), tot_mw_rep_settpt)
+			avg_mw_rep_qlen = np.average(mw_rep_qlen) # not sure about this
+			mw_qlen.append(avg_mw_rep_qlen)
+			mw_qtime.append(avg_mw_rep_qtime)
+			mw_wtime.append(avg_mw_rep_wtime)
+
 	# Convert the lists into numpy arrays
 	cli_settpt = np.asarray(cli_settpt)
 	cli_setlat = np.asarray(cli_setlat)
@@ -99,6 +136,13 @@ for tmw_idx, tmw in enumerate(tlist):
 	mw_setlat = mw_setlat.reshape(len(vlist),len(reps))
 	mw_tpt = mw_settpt
 	mw_lat = mw_setlat
+
+	mw_qlen = np.asarray(mw_qlen)
+	mw_qtime = np.asarray(mw_qtime)
+	mw_wtime = np.asarray(mw_wtime)
+	mw_qlen = mw_qlen.reshape(len(vlist),len(reps))
+	mw_qtime = mw_qtime.reshape(len(vlist),len(reps))
+	mw_wtime = mw_wtime.reshape(len(vlist),len(reps))
 
 	# Client aggregation
 	if (1):
@@ -133,35 +177,35 @@ for tmw_idx, tmw in enumerate(tlist):
 			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
 		print " "
 
-		law_lat = np.transpose(np.transpose(1/cli_tpt) * mult_vlist)
-		law_tpt = np.transpose(np.transpose(1/cli_lat) * mult_vlist)
+		law_cli_lat = np.transpose(np.transpose(1/cli_tpt) * mult_vlist)
+		law_cli_tpt = np.transpose(np.transpose(1/cli_lat) * mult_vlist)
 
-		law_tptavg = np.average(law_tpt / 1000.0, 1)
-		law_tpterr = np.std(law_tpt / 1000.0, 1)
+		law_cli_tptavg = np.average(law_cli_tpt / 1000.0, 1)
+		law_cli_tpterr = np.std(law_cli_tpt / 1000.0, 1)
 		tptlabel = "Throughput (1000 ops/sec)"
-		law_latavg = np.average(law_lat * 1000, 1)
-		law_laterr = np.std(law_lat * 1000, 1)
+		law_cli_latavg = np.average(law_cli_lat * 1000, 1)
+		law_cli_laterr = np.std(law_cli_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
-		law_tpt_plot.append((law_tptavg, law_tpterr, tptlabel))
-		law_lat_plot.append((law_latavg, law_laterr, latlabel))
+		law_cli_tpt_plot.append((law_cli_tptavg, law_cli_tpterr, tptlabel))
+		law_cli_lat_plot.append((law_cli_latavg, law_cli_laterr, latlabel))
 
-		if np.max(law_tptavg) > law_tpt_maxy:
-			law_tpt_maxy = np.max(law_tptavg)
-		if np.max(law_latavg) > law_lat_maxy:
-			law_lat_maxy = np.max(law_latavg)
+		if np.max(law_cli_tptavg) > law_cli_tpt_maxy:
+			law_cli_tpt_maxy = np.max(law_cli_tptavg)
+		if np.max(law_cli_latavg) > law_cli_lat_maxy:
+			law_cli_lat_maxy = np.max(law_cli_latavg)
 
-		law_tptavg = np.average(law_tpt, 1)
-		law_tpterr = np.std(law_tpt, 1)
+		law_cli_tptavg = np.average(law_cli_tpt, 1)
+		law_cli_tpterr = np.std(law_cli_tpt, 1)
 		tptlabel = "Throughput"
-		law_latavg = np.average(law_lat * 1000, 1)
-		law_laterr = np.std(law_lat * 1000, 1)
+		law_cli_latavg = np.average(law_cli_lat * 1000, 1)
+		law_cli_laterr = np.std(law_cli_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
 		print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", predictions made using measurements on clients"
 		print "-"*50
 		for i in range(0, len(vlist)):
-			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_tptavg[i] + " ± " + "%.1f" % law_tpterr[i] + "\t" + "%.3f" % law_latavg[i] + " ± " + "%.3f" % law_laterr[i]).encode('utf-8')
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_cli_tptavg[i] + " ± " + "%.1f" % law_cli_tpterr[i] + "\t" + "%.3f" % law_cli_latavg[i] + " ± " + "%.3f" % law_cli_laterr[i]).encode('utf-8')
 		print " "
 
 	# Middleware aggregation
@@ -173,13 +217,31 @@ for tmw_idx, tmw in enumerate(tlist):
 		laterr = np.std(mw_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
+		qlen_avg = np.average(mw_qlen, 1)
+		qlen_err = np.std(mw_qlen, 1)
+		qtime_avg = np.average(mw_qtime * 1000, 1)
+		qtime_err = np.std(mw_qtime * 1000, 1)
+		wtime_avg = np.average(mw_wtime * 1000, 1)
+		wtime_err = np.std(mw_wtime * 1000, 1)
+
+		qlenlabel = "Average number of requests in the queue"
 		mw_tpt_plot.append((tptavg, tpterr, tptlabel))
 		mw_lat_plot.append((latavg, laterr, latlabel))
+		mw_qlen_plot.append((qlen_avg, qlen_err, qlenlabel))
+		mw_qtime_plot.append((qtime_avg, qtime_err, latlabel))
+		mw_wtime_plot.append((wtime_avg, wtime_err, latlabel))
 
 		if np.max(tptavg) > mw_tpt_maxy:
 			mw_tpt_maxy = np.max(tptavg)
 		if np.max(latavg) > mw_lat_maxy:
 			mw_lat_maxy = np.max(latavg)
+
+		if np.max(qlen_avg) > mw_qlen_maxy:
+			mw_qlen_maxy = np.max(qlen_avg)
+		if np.max(qtime_avg) > mw_qtime_maxy:
+			mw_qtime_maxy = np.max(qtime_avg)
+		if np.max(wtime_avg) > mw_wtime_maxy:
+			mw_wtime_maxy = np.max(wtime_avg)
 
 		tptavg = np.average(mw_tpt, 1)
 		tpterr = np.std(mw_tpt, 1)
@@ -197,11 +259,52 @@ for tmw_idx, tmw in enumerate(tlist):
 			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
 		print " "
 
+		# Take the difference in calculations into consideration
+		latDiff = 2.0 / 1000
+		law_mw_lat = np.transpose(np.transpose(1/mw_tpt) * mult_vlist) - latDiff
+		law_mw_tpt = np.transpose(np.transpose(1/(mw_lat + latDiff)) * mult_vlist)
+		# law_mw_lat = np.transpose(np.transpose(1/mw_tpt) * mult_vlist)
+		# law_mw_tpt = np.transpose(np.transpose(1/(mw_lat)) * mult_vlist)
+
+		law_mw_tptavg = np.average(law_mw_tpt / 1000.0, 1)
+		law_mw_tpterr = np.std(law_mw_tpt / 1000.0, 1)
+		tptlabel = "Throughput (1000 ops/sec)"
+		law_mw_latavg = np.average(law_mw_lat * 1000, 1)
+		law_mw_laterr = np.std(law_mw_lat * 1000, 1)
+		latlabel = "Latency (msec)"
+
+		law_mw_tpt_plot.append((law_mw_tptavg, law_mw_tpterr, tptlabel))
+		law_mw_lat_plot.append((law_mw_latavg, law_mw_laterr, latlabel))
+
+		if np.max(law_mw_tptavg) > law_mw_tpt_maxy:
+			law_mw_tpt_maxy = np.max(law_mw_tptavg)
+		if np.max(law_mw_latavg) > law_mw_lat_maxy:
+			law_mw_lat_maxy = np.max(law_mw_latavg)
+
+		law_mw_tptavg = np.average(law_mw_tpt, 1)
+		law_mw_tpterr = np.std(law_mw_tpt, 1)
+		tptlabel = "Throughput"
+		law_mw_latavg = np.average(law_mw_lat * 1000, 1)
+		law_mw_laterr = np.std(law_mw_lat * 1000, 1)
+		latlabel = "Latency (msec)"
+
+		print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", predictions made using measurements on middlewares"
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_mw_tptavg[i] + " ± " + "%.1f" % law_mw_tpterr[i] + "\t" + "%.3f" % law_mw_latavg[i] + " ± " + "%.3f" % law_mw_laterr[i]).encode('utf-8')
+		print " "
+
+		print "vcli" + "\t" + "numCli" + "\t" + "qlen" + "\t\t" + "qtime" + "\t\t" + "wtime" + "\t" + "for tmw: " + str(tmw)
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % qlen_avg[i] + " ± " + "%.1f" % qlen_err[i] + "\t" + "%.3f" % qtime_avg[i] + " ± " + "%.3f" % qtime_err[i] + "\t" + "%.1f" % wtime_avg[i] + " ± " + "%.1f" % wtime_err[i]).encode('utf-8')
+		print " "
+
 def_vlist = np.asarray(def_vlist)
 tptitle = 'Throughput versus number of clients for diff. # worker threads in mw'
 lattitle = 'Latency versus number of clients for diff. # worker threads in mw'
 cliMult = 6
-subtitle = 'Throughput for writes, full system, measured on clients'
+subtitle = 'Full system, full system, measured on clients'
 def_vlist = def_vlist * cliMult
 for i,x in enumerate(vcli_lists):
 	vcli_lists[i] = np.asarray(vcli_lists[i]) * cliMult
@@ -254,7 +357,6 @@ if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = mw_tpt_plot[i]
 		line = plt.errorbar(x=vcli_lists[i] , y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
-
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
 	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
@@ -290,46 +392,158 @@ if (1):
 		plt.savefig("./out/plot/tpfw-lat_mw.png")
 		plt.clf()
 
+# Law plots
 law_tptitle = 'Predicted throughput versus # of clients for diff. # worker threads in mw'
 law_lattitle = 'Predicted latency versus number of clients for diff. # worker threads in mw'
+subtitle = 'Full system, one middleware, interactive law'
+law_cli_subtitle = subtitle + ' on client measurements'
+law_mw_subtitle = subtitle + ' on middleware measurements'
 
-# Law plots
 if (1):
 	for i in range(0,len(tlist)):
-		y, yerr, tptlabel = law_tpt_plot[i]
+		y, yerr, tptlabel = law_cli_tpt_plot[i]
 		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
 	plt.figtext(.5,.94,law_tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.90,law_cli_subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
-	plt.ylim((0,law_tpt_maxy*1.2))
+	plt.ylim((0,law_cli_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/tpfw-law_tp" + "_cli.png")
+		plt.savefig("./out/plot/tpfw-tp" + "_law_cli.png")
 		plt.clf()
 
 if (1):
 	for i in range(0,len(tlist)):
-		y, yerr, latlabel = law_lat_plot[i]
+		y, yerr, latlabel = law_cli_lat_plot[i]
 		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
 	plt.figtext(.5,.94,law_lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.90,law_cli_subtitle, fontsize=9, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
-	plt.ylim((0,law_lat_maxy*1.2))
+	plt.ylim((0,law_cli_lat_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/tpfw-law_lat" + "_cli.png")
+		plt.savefig("./out/plot/tpfw-lat" + "_law_cli.png")
+		plt.clf()
+
+if (1):
+	for i in range(0,len(tlist)):
+		y, yerr, tptlabel = law_mw_tpt_plot[i]
+		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(tptlabel)
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,law_tptitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,law_mw_subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(def_vlist)
+	plt.ylim((0,law_mw_tpt_maxy*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/tpfw-tp" + "_law_mw.png")
+		plt.clf()
+
+if (1):
+	for i in range(0,len(tlist)):
+		y, yerr, latlabel = law_mw_lat_plot[i]
+		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(latlabel) # just here if need be: μ
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,law_lattitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,law_mw_subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(def_vlist)
+	plt.ylim((0,law_mw_lat_maxy*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/tpfw-lat" + "_law_mw.png")
+		plt.clf()
+
+# Additional plots
+qlentitle = "Queue length versus number of clients"
+qtimetitle = "Queue time versus number of clients"
+wtimetitle = "Waiting time versus number of clients"
+subtitle = 'Full system, write-only load'
+
+if (1):
+	plt.figure(figsize=(5,4))
+	for i in range(0,len(tlist)):
+		y, yerr, qlenlabel = mw_qlen_plot[i]
+		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(qlenlabel) # just here if need be: μ
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,qlentitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(def_vlist)
+	plt.ylim((0,mw_qlen_maxy*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/tpfw-qlen" + "_mw.png")
+		plt.clf()
+
+if (1):
+	plt.figure(figsize=(5,4))
+	for i in range(0,len(tlist)):
+		y, yerr, latlabel = mw_qtime_plot[i]
+		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(latlabel) # just here if need be: μ
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,qtimetitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(def_vlist)
+	plt.ylim((0,mw_qtime_maxy*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/tpfw-qtime" + "_mw.png")
+		plt.clf()
+
+if (1):
+	plt.figure(figsize=(5,4))
+	for i in range(0,len(tlist)):
+		y, yerr, latlabel = mw_wtime_plot[i]
+		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
+
+	plt.ylabel(latlabel) # just here if need be: μ
+	plt.xlabel("Number of clients")
+	plt.figtext(.5,.94,wtimetitle, fontsize=12, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(def_vlist)
+	plt.ylim((0,mw_wtime_maxy*1.2))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/tpfw-wtime" + "_mw.png")
 		plt.clf()

@@ -18,7 +18,7 @@ vlist = np.asarray(vlist)
 tptitle = 'Throughput versus number of clients for 64 worker threads'
 lattitle = 'Latency versus number of clients for 64 worker threads'
 cliMult = 6
-subtitle = 'Consistency test 2 for tpfw and mwb2, same physical machines'
+subtitle = 'Auxiliary test 2 for tpfw and mwb2, same physical machines'
 vlist = vlist * cliMult
 xticks = vlist
 
@@ -47,7 +47,7 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/consistency-2-tp_cli.png")
+		plt.savefig("./out/plot/auxiliary-2-tp_cli.png")
 		plt.clf()
 
 if (1):
@@ -72,7 +72,7 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/consistency-2-lat_cli.png")
+		plt.savefig("./out/plot/auxiliary-2-lat_cli.png")
 		plt.clf()
 
 # Middleware plots
@@ -98,7 +98,7 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/consistency-2-tp_mw.png")
+		plt.savefig("./out/plot/auxiliary-2-tp_mw.png")
 		plt.clf()
 
 if (1):
@@ -123,5 +123,5 @@ if (1):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/consistency-2-lat_mw.png")
+		plt.savefig("./out/plot/auxiliary-2-lat_mw.png")
 		plt.clf()

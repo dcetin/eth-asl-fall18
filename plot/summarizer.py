@@ -4,6 +4,7 @@ def getMiddlewareStatHist(fname, warmup, cooldown):
 
 	# Data header:
 	# secs: qlen,thru,msrt,items,nset,nget,nmget,sqt,gqt,mqt,swt,gwt,mwt
+	# ids:  0   ,1   ,2   ,3    ,4   ,5   ,6    ,7  ,8  ,9, ,10 ,11 ,12
 
 	with open(fname) as f:
 	    content = f.readlines()
@@ -63,5 +64,20 @@ def getAvgClientStat(fname, warmup, cooldown):
 	avgGetThru = totGetThru / seconds
 	avgSetLat = totSetLat / seconds
 	avgGetLat = totGetLat / seconds
+
+	return avgSetThru, avgGetThru, avgSetLat, avgGetLat
+
+def getClientOut(fname):
+
+	with open(fname) as f:
+	    content = f.readlines()
+	content = [x.strip() for x in content]
+
+	setdata = content[9].split()
+	getdata = content[10].split()
+	avgSetThru = float(setdata[1])
+	avgGetThru = float(getdata[1])
+	avgSetLat = float(setdata[4])
+	avgGetLat = float(getdata[4])
 
 	return avgSetThru, avgGetThru, avgSetLat, avgGetLat

@@ -2,8 +2,7 @@
 from __future__ import unicode_literals
 import matplotlib.pyplot as plt
 import numpy as np
-from summarizer import getAvgClientStat
-from summarizer import getMiddlewareStatHist
+from summarizer import getAvgClientStat, getMiddlewareStatHist, getClientOut
 import glob
 import sys
 
@@ -15,7 +14,8 @@ experiment = sys.argv[1] # e.g. "1-wo"
 out_format = sys.argv[2] # e.g. "show" or "save"
 
 if experiment == "1-wo":
-	vlist = [1,2,4,8,16,20,24,32,48,64] # CS Baseline-1, write only
+	vlist = [1,2,4,8,16,20,24,48] # CS Baseline-1, write only
+	# instead of [1,2,4,8,16,20,24,32,48,64]
 	load = "1:0"
 if experiment == "1-ro":
 	vlist = [1,2,4,8,16,32] # CS Baseline-1, read only
@@ -28,6 +28,8 @@ if experiment == "2-ro":
 	load = "0:1"
 reps = [1,2,3]
 
+# vlist = [1,4,8,16,24,32,48] # auxiliary-3 (csb1-ro repeat)
+
 settpt = []
 setlat = []
 gettpt = []
@@ -39,15 +41,15 @@ for vcli in vlist:
 		rep_gettpt = []
 		rep_getlat = []
 		if experiment == "1-ro" or experiment == "1-wo":
-			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv"
+			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/cliout*rep" + str(rep) + ".out"
 		if experiment == "2-ro" or experiment == "2-wo":
-			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/*rep" + str(rep) + "*.csv"
+			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/cliout*rep" + str(rep) + ".out"
 		fnamelist = glob.glob(resbase + fmain)
 		# print rep, vcli, len(fnamelist)
 		for filename in fnamelist:
-			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(filename, 5, 5)
 			fcli = filename.split("/")[-1]
-			# print str(vcli), fcli, avgSetThru, avgSetLat
+			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getClientOut(filename)
+			# print str(vcli), fcli, avgGetThru, avgGetLat
 			rep_settpt.append(avgSetThru)
 			rep_setlat.append(avgSetLat)
 			rep_gettpt.append(avgGetThru)
@@ -93,8 +95,8 @@ if experiment == "1-ro" or experiment == "2-ro":
 tptavg = np.average(tpt / 1000.0, 1)
 tpterr = np.std(tpt / 1000.0, 1)
 tptlabel = "Throughput (1000 ops/sec)"
-latavg = np.average(lat * 1000, 1)
-laterr = np.std(lat * 1000, 1)
+latavg = np.average(lat, 1)
+laterr = np.std(lat, 1)
 latlabel = "Latency (msec)"
 
 tpttitle = 'Throughput versus number of clients'
@@ -165,8 +167,8 @@ if (1):
 tptavg = np.average(tpt, 1)
 tpterr = np.std(tpt, 1)
 tptlabel = "Throughput"
-latavg = np.average(lat * 1000, 1)
-laterr = np.std(lat * 1000, 1)
+latavg = np.average(lat, 1)
+laterr = np.std(lat, 1)
 latlabel = "Latency (msec)"
 
 print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel
@@ -177,12 +179,12 @@ for i in range(0, len(vlist)):
 law_lat = np.transpose(np.transpose(1/tpt) * mult_vlist)
 law_latavg = np.average(1000 * law_lat, 1)
 law_laterr = np.std(1000 * law_lat, 1)
-latavg = np.average(1000 * lat, 1)
-laterr = np.std(1000 * lat, 1)
+latavg = np.average(lat, 1)
+laterr = np.std(lat, 1)
 
 law_tpt = np.transpose(np.transpose(1/lat) * mult_vlist)
-law_tptavg = np.average(law_tpt / 1000.0, 1)
-law_tpterr = np.std(law_tpt / 1000.0, 1)
+law_tptavg = np.average(law_tpt, 1)
+law_tpterr = np.std(law_tpt, 1)
 tptavg = np.average(tpt / 1000.0, 1)
 tpterr = np.std(tpt / 1000.0, 1)
 tptlabel = "Throughput (1000 ops/sec)"
