@@ -99,9 +99,9 @@ else
 			"cli") # TODO: not tested with multiget
 				DSTATOUT="${RES}dstatout-${MTYPE}${MNO}rep${REP}.out"
 				if [ $MGSIZE == "NA" ]; then
-					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram
+					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text #--hide-histogram
 				else
-					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --hide-histogram --multi-key-get=$MGSIZE
+					(dstat -cdngy 1 $TTIME > $DSTATOUT &) ; $MLOC --server=$IPADD --port=$PNO  --out-file=$CLOUT --client-stats=$CLSTT --clients=$VCLI --threads=$TCLI --test-time=$TTIME --ratio=$WRKLD --expiry-range=9999-10000 --data-size=4096 --key-maximum=10000 --protocol=memcache_text --multi-key-get=$MGSIZE #--hide-histogram 
 				fi
 				sleep 10
 				;;

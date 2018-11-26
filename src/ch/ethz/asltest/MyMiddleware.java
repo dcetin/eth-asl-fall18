@@ -58,6 +58,7 @@ public class MyMiddleware {
 		int portNumber = this.myPort;
 		int clientNumber = -1;
 
+		List<Integer> serverLoadList = Collections.synchronizedList(new ArrayList<Integer>());
 		// parse the server addresses
 		for (int i = 0; i < this.mcAddresses.size(); i++)
 		{
@@ -68,22 +69,25 @@ public class MyMiddleware {
 			
 			ipArray.add(cur_ip);
 			portArray.add(cur_port);
-		}
 
+			serverLoadList.add(0);
+		}
 		// initialize the lists
 		List<ClientData> clientDataList = Collections.synchronizedList(new ArrayList<ClientData>());
 		BlockingQueue<RequestData> requestQueue = new LinkedBlockingQueue<RequestData>();
 		BlockingQueue<RequestData> finishedQueue = new LinkedBlockingQueue<RequestData>();
-		List<Integer> responseHistogram = Collections.synchronizedList(new ArrayList<Integer>());
+		List<Integer> setHistogram = Collections.synchronizedList(new ArrayList<Integer>());
+		List<Integer> getHistogram = Collections.synchronizedList(new ArrayList<Integer>());
+		List<Integer> mgetHistogram = Collections.synchronizedList(new ArrayList<Integer>());
 
 		// initalize the server socket and the net thread
 		ServerSocket welcomingSocket = new ServerSocket(portNumber, 512); // small backlog could result in lost connections
-		new clientHandler(clientDataList, requestQueue, finishedQueue, timeoutSecs, responseHistogram).start();
+		new clientHandler(clientDataList, requestQueue, finishedQueue, timeoutSecs, setHistogram, getHistogram, mgetHistogram, serverLoadList).start();
 
 		// initialize the worker threads
 		for (int i = 0; i < this.numThreadsPTP; i++)
 		{
-			new serverHandler(clientDataList, requestQueue, ipArray, portArray, readSharded, finishedQueue, i).start();
+			new serverHandler(clientDataList, requestQueue, ipArray, portArray, readSharded, finishedQueue, i, serverLoadList).start();
 		}
 
 		try {
@@ -149,16 +153,22 @@ public class MyMiddleware {
 		private BlockingQueue<RequestData> finishedQueue;
 		private int uniReqNum;
 		private int timeoutSecs;
-		private List<Integer> responseHistogram;
+		private List<Integer> setHistogram;
+		private List<Integer> getHistogram;
+		private List<Integer> mgetHistogram;
+		private List<Integer> serverLoadList;
 
-		public clientHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, BlockingQueue<RequestData> finishedQueue, int timeoutSecs, List<Integer> responseHistogram)
+		public clientHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, BlockingQueue<RequestData> finishedQueue, int timeoutSecs, List<Integer> setHistogram, List<Integer> getHistogram, List<Integer> mgetHistogram, List<Integer> serverLoadList)
 		{
 			this.finishedQueue = finishedQueue;
 			this.clientDataList = clientDataList;
 			this.requestQueue = requestQueue;
 			this.uniReqNum = -1;
 			this.timeoutSecs = timeoutSecs;
-			this.responseHistogram = responseHistogram;
+			this.setHistogram = setHistogram;
+			this.getHistogram = getHistogram;
+			this.mgetHistogram = mgetHistogram;
+			this.serverLoadList = serverLoadList;
 		}
 
 		public void run() {
@@ -178,7 +188,7 @@ public class MyMiddleware {
 							log("STAT START");
 							log("secs" + sep + "qlen" + sep + "thru" + sep + "msrt" + sep + "items" + sep + "nset" + sep + "nget" + sep + "nmget" + sep + "sqt" + sep + "gqt" + sep + "mqt" + sep + "swt" + sep + "gwt" + sep + "mwt");
 						}
-						new ScheduledControl(clientDataList, requestQueue, finishedQueue, initDelaySecs, periodSecs, responseHistogram).runCheck();
+						new ScheduledControl(clientDataList, requestQueue, finishedQueue, initDelaySecs, periodSecs, setHistogram, getHistogram, mgetHistogram).runCheck();
 						firstReq = false;
 					}
 
@@ -255,14 +265,37 @@ public class MyMiddleware {
 			if(verboseAggr)
 			{
 				log("STAT END");
-				log("HIST START");
-				int nbins = responseHistogram.size();
+				int nbins;
+				for (int i = 0; i < serverLoadList.size(); i++) {
+					log( "Server " + String.valueOf(i) + " handled " + String.valueOf(serverLoadList.get(i)) + " requests." );
+				}
+
+				log("SET HIST START");
+				nbins = setHistogram.size();
 				//log("Latency (<= 100mirosec),Count");
 				log_int(nbins);
 				for (int i = 0; i < nbins; i++) {
-					log("   " + String.valueOf(i) + " " + String.valueOf(responseHistogram.get(i)));
+					log("   " + String.valueOf(i) + " " + String.valueOf(setHistogram.get(i)));
 				}
-				log("HIST END");
+				log("SET HIST END");
+
+				log("GET HIST START");
+				nbins = getHistogram.size();
+				//log("Latency (<= 100mirosec),Count");
+				log_int(nbins);
+				for (int i = 0; i < nbins; i++) {
+					log("   " + String.valueOf(i) + " " + String.valueOf(getHistogram.get(i)));
+				}
+				log("GET HIST END");
+
+				log("MGET HIST START");
+				nbins = mgetHistogram.size();
+				//log("Latency (<= 100mirosec),Count");
+				log_int(nbins);
+				for (int i = 0; i < nbins; i++) {
+					log("   " + String.valueOf(i) + " " + String.valueOf(mgetHistogram.get(i)));
+				}
+				log("MGET HIST END");
 			}	
 			// finish process, killing all the other threads
 			if(verboseLogs)
@@ -283,6 +316,7 @@ public class MyMiddleware {
 		private Integer firstSentServer;
 		private Integer serverCount;
 		private boolean readSharded;
+		private List<Integer> serverLoadList;
 
 		private	List<Socket> serverSocketList = new ArrayList<Socket>();
 		private	List<PrintWriter> serverSendStreamList = new ArrayList<PrintWriter>();
@@ -293,7 +327,7 @@ public class MyMiddleware {
 		private BufferedReader serverListenStream;
 
 		public serverHandler(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, 
-			List<String> ipArray, List<Integer> portArray, boolean readSharded, BlockingQueue<RequestData> finishedQueue, int serverHandlerID)
+			List<String> ipArray, List<Integer> portArray, boolean readSharded, BlockingQueue<RequestData> finishedQueue, int serverHandlerID, List<Integer> serverLoadList)
 		{
 			this.clientDataList = clientDataList;
 			this.requestQueue = requestQueue;
@@ -302,6 +336,7 @@ public class MyMiddleware {
 			this.portArray = portArray;
 			this.readSharded = readSharded;
 			this.finishedQueue = finishedQueue;
+			this.serverLoadList = serverLoadList;
 
 			this.curGetServer = 0;
 			this.serverCount = ipArray.size();
@@ -365,7 +400,7 @@ public class MyMiddleware {
 								if(verboseLogs) 
 									log("C" + clientNumber + ": ->|   " + data);
 								// send the query to each server
-								for(int i = 0; i< serverCount; i++) {
+								for(int i = 0; i < serverCount; i++) {
 									serverSocket = serverSocketList.get(i);
 									serverSendStream = serverSendStreamList.get(i);
 									serverListenStream = serverListenStreamList.get(i);
@@ -378,6 +413,7 @@ public class MyMiddleware {
 									if(verboseLogs) 
 										log("S" + i + ":   |-> " + data);
 									serverSendStream.flush();
+									serverLoadList.set(i, serverLoadList.get(i) + 1);
 								}
 								for(int i = 0; i< serverCount; i++) {
 									serverSocket = serverSocketList.get(i);
@@ -421,6 +457,7 @@ public class MyMiddleware {
 									if(verboseLogs) 
 										log("S" + curGetServer + ":   |-> " + inputLine + "\r");
 									serverSendStream.flush();
+									serverLoadList.set(curGetServer, serverLoadList.get(curGetServer) + 1);
 									// wait for server to send a reply
 									while (true) {
 										answerLine1 = serverListenStream.readLine();
@@ -490,6 +527,7 @@ public class MyMiddleware {
 										if(verboseLogs) 
 											log("S" + curGetServer + ":   |-> " + inputLine + "\r");
 										serverSendStream.flush();
+										serverLoadList.set(curGetServer, serverLoadList.get(curGetServer) + 1);
 										//Proceed with the round robin
 										curGetServer = (curGetServer == serverCount - 1) ? 0 : curGetServer+1;
 									}
@@ -573,9 +611,11 @@ public class MyMiddleware {
 		private int periodSecs;
 		private int newItems;
 		private int totalTime;
-		private List<Integer> responseHistogram;
+		private List<Integer> setHistogram;
+		private List<Integer> getHistogram;
+		private List<Integer> mgetHistogram;
 
-		public ScheduledControl(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, BlockingQueue<RequestData> finishedQueue, int initDelaySecs, int periodSecs, List<Integer> responseHistogram)
+		public ScheduledControl(List<ClientData> clientDataList, BlockingQueue<RequestData> requestQueue, BlockingQueue<RequestData> finishedQueue, int initDelaySecs, int periodSecs, List<Integer> setHistogram, List<Integer> getHistogram, List<Integer> mgetHistogram)
 		{
 			this.finishedQueue = finishedQueue;
 			this.clientDataList = clientDataList;
@@ -584,7 +624,9 @@ public class MyMiddleware {
 			this.periodSecs = periodSecs;
 			this.newItems = 0;
 			this.totalTime = initDelaySecs;
-			this.responseHistogram = responseHistogram;
+			this.setHistogram = setHistogram;
+			this.getHistogram = getHistogram;
+			this.mgetHistogram = mgetHistogram;
 		}
 
 	    private final ScheduledExecutorService scheduler =
@@ -620,9 +662,6 @@ public class MyMiddleware {
 								double responseTime = (queuetime + worktime); // in seconds
 								responseTime = responseTime * Math.pow(10, 6); // in microseconds
 								int newIdx = (int)responseTime / 100;
-								while(responseHistogram.size() < newIdx + 1)
-									responseHistogram.add(0);
-								responseHistogram.set(newIdx, responseHistogram.get(newIdx)+1);
 
 								//if (verboseAggr)
 								//	log(itos(rq.requestNumber) + sep + itos(rq.serverHandlerID) + sep + itos(rq.sentServer));
@@ -634,18 +673,30 @@ public class MyMiddleware {
 									n_set++;
 									set_worktime += worktime;
 									set_queuetime += queuetime;
+
+									while(setHistogram.size() < newIdx + 1)
+										setHistogram.add(0);
+									setHistogram.set(newIdx, setHistogram.get(newIdx)+1);
 								}
 								else if (rq.reqType == 1)
 								{
 									n_get++;
 									get_worktime += worktime;
 									get_queuetime += queuetime;
+									
+									while(getHistogram.size() < newIdx + 1)
+										getHistogram.add(0);
+									getHistogram.set(newIdx, getHistogram.get(newIdx)+1);
 								}
 								else if (rq.reqType == 2)
 								{
 									n_mget++;
 									mget_worktime += worktime;
 									mget_queuetime += queuetime;
+									
+									while(mgetHistogram.size() < newIdx + 1)
+										mgetHistogram.add(0);
+									mgetHistogram.set(newIdx, mgetHistogram.get(newIdx)+1);
 								}
 							}
 						} catch (InterruptedException e) {
