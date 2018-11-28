@@ -369,7 +369,7 @@ def prepHistograms(mgshrd):
 		drawHist(temp[1], temp[2], subtitle=(mgsize, mgshrd, "mget"), out_format=out_format)
 		#TODO: think about the errorbars and stuff
 		#TODO: aggregating now only using averaging, may also provide a maxy values to keep the y axis constant
-		#TODO: don't waste too much on this, do the other experiment, do the client histogram thingie
+		#TODO: don't waste too much on this, do the client histogram thingie
 		#TODO: try other key values for this experiment
 		#TODO: print summary for gmg?
 

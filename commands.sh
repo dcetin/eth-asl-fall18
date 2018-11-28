@@ -316,4 +316,55 @@
 	rm -rf /home/doruk/Desktop/server1res/
 	rm -rf /home/doruk/Desktop/server2res/
 	rm -rf /home/doruk/Desktop/server3res/
-	
+
+# 2K ANALYSIS
+	# Servers
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip6.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 1 -pno 11211
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip7.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 2 -pno 11211
+	SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip8.westeurope.cloudapp.azure.com
+	./runner.sh -mtype svr -mno 3 -pno 11211
+	# One middleware setting
+		SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,2,3,4,6,7,8}.westeurope.cloudapp.azure.com
+		-nsvr [1,3] -ncli 3 -icli 1 -tcli 2 -vcli 32 -wrkld [1:0,0:1] -mgshrd NA -mgsize NA -nmw 1 -tmw [8,32] -reps 3 -ttime 70
+	    # Clients
+		./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.10 -pno 1453 
+		./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.10 -pno 1453 
+		./runner.sh -mtype cli -mno 3 -ipadd 10.0.0.10 -pno 1453 
+		# dstats
+		./runner.sh -mtype dstat -dsmt mw -mno 1 
+		./runner.sh -mtype dstat -dsmt svr -mno 1 
+		# plus
+		./runner.sh -mtype dstat -dsmt svr -mno 2 
+		./runner.sh -mtype dstat -dsmt svr -mno 3 
+		# Midlewares
+		SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com
+		./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs 10.0.0.6:11211 
+		# or
+		./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs "10.0.0.6:11211 10.0.0.5:11211 10.0.0.11:11211" 
+	# Two middleware setting
+		SSH_AUTH_SOCK=0 cssh dcetin@storelrt4zinzjmismsshpublicip{1,1,2,2,3,3,4,5,6,7,8}.westeurope.cloudapp.azure.com
+	 	-nsvr [1,3] -ncli 3 -icli 2 -tcli 1 -vcli 32 -wrkld [1:0,0:1] -mgshrd NA -mgsize NA -nmw 2 -tmw [8,32] -reps 3 -ttime 70
+	    # Clients
+		./runner.sh -mtype cli -mno 1 -ipadd 10.0.0.10 -pno 1453 
+		./runner.sh -mtype cli -mno 2 -ipadd 10.0.0.9 -pno 1453 
+		./runner.sh -mtype cli -mno 3 -ipadd 10.0.0.10 -pno 1453 
+		./runner.sh -mtype cli -mno 4 -ipadd 10.0.0.9 -pno 1453 
+		./runner.sh -mtype cli -mno 5 -ipadd 10.0.0.10 -pno 1453 
+		./runner.sh -mtype cli -mno 6 -ipadd 10.0.0.9 -pno 1453 
+		# dstats
+		./runner.sh -mtype dstat -dsmt mw -mno 1 
+		./runner.sh -mtype dstat -dsmt mw -mno 2 
+		./runner.sh -mtype dstat -dsmt svr -mno 1 
+		# plus
+		./runner.sh -mtype dstat -dsmt svr -mno 2 
+		./runner.sh -mtype dstat -dsmt svr -mno 3 		
+		# Midlewares
+		SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip4.westeurope.cloudapp.azure.com
+		./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs 10.0.0.6:11211 
+		SSH_AUTH_SOCK=0 ssh dcetin@storelrt4zinzjmismsshpublicip5.westeurope.cloudapp.azure.com
+		./runner.sh -mtype mw -mno 2 -ipadd 10.0.0.9 -pno 1453 -pairs 10.0.0.6:11211 
+		# or
+		./runner.sh -mtype mw -mno 1 -ipadd 10.0.0.10 -pno 1453 -pairs "10.0.0.6:11211 10.0.0.5:11211 10.0.0.11:11211" 
+		./runner.sh -mtype mw -mno 2 -ipadd 10.0.0.9 -pno 1453 -pairs "10.0.0.6:11211 10.0.0.5:11211 10.0.0.11:11211" 
