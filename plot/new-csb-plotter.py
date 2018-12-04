@@ -14,8 +14,8 @@ experiment = sys.argv[1] # e.g. "1-wo"
 out_format = sys.argv[2] # e.g. "show" or "save"
 
 if experiment == "1-wo":
-	vlist = [1,2,4,8,16,20,24,48] # CS Baseline-1, write only
-	# instead of [1,2,4,8,16,20,24,32,48,64]
+	# vlist = [1,2,4,8,16,20,24,48] # CS Baseline-1, write only
+	vlist = [1,2,4,8,16,20,24,32,48]
 	load = "1:0"
 if experiment == "1-ro":
 	vlist = [1,2,4,8,16,32] # CS Baseline-1, read only
@@ -41,23 +41,43 @@ for vcli in vlist:
 		rep_gettpt = []
 		rep_getlat = []
 		if experiment == "1-ro" or experiment == "1-wo":
-			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/cliout*rep" + str(rep) + ".out"
+			fmain = "nsvr=1/ncli=3/icli=1/tcli=2/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/"
 		if experiment == "2-ro" or experiment == "2-wo":
-			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/cliout*rep" + str(rep) + ".out"
-		fnamelist = glob.glob(resbase + fmain)
+			fmain = "nsvr=2/ncli=1/icli=2/tcli=1/vcli=" + str(vcli) + "/wrkld=" + load + "/mgshrd=NA/mgsize=NA/nmw=NA/tmw=NA/ttime=100/"
+
 		# print rep, vcli, len(fnamelist)
-		for filename in fnamelist:
-			fcli = filename.split("/")[-1]
-			avgSetThru, avgGetThru, avgSetLat, avgGetLat = getClientOut(filename)
-			# print str(vcli), fcli, avgGetThru, avgGetLat
-			rep_settpt.append(avgSetThru)
-			rep_setlat.append(avgSetLat)
-			rep_gettpt.append(avgGetThru)
-			rep_getlat.append(avgGetLat)
-			if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
-				print rep, vcli, fcli, avgSetThru
-			if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
-				print rep, vcli, fcli, avgGetThru
+		if experiment == "1-wo" and (vcli == 32 or vcli == 64):
+			fmain = fmain + "*rep" + str(rep) + "*.csv"
+			fnamelist = glob.glob(resbase + fmain)
+			for filename in fnamelist:
+				avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(filename, 5, 5)
+				avgSetLat *= 1000.0
+				avgGetLat *= 1000.0
+				fcli = filename.split("/")[-1]
+				# print str(vcli), fcli, avgSetThru, avgSetLat
+				rep_settpt.append(avgSetThru)
+				rep_setlat.append(avgSetLat)
+				rep_gettpt.append(avgGetThru)
+				rep_getlat.append(avgGetLat)
+				if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
+					print rep, vcli, fcli, avgSetThru
+				if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
+					print rep, vcli, fcli, avgGetThru
+		else:
+			fmain = fmain + "cliout*rep" + str(rep) + ".out"
+			fnamelist = glob.glob(resbase + fmain)
+			for filename in fnamelist:
+				fcli = filename.split("/")[-1]
+				avgSetThru, avgGetThru, avgSetLat, avgGetLat = getClientOut(filename)
+				# print str(vcli), fcli, avgGetThru, avgGetLat
+				rep_settpt.append(avgSetThru)
+				rep_setlat.append(avgSetLat)
+				rep_gettpt.append(avgGetThru)
+				rep_getlat.append(avgGetLat)
+				if (experiment == "2-wo" or experiment == "1-wo") and avgSetThru == 0:
+					print rep, vcli, fcli, avgSetThru
+				if (experiment == "2-ro" or experiment == "1-ro") and avgGetThru == 0:
+					print rep, vcli, fcli, avgGetThru
 		rep_settpt = np.asarray(rep_settpt)
 		rep_setlat = np.asarray(rep_setlat)
 		rep_gettpt = np.asarray(rep_gettpt)

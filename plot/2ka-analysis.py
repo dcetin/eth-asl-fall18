@@ -12,6 +12,7 @@ reps = [1,2,3]
 load = sys.argv[1] # e.g. "1:0" or "0:1"
 experiment = sys.argv[2] # e.g. "cli_tpt", "cli_lat", "mw_tpt", "mw_lat"
 level = int(sys.argv[3]) # e.g. "cli_tpt", "cli_lat", "mw_tpt", "mw_lat"
+model_type = sys.argv[4] # e.g. "add" or "mult"
 
 # Returns (cli_tpt, cli_lat, mw_tpt, mw_lat, mw_qtime, mw_wtime, mw_qlen)
 def dataFromFiles(nmw, nsvr, tmw, load):
@@ -70,9 +71,9 @@ def dataFromFiles(nmw, nsvr, tmw, load):
 				cli_rep_gettpt.append(avgGetThru)
 				cli_rep_getlat.append(avgGetLat)
 				if load == "1:0" and avgSetThru == 0:
-					print nmw, nsvr, tmw, load, rep, fcli, avgSetThru
+					print (nmw, nsvr, tmw, load, rep, fcli, avgSetThru)
 				if load == "0:1" and avgGetThru == 0:
-					print nmw, nsvr, tmw, load, rep, fcli, avgGetThru
+					print (nmw, nsvr, tmw, load, rep, fcli, avgGetThru)
 			cli_rep_settpt = np.asarray(cli_rep_settpt)
 			cli_rep_setlat = np.asarray(cli_rep_setlat)
 			cli_rep_gettpt = np.asarray(cli_rep_gettpt)
@@ -214,9 +215,12 @@ for tmw in [8,32]:
 					y_val = mw_tpt
 				if experiment == "mw_lat":
 					y_val = mw_lat
-				print "nmw=" + str(nmw) + ", nsvr=" + str(nsvr) + ", tmw=" + str(tmw), np.average(y_val)
+				print ("nmw=" + str(nmw) + ", nsvr=" + str(nsvr) + ", tmw=" + str(tmw), np.average(y_val))
+				# print (y_val - np.average(y_val))
+				if model_type == "mult":
+					y_val = np.log(y_val)
 				y_values.append(y_val)
-print " "
+print (" ")
 
 y_values = np.vstack(y_values)
 
@@ -261,23 +265,41 @@ if level == 3:
 	x = np.linalg.lstsq(factors_3, y_values)
 
 params = np.average(x[0],1)
-print "params:", params
-print " "
-
-ssa = pow(2,2)*(params[1]*params[1])
-ssb = pow(2,2)*(params[2]*params[2])
-ssc = pow(2,2)*(params[3]*params[3])
+if level > 0:
+	factornames_1 = ["1", "a", "b", "c"]
+	q0 = params[0]
+	qa = params[1]
+	qb = params[2]
+	qc = params[3]
 if level > 1:
-	ssab = pow(2,2)*(params[4]*params[4])
-	ssbc = pow(2,2)*(params[5]*params[5])
-	ssac = pow(2,2)*(params[6]*params[6])
+	factornames_2 = ["1", "a", "b", "c", "a*b", "b*c", "a*c"]
+	qab = params[4]
+	qbc = params[5]
+	qac = params[6]
 if level > 2:
-	ssabc = pow(2,2)*(params[7]*params[7])
+	factornames_3 = ["1", "a", "b", "c", "a*b", "b*c", "a*c", "a*b*c"]
+	qabc = params[7]
+print ("params:", params)
+print (" ")
+
+ssa = pow(2,2)*(qa*qa)
+ssb = pow(2,2)*(qb*qb)
+ssc = pow(2,2)*(qc*qc)
+if level > 1:
+	ssab = pow(2,2)*(qab*qab)
+	ssbc = pow(2,2)*(qbc*qbc)
+	ssac = pow(2,2)*(qac*qac)
+if level > 2:
+	ssabc = pow(2,2)*(qabc*qabc)
 
 y_avgs =  np.average(y_values,1)
 y_errs =  (y_values.T - np.average(y_values,1)).T
 err_sq = np.multiply(y_errs, y_errs)
 sse = np.sum(err_sq)
+# num_reps = len(reps)
+# dof_sse = pow(2,2)*(num_reps-1)
+# mse = sse / dof_sse
+# dof_var = 1
 
 if level == 1:
 	sst =  ssa + ssb + ssc
@@ -288,19 +310,20 @@ if level == 3:
 sst += sse
 
 t = "\t"
-print "Sum of Squares" +t+t+		"Variance Explained"
-print "ssa:"+t+"%.6f" % ssa+t+			"ssa/sst:"+t+"%.3f" % (ssa/sst)
-print "ssb:"+t+"%.6f" % ssb+t+			"ssb/sst:"+t+"%.3f" % (ssb/sst)
-print "ssc:"+t+"%.6f" % ssc+t+			"ssc/sst:"+t+"%.3f" % (ssc/sst)
+print ("Mean Estimate" +t+ "Sum of Squares" +t+t+		"Variation Explained")
+if level > 0:
+	print ("qa:" +t+ "%.4f" % qa+t+ "ssa:"+t+"%.6f" % ssa+t+			"ssa/sst:"+t+"%.3f" % (ssa/sst))
+	print ("qb:" +t+ "%.4f" % qb+t+ "ssb:"+t+"%.6f" % ssb+t+			"ssb/sst:"+t+"%.3f" % (ssb/sst))
+	print ("qc:" +t+ "%.4f" % qc+t+ "ssc:"+t+"%.6f" % ssc+t+			"ssc/sst:"+t+"%.3f" % (ssc/sst))
 if level > 1:
-	print "ssab:"+t+"%.6f" % ssab+t+	"ssab/sst:"+t+"%.3f" % (ssab/sst)
-	print "ssbc:"+t+"%.6f" % ssbc+t+	"ssbc/sst:"+t+"%.3f" % (ssbc/sst)
-	print "ssac:"+t+"%.6f" % ssac+t+	"ssac/sst:"+t+"%.3f" % (ssac/sst)
+	print ("qab:" +t+ "%.4f" % qab+t+ "ssab:"+t+"%.6f" % ssab+t+	"ssab/sst:"+t+"%.3f" % (ssab/sst))
+	print ("qbc:" +t+ "%.4f" % qbc+t+ "ssbc:"+t+"%.6f" % ssbc+t+	"ssbc/sst:"+t+"%.3f" % (ssbc/sst))
+	print ("qac:" +t+ "%.4f" % qac+t+ "ssac:"+t+"%.6f" % ssac+t+	"ssac/sst:"+t+"%.3f" % (ssac/sst))
 if level > 2:
-	print "ssabc:"+t+"%.6f" % ssabc+t+	"ssabc/sst:"+t+"%.3f" % (ssabc/sst)
-print "sst:"+t+"%.6f" % sst
-print "sse:"+t+"%.6f" % sse
-print " "
+	print ("qabc:" +t+ "%.4f" % qabc+t+ "ssabc:"+t+"%.6f" % ssabc+t+	"ssabc/sst:"+t+"%.3f" % (ssabc/sst))
+print (t+t+ "sse:"+t+"%.6f" % sse+t+			"sse/sst:"+t+"%.3f" % (sse/sst))
+print (t+t+ "sst:"+t+"%.6f" % sst)
+print (" ")
 
 nmwList = [[-1,1],[1,2]]
 nsvrList = [[-1,1],[1,3]]
@@ -320,11 +343,15 @@ for c, tmw in tmwList:
 			if level == 3:
 				factorvalues = factorvalues_3
 			y_pred = np.sum(np.multiply(params, factorvalues))
-			print "nmw="+str(nmw)+", nsvr="+str(nsvr)+", tmw="+str(tmw)+": "+str(y_pred)
+			if model_type == "mult":
+				y_pred = np.exp(y_pred)
+			print ("nmw="+str(nmw)+", nsvr="+str(nsvr)+", tmw="+str(tmw)+": "+str(y_pred))
 			y_modeled.append(y_pred)
 y_modeled = np.array(y_modeled, dtype='float32')
-print " "
+print (" ")
 
+if model_type == "mult":
+	y_avgs = np.exp(y_avgs)
 fit_error = y_avgs - y_modeled
-print "Squared fit error:", np.sum(np.multiply(fit_error, fit_error))
-print "Factors a,b,c are nmw,nsvr,tmw."
+print ("Squared fit error:", np.sum(np.multiply(fit_error, fit_error)))
+print ("Factors a,b,c are nmw,nsvr,tmw.")
