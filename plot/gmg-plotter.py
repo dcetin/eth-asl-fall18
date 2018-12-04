@@ -405,7 +405,6 @@ def prepHistograms(percDict, mgshrd, op_type, histmaxy, show):
 				mw_rep_mgethist.append(mget_hist)
 			mw_mgsize_sethist.append(combineMiddlewareHists(mw_rep_sethist))
 			mw_mgsize_mgethist.append(combineMiddlewareHists(mw_rep_mgethist))
-
 		if op_type == "set":
 			temp = aggregateHists(cli_mgsize_sethist, cutTime)
 			if mgsize == 6 and show == True:
@@ -481,7 +480,6 @@ def plotPercentiles(percDict, op_type, mgshrd, out_format, ymax=None):
 		plt.savefig("./out/plot/gmg-perc-" + mgshrd + ".png")
 		plt.clf()
 
-
 percDict = {}
 for mgshrd in mgshrdList:
 	data = dataFromFiles(mgshrd)
@@ -490,7 +488,6 @@ for mgshrd in mgshrdList:
 
 plotPercentiles(percDict, op_type, "true", out_format, ymax=20)
 plotPercentiles(percDict, op_type, "false", out_format, ymax=20)
-
 #TODO: think about the errorbars and stuff
 #TODO: aggregating now only using averaging
 #TODO: try other key values for this experiment

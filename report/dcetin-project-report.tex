@@ -533,6 +533,7 @@ This section inspects the system with three clients, two middlewares and three s
 \end{figure}
 
 Figures \ref{fig:tpfw-tp_mw} and \ref{fig:tpfw-lat_mw} illustrate the average throughputs and response times of the system under different configurations. Each line represents a setup with a different number of threads for both plots. Results are similar to those analysed in Section \ref{sec:mwb2}, as the setup stays the same except the increase in the number of servers the system has. We see each configuration saturates at different points, since the middleware is the bottleneck of the system. Each of them conforms to the same trend: throughput gains become minimal and response times start to form a linear pattern as we move closer to the number of clients which saturates a given configuration. 
+
 \begin{figure}[h]
 \centering
 \begin{subfigure}{.33\textwidth}
