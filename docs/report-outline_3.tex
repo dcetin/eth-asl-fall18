@@ -1,0 +1,436 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\usepackage{todonotes}                %% notes from the authors
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{firstpagefooter} {
+	\lfoot{\tiny{Version: 25.09.2018}}
+	\cfoot{}
+	\rfoot{\thepage}
+	
+}
+
+\lfoot{Name: YOUR\_NAME Legi: YOUR\_LEGI}
+\rfoot{\thepage}
+
+\begin{document}
+
+\title{Advanced Systems Lab Report\\ \normalsize{Autumn Semester 2018}}
+\author{Name: YOUR\_NAME\\Legi: YOUR\_LEGI}
+\date{
+	\vspace{4cm}
+	\textbf{Grading} \\
+	\vspace{0.5cm}
+	\begin{tabular}{|c|c|}
+		\hline  \textbf{Section} & \textbf{Points} \\
+		\hline  1                &                 \\ 
+		\hline  2                &                 \\ 
+		\hline  3                &                 \\ 
+		\hline  4                &                 \\ 
+		\hline  5                &                 \\ 
+		\hline  6                &                 \\ 
+		\hline  7                &                 \\ 
+		\hline \hline Total      &                 \\
+		\hline 
+	\end{tabular} 
+}
+\maketitle
+\thispagestyle{firstpagefooter}
+
+\newpage
+
+\section*{Notes on writing the report \small{(remove this page for submission)}}
+
+The report for the lab needs not be extensive but it must be concise, complete, and correct. 
+Conciseness is important in terms of content and explanations, focusing on what has been done and explanations of the results. A long report is not necessarily a better report, especially if there are aspects of the design or the experiments that remain unexplained. Completeness implies that the report should give a comprehensive idea of what has been done by mentioning all key aspects of the design, experiments, and analysis. Aspects of the system, be it of its design or of its behavior, that remain unexplained detract from the credibility and grade of the report. Correctness is expected in terms of the explanations being logical and correlated with the numbers in the experiments and the design.
+
+Remember that this is a report about the system you have designed and built, about the experiments you have performed, and about how you interpret the results of the experiments and map them to your design and implementation. Please do not contact us seeking confirmation and assurances about, e.g., whether the report is sufficient, your interpretation of the data, validation of concrete aspects of your design, or whether you have done enough experiments. Making those decisions is your job and part of what the course will evaluate.
+
+The report will be graded together with the code and data submitted. \textbf{You will need at least 400 points to pass.} You might be called for a meeting in person to clarify aspects of the report or the system. By submitting the report, the code, and the data, you confirm that you have done the work on your own, the code has been developed by yourself, the data submitted comes from experiments your have done, you have written the report on your own, and you have not copied neither code nor text nor data from other sources.
+
+Each section will have to contain a description of the experimental setup, graphs (where applicable) and tables with most important numbers. More importantly, each experiment and modeling result should be accompanied by an explanation that puts the result in the context of your system. Without proper explanations you risk losing most of the points in the experimental sections. Furthermore, it is expected that the interactive law holds for all experiments. In case throughput and response time do not match, it is imperative that you explain why, otherwise you risk losing most of the points for the experiment in question.
+
+In each section you can find a table summarizing the system configuration that should to be used for that particular section. These configurations should be considered as a guideline to help you find interesting configurations where we expect your system to change its behaviour (e.g., going from an under-saturated to a saturated system). If you do not observe such a change inside that range of parameters, you should expand the range and run additional experiments outside the given range. In that case, ask your assistant for advise.
+
+This document provides you with the end-results that have to be included in the report. Please keep in mind that you are encouraged to provide additional graphs and experiments that help you in understanding your system. These additional experiments should be chosen such that they support the claims you make in your explanations and help you illustrate your point.
+
+\section*{Formatting guidelines}
+We expect you to use this template for the report, but you are free to use another text processor. Keep in mind the following:
+\begin{itemize}
+	\item  We expect you to submit \textbf{a single PDF that has the same section structure as this template, and answers all points we outline here}. If you use this file, you should remove this page with notes, and the short description provided by us at the beginning of sections.
+	\item Keep the same cover page as on this document and \textbf{fill out your name and legi number}. Leave the grading table empty.
+	\item Write your name and Legi number on every page.
+	\item The main text should be in \textbf{single-column format with 11pt font on A4 paper}. In case you don't start with one of the files provided by us, \textbf{for margins use 2.54 cm (1~inch) on all sides}.
+	\item The length of report should be at minimum 20, but should not exceed 35 pages (including figures, tables, etc.). 
+\end{itemize}
+
+\subsection*{How to Generate Load and Populate the Data}
+
+To generate load on the system, you will use memtier. When using memtier, you can specify two parameters: the number of threads (CT) and the number of virtual clients per thread (VC). The total number of virtual clients per memtier is CPM=CT*VC. When referring to ``number of clients'' in the system, it is the number of memtier instances times the number of virtual clients per instance, i.e., NumClients=NumMemtier*CPM.
+
+Increasing NumClients for experiments is always done by first fixing the number of virtual machines (VMs) and memtier instances and then changing the VC setting for all memtiers. In most cases it is enough to increase VC in large increments, unless you want to explore the behavior of your system around the inflexion point or other points which are of interest. In this case, you can use more fine-grained steps.
+
+For all experiments, use 2 CT per VM and between 1 and 32 VC per thread. We recommend to choose at least 6 points in this range. You will have to use up to 3 VMs for clients. In case you use a single middleware, set up each memtier instance with 2 CTs. If you use two middlewares, start two memtier instances per VM (each connected to one middleware) with 1 CT each.
+
+For all experiments conducted in this report, the value size has to be 4096\,Bs, and the number of keys 10000 (\texttt{--key-maximum=10000}). Before running experiments, populate the key-value store using a write-only workload long enough to write all keys at least once. All sets should have a long expiry time, to ensure that keys are not evicted during the experiments (e.g., \texttt{--expiry-range=9999-10000}). The loading of the memcached servers is not part of the measured performance, and the middleware has to be restarted after the initial population, before running experiments. 
+
+\subsection*{Plotting Data}
+The readability of your grades will be part of the grade. For all graphs the y-axis should start at 0, always use appropriate error metrics/bars, label both axis with units. For graphs that are related try to keep the same range on the x- and y-axis. Be careful when using log-scale on any of the axis. 
+\newpage
+
+\section{System Overview (75 pts)}
+
+Describe the implementation of your system and highlight design decisions relevant for the experiments. Explain how messages are parsed and how statistics are gathered in a multi-threaded setting. Provide figures containing all the threads and queues in your system (including the network and the memcached servers). Include illustrations that show how requests of different types are handled (e.g., components involved in processing the request and method calls). Please include all details necessary to understand artifacts and effects in your experiments that arise from your implementation choices.
+
+\section{Baseline without Middleware (75 pts)}
+
+In this experiments you study the performance characteristics of the memtier clients and memcached servers.
+
+\subsection{One Server}
+
+Both, for a read-only and write-only workload plot the throughput and the response time as a function of NumClients. All clients are connected to a single memcached instance.
+
+Use 3 load generating VMs, with one memtier (CT=2) each, and vary the number of virtual clients (VC) per memtier thread between 1 and 32. Show how the behavior of the server changes as we add more clients.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 1                        \\ 
+			\hline Number of client machines        & 3                        \\ 
+			\hline Instances of memtier per machine & 1                        \\ 
+			\hline Threads per memtier instance     & 2                        \\
+			\hline Virtual clients per thread       & [1..32]                  \\ 
+			\hline Workload                         & Write-only and Read-only \\
+			\hline Multi-Get behavior               & N/A                      \\
+			\hline Multi-Get size                   & N/A                      \\
+			\hline Number of middlewares            & N/A                      \\
+			\hline Worker threads per middleware    & N/A                      \\
+			\hline Repetitions                      & 3 or more                \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Describe in which phase the memcached servers are under-saturated, saturated, or over-saturated. Describe how throughput and response time correlate. Explain what further conclusions can be drawn from the experiment.
+
+
+\subsection{Two Servers}
+
+For a read-only and write-only workload plot throughput and response time as a function of NumClients. The clients are connected to two memcached instances. 
+
+Use 1 load generating VM, with one memtier (CT=1) connected to each memcached instance (two memcache instances in total), and vary the number of virtual clients (VC) per memtier thread between 1 and 32. Show how the behavior of the server changes and explain what conclusions we can draw from this experiment.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 2                        \\ 
+			\hline Number of client machines        & 1                        \\ 
+			\hline Instances of memtier per machine & 2                        \\ 
+			\hline Threads per memtier instance     & 1                        \\
+			\hline Virtual clients per thread       & [1..32]                  \\ 
+			\hline Workload                         & Write-only and Read-only \\
+			\hline Multi-Get behavior               & N/A                      \\
+			\hline Multi-Get size                   & N/A                      \\
+			\hline Number of middlewares            & N/A                      \\
+			\hline Worker threads per middleware    & N/A                      \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)                \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Describe how this experiment compares to the previous section. Which results are the same and which ones differ? Explain what further conclusions can be drawn from the experiment.
+
+
+\subsection{Summary}
+
+Based on the experiments above, fill out the following table:
+
+\begin{center}
+	{Maximum throughput of different VMs.}
+	\begin{tabular}{|l|p{2cm}|p{2cm}|p{4cm}|}
+		\hline                        & Read-only workload & Write-only workload & Configuration gives max. throughput \\ 
+		\hline One memcached server   &                    &                     &                                     \\ 
+		\hline One load generating VM &                    &                     &                                     \\ 
+		\hline 
+	\end{tabular}
+\end{center}
+
+
+Write at least two paragraphs about how both results relate. Describe what is the bottleneck of this setup is. If the maximum throughput for both experiments is the same, explain why. If it is not the case, explain why not. Write down key take-away messages about the behaviour of the memtier clients and the memcached servers.
+
+\section{Baseline with Middleware (90 pts)}
+
+In this set of experiments, you will have to use three load generator VMs and 1 memcached server, measuring how the throughput of the system changes when increasing the number of clients. Scaling virtual clients inside memtier has to be done as explained in the previous sections. Plot both throughput and response time as measured on the middleware.
+
+\subsection{One Middleware}
+
+Connect three load generator machines (one instance of memtier with CT=2) to a single middleware and use 1 memcached server. Run a read-only and a write-only workload with increasing number of clients (between 2 and 64) and measure response time \emph{both at the client and at the middleware}, and plot the throughput and response time measured in the middleware.
+
+Repeat this experiment for different number of worker threads inside the middleware: 8, 16, 32, 64.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 1                        \\ 
+			\hline Number of client machines        & 3                        \\ 
+			\hline Instances of memtier per machine & 1                        \\ 
+			\hline Threads per memtier instance     & 2                        \\
+			\hline Virtual clients per thread       & [1..32]                  \\ 
+			\hline Workload                         & Write-only and Read-only \\
+			\hline Multi-Get behavior               & N/A                      \\
+			\hline Multi-Get size                   & N/A                      \\
+			\hline Number of middlewares            & 1                        \\
+			\hline Worker threads per middleware    & [8..64]                  \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)                \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Provide a detailed analysis of the results (e.g., bottleneck analysis, component utilizations, average queue lengths, system saturation). Add any additional figures and experiments that help you illustrate your point and support your claims.
+
+\subsection{Two Middlewares}
+
+Connect three load generator machines (two instances of memtier with CT=1) to two middlewares and use 1 memcached server. Run a read-only and a write-only workload with increasing number of clients (between 2 and 64) and measure response time \emph{both at the client and at the middleware}, and plot the throughput and response time as measured in the middleware.
+
+Repeat this experiment for different number of worker threads inside the middleware: 8, 16, 32, 64.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 1                        \\ 
+			\hline Number of client machines        & 3                        \\ 
+			\hline Instances of memtier per machine & 2                        \\ 
+			\hline Threads per memtier instance     & 1                        \\
+			\hline Virtual clients per thread       & [1..32]                  \\ 
+			\hline Workload                         & Write-only and Read-only \\
+			\hline Multi-Get behavior               & N/A                      \\
+			\hline Multi-Get size                   & N/A                      \\
+			\hline Number of middlewares            & 2                        \\
+			\hline Worker threads per middleware    & [8..64]                  \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)                \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Provide a detailed analysis of the results (e.g., bottleneck analysis, component utilizations, average queue lengths, system saturation). Add any additional figures and experiments that help you illustrate your point and support your claims.
+
+\subsection{Summary}
+
+Based on the experiments above, fill out the following table. For both of them use the numbers from a single experiment to fill out all lines. Miss rate represents the percentage of GET requests that return no data. Time in the queue refers to the time spent in the queue between the net-thread and the worker threads.
+
+
+\begin{center}
+	{Maximum throughput for one middleware.}
+	\begin{tabular}{|l|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
+		\hline                                & Throughput & Response time & Average time in queue & Miss rate \\ 
+		\hline Reads: Measured on middleware  &            &               &                       &           \\ 
+		\hline Reads: Measured on clients     &            &               & n/a                   &           \\ 
+		\hline Writes: Measured on middleware &            &               &                       & n/a       \\ 
+		\hline Writes: Measured on clients    &            &               & n/a                   & n/a       \\ 
+		\hline 
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	{Maximum throughput for two middlewares.}
+	\begin{tabular}{|l|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
+		\hline                                & Throughput & Response time & Average time in queue & Miss rate \\ 
+		\hline Reads: Measured on middleware  &            &               &                       &           \\ 
+		\hline Reads: Measured on clients     &            &               & n/a                   &           \\ 
+		\hline Writes: Measured on middleware &            &               &                       & n/a       \\ 
+		\hline Writes: Measured on clients    &            &               & n/a                   & n/a       \\ 
+		\hline 
+	\end{tabular}
+\end{center}
+
+Based on the data provided in these tables, write at least two paragraphs summarizing your findings about the performance of the middleware in the baseline experiments.
+
+\section{Throughput for Writes (90 pts)}
+
+\subsection{Full System}
+
+Connect three load generating VMs to two middlewares and three memchached servers. Run a write-only experiment. 
+You need to plot throughput and response time measured on the middleware as a function of number of clients. The measurements have to be performed for 8, 16, 32 and 64 worker threads inside each middleware.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 3          \\ 
+			\hline Number of client machines        & 3          \\ 
+			\hline Instances of memtier per machine & 2          \\ 
+			\hline Threads per memtier instance     & 1          \\
+			\hline Virtual clients per thread       & [1..32]    \\ 
+			\hline Workload                         & Write-only \\
+			\hline Multi-Get behavior               & N/A        \\
+			\hline Multi-Get size                   & N/A        \\
+			\hline Number of middlewares            & 2          \\
+			\hline Worker threads per middleware    & [8..64]    \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)  \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Provide a detailed analysis of the results (e.g., bottleneck analysis, component utilizations, average queue lengths, system saturation). Add any additional figures and experiments that help you illustrate your point and support your claims.
+
+\subsection{Summary}
+
+Based on the experiments above, fill out the following table with the data corresponding to the maximum throughput point for all four worker-thread scenarios.
+
+\begin{center}
+	{Maximum throughput for the full system}
+	\begin{tabular}{|l|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
+		\hline                                            & WT=8 & WT=16 & WT=32 & WT=64 \\ 
+		\hline Throughput (Middleware)                    &      &       &       &       \\ 
+		\hline Throughput (Derived from MW response time) &      &       &       &       \\ 
+		\hline Throughput (Client)                        &      &       &       &       \\ 
+		\hline Average time in queue                      &      &       &       &       \\ 
+		\hline Average length of queue                    &      &       &       &       \\ 
+		\hline Average time waiting for memcached         &      &       &       &       \\ 
+		\hline 
+	\end{tabular}
+\end{center}
+
+Based on the data provided in these tables, draw conclusions on the state of your system for a variable number of worker threads.
+
+\section{Gets and Multi-gets (90 pts)}
+
+For this set of experiments you will use three load generating machines, two middlewares and three memcached servers. Each memtier instance should have 2 virtual clients in total and the number of middleware worker threads is 64, or the one that provides the highest throughput in your system (whichever number of threads is smaller).
+
+For multi-GET workloads, use the \texttt{--ratio} parameter to specify the exact ratio between SETs and GETs. You will have to measure response time on the client as a function of multi-get size, with and without sharding on the middlewares.
+
+\subsection{Sharded Case}
+
+Run multi-gets with 1, 3, 6 and 9 keys (memtier configuration) with sharding enabled (multi-gets are broken up into smaller multi-gets and spread across servers). Plot average response time as measured on the client, as well as the 25th, 50th, 75th, 90th and 99th percentiles.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 3                       \\ 
+			\hline Number of client machines        & 3                       \\ 
+			\hline Instances of memtier per machine & 2                       \\ 
+			\hline Threads per memtier instance     & 1                       \\
+			\hline Virtual clients per thread       & 2     		            \\ 
+			\hline Workload                         & ratio=1:$<$Multi-Get size$>$             \\
+			\hline Multi-Get behavior               & Sharded                 \\
+			\hline Multi-Get size                   & [1..9]                  \\
+			\hline Number of middlewares            & 2                       \\
+			\hline Worker threads per middleware    & max. throughput config. \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)               \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Provide a detailed analysis of the results (e.g., bottleneck analysis, component utilizations, average queue lengths, system saturation). Add any additional figures and experiments that help you illustrate your point and support your claims.
+
+\subsection{Non-sharded Case}
+
+Run multi-gets with 1, 3, 6 and 9 keys (memtier configuration) with sharding disabled. Plot average response time as measured on the client, as well as the 25th, 50th, 75th, 90th and 99th percentiles.
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 3                       \\ 
+			\hline Number of client machines        & 3                       \\ 
+			\hline Instances of memtier per machine & 2                       \\ 
+			\hline Threads per memtier instance     & 1                       \\
+			\hline Virtual clients per thread       & 2                		 \\ 
+			\hline Workload                         & ratio=1:$<$Multi-Get size$>$              \\
+			\hline Multi-Get behavior               & Non-Sharded             \\
+			\hline Multi-Get size                   & [1..9]                  \\
+			\hline Number of middlewares            & 2                       \\
+			\hline Worker threads per middleware    & max. throughput config. \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)               \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\subsubsection{Explanation}
+
+Provide a detailed analysis of the results (e.g., bottleneck analysis, component utilizations, average queue lengths, system saturation). Add any additional figures and experiments that help you illustrate your point and support your claims.
+
+\subsection{Histogram}
+
+For the case with 6 keys inside the multi-get, display four histograms representing the sharded and non-sharded response time distribution, both as measured on the client, and inside the middleware. Choose the bucket size in the same way for all four, and such that there are at least 10 buckets on each of the graphs.
+
+\subsection{Summary}
+
+Provide a detailed comparison of the sharded and non-shareded modes. For which multi-GET size is sharding the preferred option? Provide a detailed analysis of your system. Add any additional figures and experiments that help you illustrate your point and support your claims.
+
+\section{2K Analysis (90 pts)}
+
+For 3 client machines (with 64 total virtual clients per client VM) measure the throughput and response time of your system in a 2k experiment with repetitions. All GET operations have a single key. Investigate the following parameters:
+
+\begin{itemize}
+		
+	\item Memcached servers: 1 and 3
+	\item Middlewares: 1 and 2
+	\item Worker threads per MW: 8 and 32
+	      	      
+\end{itemize}
+
+Repeat the experiment for (a)~a write-only and (b)~a read-only workload.
+For each of the two workloads, what is the impact of these parameters on throughput, respectively response time?
+
+\begin{center}
+	\scriptsize{
+		\begin{tabular}{|l|c|}
+			\hline Number of servers                & 1 and 3                                     \\ 
+			\hline Number of client machines        & 3                                           \\ 
+			\hline Instances of memtier per machine & 1 (1 middleware) or 2 (2 middlewares) \\ 
+			\hline Threads per memtier instance     & 2 (1 middleware) or 1 (2 middlewares)   \\
+			\hline Virtual clients per thread       &  32                                     \\ 
+			\hline Workload                         & Write-only and Read-only\\
+			\hline Multi-Get behavior               & N/A                                         \\
+			\hline Multi-Get size                   & N/A                                         \\
+			\hline Number of middlewares            & 1 and 2                                     \\
+			\hline Worker threads per middleware    & 8 and 32                                    \\
+			\hline Repetitions                      & 3 or more (at least 1 minute each)                                   \\ 
+			\hline 
+		\end{tabular}
+	} 
+\end{center}
+
+\section{Queuing Model (90 pts)}
+
+Note that for queuing models it is enough to use the experimental results from the previous sections. It is, however, possible that the numbers you need are not only the ones in the figures we asked for, but also the internal measurements that you have obtained through instrumentation of your middleware.
+
+\subsection{M/M/1}
+
+Build queuing model based on Section 4 (write-only throughput) for each worker-thread configuration of the middleware. Use one M/M/1 queue to model your entire system. Motivate your choice of input parameters to the model. Explain for which experiments the predictions of the model match and for which they do not.
+
+\subsection{M/M/m}
+
+Build an M/M/m model based on Section 4, where each middleware worker thread is represented as one service.  Motivate your choice of input parameters to the model. Explain for which experiments the predictions of the model match and for which they do not.
+
+\subsection{Network of Queues}
+
+Based on Section 3, build a network of queues which simulates your system. Motivate the design of your network of queues and relate it wherever possible to a component of your system. Motivate your choice of input parameters for the different queues inside the network. Perform a detailed analysis of the utilization of each component and clearly state what the bottleneck of your system is. Explain for which experiments the predictions of the model match and for which they do not.
+
+\end{document}
