@@ -76,6 +76,14 @@
 	python mwb-plotter.py 2-wo save > out/summary/mwb2-wo-summary.txt
 	python tpfw-plotter.py save > out/summary/tpfw-summary.txt
 	# need an entry for the gmg
+	python -W ignore 2ka-analysis.py 1:0 cli_tpt 3 add > out/2k-wo-tpt-3-add.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_tpt 3 mult > out/2k-wo-tpt-3-mult.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_lat 3 add > out/2k-wo-lat-3-add.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_lat 3 mult > out/2k-wo-lat-3-mult.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 add > out/2k-ro-tpt-3-add.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 mult > out/2k-ro-tpt-3-mult.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 add > out/2k-ro-lat-3-add.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 mult > out/2k-ro-lat-3-mult.txt
 
 # CLIENT-SERVER BASELINE 1
 	# Clients on VMs 1,2,3

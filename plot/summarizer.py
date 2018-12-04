@@ -128,11 +128,10 @@ def getMiddlewareHist(fname, htype):
 
 	return val, ws
 
-def drawHist(times, counts, errs=None, title='Response time histogram', subtitle='', out_format="save", maxy=None):
+def drawHist(times, counts, errs=None, title='Response time histogram', subtitle='', out_format="show", maxy=None):
 	if subtitle != '':
-		mgsize, mgshrd, op_type = subtitle
-		subtitle = str(mgsize) + " keys, sharded read: " + mgshrd + ", set"
-
+		machine, mgsize, mgshrd, op_type = subtitle
+		subtitle = "Measured on " + machine + ", " + str(mgsize) + " keys, sharded read: " + mgshrd + ", " + op_type + " operations"
 
 	n = times.shape[0]
 	times = times / 10.0
@@ -163,7 +162,7 @@ def drawHist(times, counts, errs=None, title='Response time histogram', subtitle
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/gmg-hist" + str(mgsize) + "-" + mgshrd + "-" + op_type + ".png")
+		plt.savefig("./out/plot/gmg-hist" + str(mgsize) + "-" + mgshrd + "-" + op_type + "_" + machine +".png")
 		plt.clf()
 
 def combineMiddlewareHists(histList):
@@ -179,7 +178,19 @@ def combineMiddlewareHists(histList):
 	long_weights[short_values] = long_weights[short_values] + short_weights
 	return long_values, long_weights
 
-def aggregateMiddlewareHists(histList, commonCutIdx=None):
+def combineClientHists(histList):
+	maxval = 0
+	for val, ws in histList:
+		if max(val) > maxval:
+			maxval = max(val)
+	newVal = np.arange(maxval+1)
+	newWs = np.zeros(maxval+1)
+	for val, ws in histList:
+		for i,v in enumerate(val):
+			newWs[v] += ws[i]
+	return newVal, newWs
+
+def aggregateHists(histList, commonCutIdx=None):
 
 	if commonCutIdx is None:
 		# Find the best cut index automatically
@@ -211,3 +222,49 @@ def aggregateMiddlewareHists(histList, commonCutIdx=None):
 	avg = np.average(wss,0)
 	err = np.std(wss, 0)
 	return commonCutIdx, val, avg, err
+
+def findNearestIdx(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
+
+def getClientPercentile(fname, ttime, htype):
+	with open(fname) as f:
+	    content = f.readlines()
+	content = [x.strip() for x in content]
+
+	avgSetThru, avgGetThru, avgSetLat, avgGetLat = getClientOut(fname)
+	totSetThru = avgSetThru * ttime
+	totGetThru = avgGetThru * ttime
+
+	if htype == "SET":
+		baseIdx = content.index("Request Latency Distribution")+3
+		lastIdx = content.index("---")
+	if htype == "GET":
+		baseIdx = content.index("---")+1
+		lastIdx = len(content)-1
+
+	val = []
+	ws = []
+	for x in range(baseIdx, lastIdx):
+		temp = [float(x) for x in content[x].split()[1:]]
+		val.append(temp[0]*10.0)
+		ws.append(temp[1])
+	val = np.asarray(val, dtype="int")
+	ws = np.asarray(ws, dtype="float32")
+	padlen = val[0]
+	val = np.concatenate([np.arange(padlen),val])
+	ws = np.concatenate([np.zeros(padlen),ws])
+	temp  = np.roll(ws,1)
+	temp[0] = 0
+	cumsum = ws
+	ws = (ws - temp)/100.0
+	ws = ws * totSetThru
+
+	p25 = findNearestIdx(cumsum, 25)
+	p50 = findNearestIdx(cumsum, 50)
+	p75 = findNearestIdx(cumsum, 75)
+	p90 = findNearestIdx(cumsum, 90)
+	p99 = findNearestIdx(cumsum, 99)
+
+	return val, ws, totSetThru, totGetThru, np.array([p25, p50, p75, p90, p99], dtype='float32')/10.0

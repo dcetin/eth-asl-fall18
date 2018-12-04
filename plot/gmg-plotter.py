@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 import matplotlib.pyplot as plt
 import numpy as np
-from summarizer import getAvgClientStat, getMiddlewareStat, drawHist
-from summarizer import getMiddlewareHist, combineMiddlewareHists, aggregateMiddlewareHists
+from summarizer import getAvgClientStat, getMiddlewareStat, drawHist, getClientPercentile, combineClientHists
+from summarizer import getMiddlewareHist, combineMiddlewareHists, aggregateHists, getClientOut
 import glob
 import sys
 
@@ -14,6 +14,8 @@ resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 reps = [1,2,3]
 mlist = [1,3,6,9]
 mgshrdList = ["true", "false"]
+ttime = 70
+cutTime = 200
 
 # Init plot vals
 cli_tpt_plot = []
@@ -63,7 +65,7 @@ def dataFromFiles(mgshrd):
 
 	for mgsize in mlist:
 
-		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=64/ttime=70/"
+		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=64/ttime="+str(ttime)+"/"
 
 		for rep in reps:
 
@@ -85,20 +87,35 @@ def dataFromFiles(mgshrd):
 
 				mw_rep_qlen = []
 
-				fmain = fbase  + "*rep" + str(rep) + "*.csv"
-				fnamelist = glob.glob(resbase + fmain)
+				if True:
+					fmain = fbase + "cliout*rep" + str(rep) + ".out"
+					fnamelist = glob.glob(resbase + fmain)
+					for filename in fnamelist:
+						fcli = filename.split("/")[-1]
+						avgSetThru, avgGetThru, avgSetLat, avgGetLat = getClientOut(filename)
+						# print "out", mgsize, mgshrd, rep, fcli, avgSetLat
+						cli_rep_settpt.append(avgSetThru)
+						cli_rep_setlat.append(avgSetLat)
+						cli_rep_mgettpt.append(avgGetThru)
+						cli_rep_mgetlat.append(avgGetLat)
+						if avgSetThru == 0:
+							print mgsize, mgshrd, rep, fcli, avgSetThru
 
-				# Iterate over the client files
-				for filename in fnamelist:
-					fcli = filename.split("/")[-1]
-					# print mgsize, mgshrd, rep, fcli
-					avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(filename, 5, 5)
-					cli_rep_settpt.append(avgSetThru)
-					cli_rep_setlat.append(avgSetLat)
-					cli_rep_mgettpt.append(avgGetThru)
-					cli_rep_mgetlat.append(avgGetLat)
-					if avgSetThru == 0:
-						print mgsize, mgshrd, rep, fcli, avgSetThru
+				if False:
+					fmain = fbase  + "*rep" + str(rep) + "*.csv"
+					fnamelist = glob.glob(resbase + fmain)
+					# Iterate over the client files
+					for filename in fnamelist:
+						fcli = filename.split("/")[-1]
+						avgSetThru, avgGetThru, avgSetLat, avgGetLat = getAvgClientStat(filename, 5, 5)
+						# print "cli", mgsize, mgshrd, rep, fcli, avgSetLat
+						cli_rep_settpt.append(avgSetThru)
+						cli_rep_setlat.append(avgSetLat)
+						cli_rep_mgettpt.append(avgGetThru)
+						cli_rep_mgetlat.append(avgGetLat)
+						if avgSetThru == 0:
+							print mgsize, mgshrd, rep, fcli, avgSetThru
+
 				cli_rep_settpt = np.asarray(cli_rep_settpt)
 				cli_rep_setlat = np.asarray(cli_rep_setlat)
 				cli_rep_mgettpt = np.asarray(cli_rep_mgettpt)
@@ -109,7 +126,6 @@ def dataFromFiles(mgshrd):
 				fnamelist = glob.glob(resbase + fmain)
 				for filename in fnamelist:
 					fcli = filename.split("/")[-1]
-					# print mgsize, mgshrd, rep, fcli
 					data = getMiddlewareStat(filename, 5, 5)
 					mw_rep_qlen.append(float(data[0]))
 					mw_rep_settpt.append(float(data[4]))
@@ -126,7 +142,6 @@ def dataFromFiles(mgshrd):
 						mw_rep_mgetlat.append(float(data[8]) + float(data[11]))
 						mw_rep_mgetqtime.append(float(data[8]))
 						mw_rep_mgetwtime.append(float(data[11]))
-
 
 				mw_rep_qlen = np.asarray(mw_rep_qlen)
 				mw_rep_setqtime = np.asarray(mw_rep_setqtime)
@@ -257,8 +272,11 @@ def prepForPlot(aggRet):
 	tptavg = np.average(cli_tpt / 1000.0, 1)
 	tpterr = np.std(cli_tpt / 1000.0, 1)
 	tptlabel = "Throughput (1000 ops/sec)"
-	latavg = np.average(cli_lat * 1000, 1)
-	laterr = np.std(cli_lat * 1000, 1)
+	# latavg = np.average(cli_lat * 1000, 1)
+	# laterr = np.std(cli_lat * 1000, 1)
+	# latlabel = "Latency (msec)"
+	latavg = np.average(cli_lat, 1)
+	laterr = np.std(cli_lat, 1)
 	latlabel = "Latency (msec)"
 
 	cli_tpt_plot.append((tptavg, tpterr, tptlabel))
@@ -327,26 +345,50 @@ def makePlot(plot_list, plot_maxy, plot_file, title, subtitle):
 		plt.savefig("./out/plot/gmg-" + plot_file)
 		plt.clf()
 
-def prepHistograms(mgshrd):
+def prepHistograms(percDict, mgshrd, op_type, show):
 	global resbase
 	global reps
 	global mlist
 
 	for mgsize in mlist:
-
-		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=64/ttime=70/"
+		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=64/ttime="+str(ttime)+"/"
 
 		mw_mgsize_sethist = []
 		mw_mgsize_mgethist = []
+		cli_mgsize_sethist = []
+		cli_mgsize_mgethist = []
+		cli_mgsize_setperc = []
+		cli_mgsize_mgetperc = []
 
 		for rep in reps:
-
 			# Iterate over output files for this repetition
 			mw_rep_sethist = []
 			mw_rep_mgethist = []
+			cli_rep_sethist = []
+			cli_rep_mgethist = []
+			cli_rep_setperc = []
+			cli_rep_mgetperc = []
 
-			fmain = fbase  + "*rep" + str(rep) + "*.csv"
+			# Iterate over the client files
+			fmain = fbase  + "cliout*rep" + str(rep) + ".out"
 			fnamelist = glob.glob(resbase + fmain)
+			for filename in fnamelist:
+				fcli = filename.split("/")[-1]
+				set_perc = getClientPercentile(filename, ttime, "SET")
+				mget_perc = getClientPercentile(filename, ttime, "GET")
+				set_hist = set_perc[:2]
+				mget_hist = mget_perc[:2]
+				set_perc = set_perc[4]
+				mget_perc = mget_perc[4]
+				cli_rep_sethist.append(set_hist)
+				cli_rep_mgethist.append(mget_hist)
+				cli_rep_setperc.append(set_perc)
+				cli_rep_mgetperc.append(mget_perc)
+
+			cli_mgsize_sethist.append(combineClientHists(cli_rep_sethist))
+			cli_mgsize_mgethist.append(combineClientHists(cli_rep_mgethist))
+			cli_mgsize_setperc.append(np.average(cli_rep_setperc, 0))
+			cli_mgsize_mgetperc.append(np.average(cli_rep_mgetperc, 0))
 
 			# Iterate over the middleware files
 			fmain = fbase + "mwout*rep" + str(rep) + ".out"
@@ -362,22 +404,92 @@ def prepHistograms(mgshrd):
 				mw_rep_mgethist.append(mget_hist)
 			mw_mgsize_sethist.append(combineMiddlewareHists(mw_rep_sethist))
 			mw_mgsize_mgethist.append(combineMiddlewareHists(mw_rep_mgethist))
-		
-		temp = aggregateMiddlewareHists(mw_mgsize_sethist, 150)
-		drawHist(temp[1], temp[2], subtitle=(mgsize, mgshrd, "set"), out_format=out_format)
-		temp = aggregateMiddlewareHists(mw_mgsize_mgethist, 150)
-		drawHist(temp[1], temp[2], subtitle=(mgsize, mgshrd, "mget"), out_format=out_format)
-		#TODO: think about the errorbars and stuff
-		#TODO: aggregating now only using averaging, may also provide a maxy values to keep the y axis constant
-		#TODO: don't waste too much on this, do the client histogram thingie
-		#TODO: try other key values for this experiment
-		#TODO: print summary for gmg?
+
+		if op_type == "set":
+			temp = aggregateHists(cli_mgsize_sethist, cutTime)
+			if mgsize == 6 and show == True:
+				drawHist(temp[1], temp[2], subtitle=("clients", mgsize, mgshrd, "set"), out_format=out_format, maxy=6200)
+			temp = aggregateHists(mw_mgsize_sethist, cutTime)
+			if mgsize == 6 and show == True:
+				drawHist(temp[1], temp[2], subtitle=("middlewares", mgsize, mgshrd, "set"), out_format=out_format, maxy=6200)
+
+		if op_type == "mget":
+			temp = aggregateHists(cli_mgsize_mgethist, cutTime)
+			if mgsize == 6 and show == True:
+				drawHist(temp[1], temp[2], subtitle=("clients", mgsize, mgshrd, "mget"), out_format=out_format, maxy=6200)
+			temp = aggregateHists(mw_mgsize_mgethist, cutTime)
+			if mgsize == 6 and show == True:
+				drawHist(temp[1], temp[2], subtitle=("middlewares", mgsize, mgshrd, "mget"), out_format=out_format, maxy=6200)
+
+		percDict[mgshrd + "-set-" + str(mgsize) + "-avg"] = np.average(np.vstack(cli_mgsize_setperc), 0)
+		percDict[mgshrd + "-set-" + str(mgsize) + "-std"] = np.std(np.vstack(cli_mgsize_setperc), 0)
+		percDict[mgshrd + "-mget-" + str(mgsize) + "-avg"] = np.average(np.vstack(cli_mgsize_mgetperc), 0)
+		percDict[mgshrd + "-mget-" + str(mgsize) + "-std"] = np.std(np.vstack(cli_mgsize_mgetperc), 0)
+
+	return percDict
+
+def plotPercentiles(percDict, op_type, mgshrd, out_format, ymax=None):
+	global mlist
+
+	avgs = []
+	stds = []
+	for mgsize in mlist:
+		key = mgshrd + "-" + op_type + "-" + str(mgsize) + "-avg"
+		avgs.append(percDict[key])
+		key = mgshrd + "-" + op_type + "-" + str(mgsize) + "-std"
+		stds.append(percDict[key])
+	avgs = np.vstack(avgs).T
+	stds = np.vstack(avgs).T
+	plist = ["25th", "50th", "75th", "90th", "99th"]
+
+	if ymax is None:
+		plot_maxy = np.max(avgs)*1.3
+	else:
+		plot_maxy = ymax
+
+	colorlist = [
+		(57,106,177),
+		(218,124,48),
+		(62,150,81),
+		(204,37,41),
+		(83,81,84)]
+	for i,x in enumerate(colorlist):
+		colorlist[i] = x[0]/255.0, x[1]/255.0, x[2]/255.0
+
+	mticks = np.arange(len(mlist))
+	width = 0.15
+	bar = plt.bar(mticks-2*width, avgs[0], align='center', width=width, color=colorlist[0], capsize=10, label=plist[0]) # yerr=yerr
+	bar = plt.bar(mticks-width, avgs[1], align='center', width=width, color=colorlist[1], capsize=10, label=plist[1]) # yerr=yerr
+	bar = plt.bar(mticks, avgs[2], align='center', width=width, color=colorlist[2], capsize=10, label=plist[2]) # yerr=yerr
+	bar = plt.bar(mticks+width, avgs[3], align='center', width=width, color=colorlist[3], capsize=10, label=plist[3]) # yerr=yerr
+	bar = plt.bar(mticks+2*width, avgs[4], align='center', width=width, color=colorlist[4], capsize=10, label=plist[4]) # yerr=yerr
+
+	plt.ylabel("Latency (msec)")
+	plt.xlabel("Number of keys")
+	plt.figtext(.5,.94,"Response time percentiles" + " versus number of keys", fontsize=12, ha='center')
+	plt.figtext(.5,.90,"Sharded gets: " + mgshrd + ", " +  op_type + " operations", fontsize=9, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(mticks, mlist)
+	plt.yticks(np.arange(0,plot_maxy))
+	plt.ylim((0,plot_maxy))
+	plt.grid(True, axis="both")
+	plt.show()
+	plt.clf()
 
 
+percDict = {}
 for mgshrd in mgshrdList:
 	data = dataFromFiles(mgshrd)
 	prepForPlot(data)
-	prepHistograms(mgshrd)
+	percDict = prepHistograms(percDict, mgshrd, op_type, show=True)
+
+plotPercentiles(percDict, op_type, "true", out_format, ymax=14)
+plotPercentiles(percDict, op_type, "false", out_format, ymax=14)
+
+#TODO: think about the errorbars and stuff
+#TODO: aggregating now only using averaging
+#TODO: try other key values for this experiment
+#TODO: print (summary for gmg?)
 
 tpttitle = "Throughput"
 lattitle = "Latency"
@@ -386,7 +498,7 @@ qtimetitle = "Queue time"
 wtimetitle = "Waiting time"
 subtitle = 'Gets and multi-gets experiment, ' + op_type + ' operations'
 
-if(0):
+if(1):
 	# Client latency
 	makePlot(cli_lat_plot, cli_lat_maxy, op_type + "-lat_cli.png", lattitle, subtitle + ', measured on clients')
 	# Client throughput

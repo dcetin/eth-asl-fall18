@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.11.19)  27 NOV 2018 01:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.29)  2 DEC 2018 03:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **dcetin-project-report.tex
 (./dcetin-project-report.tex
-LaTeX2e <2016/02/01>
-Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
@@ -28,52 +28,51 @@ Package: fullpage 1999/02/23 1.1 (PWD)
 \FP@margin=\skip43
 )
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
-Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
-Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
-Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
-Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
-Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
-Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
 )
-Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
-Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
 )
 Package hobsub Info: Skipping package `hobsub' (already loaded).
-Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
-Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
-Package: xcolor-patch 2011/01/30 xcolor patch
-Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
 Package atveryend Info: \enddocument detected (standard20110627).
-Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
-Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
-Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
@@ -83,86 +82,84 @@ Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
-Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen103
 \Hy@linkcounter=\count87
 \Hy@pagecounter=\count88
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 )
 \Hy@SavedSpaceFactor=\count89
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Hyper figures OFF on input line 4443.
-Package hyperref Info: Link nesting OFF on input line 4448.
-Package hyperref Info: Hyper index ON on input line 4451.
-Package hyperref Info: Plain pages OFF on input line 4458.
-Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4688.
+Package hyperref Info: Bookmarks ON on input line 4762.
 \c@Hy@tempcnt=\count90
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5041.
+LaTeX Info: Redefining \url on input line 5115.
 \XeTeXLinkMargin=\dimen104
 \Fld@menulength=\count91
 \Field@Width=\dimen105
 \Fld@charsize=\dimen106
-Package hyperref Info: Hyper figures OFF on input line 6295.
-Package hyperref Info: Link nesting OFF on input line 6300.
-Package hyperref Info: Hyper index ON on input line 6303.
-Package hyperref Info: backreferencing OFF on input line 6310.
-Package hyperref Info: Link coloring OFF on input line 6315.
-Package hyperref Info: Link coloring with OCG OFF on input line 6320.
-Package hyperref Info: PDF/A mode OFF on input line 6325.
-LaTeX Info: Redefining \ref on input line 6365.
-LaTeX Info: Redefining \pageref on input line 6369.
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
 \Hy@abspage=\count92
 \c@Item=\count93
 \c@Hfootnote=\count94
 )
-
-Package hyperref Message: Driver (autodetected): hpdftex.
+Package hyperref Info: Driver (autodetected): hpdftex.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
 \Fld@listcount=\count95
 \c@bookmark@seq@number=\count96
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
-Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip44
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2016/01/03 v1.0q Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
-File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 95.
+Package graphics Info: Driver file: pdftex.def on input line 99.
 
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-\Gread@gobject=\count97
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen107
 \Gin@req@width=\dimen108
@@ -170,7 +167,7 @@ File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen109
 \WF@size=\dimen110
-\c@WF@wrappedlines=\count98
+\c@WF@wrappedlines=\count97
 \WF@box=\box26
 \WF@everypar=\toks15
 Package: wrapfig 2003/01/31  v 3.6
@@ -186,41 +183,41 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 \XKV@toks=\toks16
 \XKV@tempa@toks=\toks17
 )
-\XKV@depth=\count99
+\XKV@depth=\count98
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-\xargs@max=\count100
+\xargs@max=\count99
 \xargs@toksa=\toks18
 \xargs@toksb=\toks19
 )
 (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
-Package xcolor Info: Model `RGB' extended on input line 1353.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def
-File: dvipsnam.def 2015/12/30 v3.0k Driver-dependent file (DPC,SPQR)
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
-Package: subcaption 2016/02/20 v1.1-142 Sub-captions (AR)
+Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 67.
 \captionmargin=\dimen111
 \captionmargin@=\dimen112
@@ -230,23 +227,25 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 \caption@parindent=\dimen116
 \caption@hangindent=\dimen117
 )
-\c@ContinuedFloat=\count101
+\c@ContinuedFloat=\count100
 Package caption Info: hyperref package is loaded.
 Package caption Info: wrapfig package is loaded.
 )
-\c@subfigure=\count102
-\c@subtable=\count103
+\c@subfigure=\count101
+\c@subtable=\count102
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-\fancy@headwidth=\skip45
-\f@ncyO@elh=\skip46
-\f@ncyO@erh=\skip47
-\f@ncyO@olh=\skip48
-\f@ncyO@orh=\skip49
-\f@ncyO@elf=\skip50
-\f@ncyO@erf=\skip51
-\f@ncyO@olf=\skip52
-\f@ncyO@orf=\skip53
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip45
+\f@nch@O@elh=\skip46
+\f@nch@O@erh=\skip47
+\f@nch@O@olh=\skip48
+\f@nch@O@orh=\skip49
+\f@nch@O@elf=\skip50
+\f@nch@O@erf=\skip51
+\f@nch@O@olf=\skip52
+\f@nch@O@orf=\skip53
 )
 (/usr/share/texlive/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2015/07/09 .dtx Todonotes source and documentation.
@@ -297,10 +296,10 @@ ex
 \pgf@yc=\dimen127
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
-\c@pgf@counta=\count104
-\c@pgf@countb=\count105
-\c@pgf@countc=\count106
-\c@pgf@countd=\count107
+\c@pgf@counta=\count103
+\c@pgf@countb=\count104
+\c@pgf@countc=\count105
+\c@pgf@countd=\count106
 \t@pgf@toka=\toks24
 \t@pgf@tokb=\toks25
 \t@pgf@tokc=\toks26
@@ -319,8 +318,8 @@ File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
 tex
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count108
-\pgfsyssoftpath@bigbuffer@items=\count109
+\pgfsyssoftpath@smallbuffer@items=\count107
+\pgfsyssoftpath@bigbuffer@items=\count108
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
 tex
@@ -334,7 +333,7 @@ Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen128
-\pgfmath@count=\count110
+\pgfmath@count=\count109
 \pgfmath@box=\box28
 \pgfmath@toks=\toks27
 \pgfmath@stack@operand=\toks28
@@ -358,7 +357,7 @@ tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
 thmetics.code.tex)))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count111
+\c@pgfmathroundto@lastzeros=\count110
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
 x
@@ -396,7 +395,7 @@ File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 \pgfpic=\box29
 \pgf@hbox=\box30
 \pgf@layerbox@main=\box31
-\pgf@picture@serial@count=\count112
+\pgf@picture@serial@count=\count111
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
 ode.tex
@@ -429,7 +428,7 @@ File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
 \pgf@max=\dimen152
-\pgf@sys@shading@range@num=\count113
+\pgf@sys@shading@range@num=\count112
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
@@ -486,7 +485,7 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
 .code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count114
+\pgf@plot@mark@count=\count113
 \pgfplotmarksize=\dimen157
 )
 \tikz@lastx=\dimen158
@@ -499,18 +498,18 @@ File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
 \tikz@figbox@bg=\box35
 \tikz@tempbox=\box36
 \tikz@tempbox@bg=\box37
-\tikztreelevel=\count115
-\tikznumberofchildren=\count116
-\tikznumberofcurrentchild=\count117
-\tikz@fig@count=\count118
+\tikztreelevel=\count114
+\tikznumberofchildren=\count115
+\tikznumberofcurrentchild=\count116
+\tikz@fig@count=\count117
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count119
-\pgfmatrixcurrentcolumn=\count120
-\pgf@matrix@numberofcolumns=\count121
+\pgfmatrixcurrentrow=\count118
+\pgfmatrixcurrentcolumn=\count119
+\pgf@matrix@numberofcolumns=\count120
 )
-\tikz@expandcount=\count122
+\tikz@expandcount=\count121
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarytopaths.code.tex
@@ -522,18 +521,18 @@ File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count123
-\calc@Bcount=\count124
+\calc@Acount=\count122
+\calc@Bcount=\count123
 \calc@Adimen=\dimen164
 \calc@Bdimen=\dimen165
 \calc@Askip=\skip54
 \calc@Bskip=\skip55
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count125
+\calc@Ccount=\count124
 \calc@Cskip=\skip56
 )
-\c@@todonotes@numberoftodonotes=\count126
+\c@@todonotes@numberoftodonotes=\count125
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
@@ -541,14 +540,14 @@ Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@posthook=\toks33
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
-File: t1enc.dfu 2015/12/03 v1.1r UTF-8 support for inputenc
+File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -760,11 +759,17 @@ File: t1enc.dfu 2015/12/03 v1.1r UTF-8 support for inputenc
    defining Unicode char U+0219 (decimal 537)
    defining Unicode char U+021A (decimal 538)
    defining Unicode char U+021B (decimal 539)
-   defining Unicode char U+01E02 (decimal 7682)
-   defining Unicode char U+01E03 (decimal 7683)
+   defining Unicode char U+0232 (decimal 562)
+   defining Unicode char U+0233 (decimal 563)
+   defining Unicode char U+1E02 (decimal 7682)
+   defining Unicode char U+1E03 (decimal 7683)
    defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2010 (decimal 8208)
+   defining Unicode char U+2011 (decimal 8209)
+   defining Unicode char U+2012 (decimal 8210)
    defining Unicode char U+2013 (decimal 8211)
    defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2015 (decimal 8213)
    defining Unicode char U+2018 (decimal 8216)
    defining Unicode char U+2019 (decimal 8217)
    defining Unicode char U+201A (decimal 8218)
@@ -776,12 +781,14 @@ File: t1enc.dfu 2015/12/03 v1.1r UTF-8 support for inputenc
    defining Unicode char U+2039 (decimal 8249)
    defining Unicode char U+203A (decimal 8250)
    defining Unicode char U+2423 (decimal 9251)
+   defining Unicode char U+1E20 (decimal 7712)
+   defining Unicode char U+1E21 (decimal 7713)
 )
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
-File: ot1enc.dfu 2015/12/03 v1.1r UTF-8 support for inputenc
+File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -822,7 +829,7 @@ Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
-File: omsenc.dfu 2015/12/03 v1.1r UTF-8 support for inputenc
+File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
    defining Unicode char U+00B7 (decimal 183)
@@ -868,12 +875,12 @@ LaTeX Font Info:    ... okay on input line 32.
 Package hyperref Info: Link coloring OFF on input line 32.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
-Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count127
+\c@section@level=\count126
 )
 LaTeX Info: Redefining \ref on input line 32.
 LaTeX Info: Redefining \pageref on input line 32.
@@ -884,29 +891,31 @@ LaTeX Info: Redefining \nameref on input line 32.
 \openout4 = `dcetin-project-report.out'.
 
 
-(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count128
+\scratchcounter=\count127
 \scratchdimen=\dimen166
 \scratchbox=\box39
-\nofMPsegments=\count129
-\nofMParguments=\count130
+\nofMPsegments=\count128
+\nofMParguments=\count129
 \everyMPshowfont=\toks34
-\MPscratchCnt=\count131
+\MPscratchCnt=\count130
 \MPscratchDim=\dimen167
-\MPnumerator=\count132
-\makeMPintoPDFobject=\count133
+\MPnumerator=\count131
+\makeMPintoPDFobject=\count132
 \everyMPtoPDFconversion=\toks35
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
 Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 452.
+(grfext)             \AppendGraphicsExtensions on input line 456.
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
@@ -924,472 +933,457 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 54.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] <img/system-diagram.png, i
-d=163, 871.00406pt x 569.12625pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<img/system-diagram.png, id=163, 871.00406pt x 569.12625pt>
 File: img/system-diagram.png Graphic file (type png)
-
 <use img/system-diagram.png>
-Package pdftex.def Info: img/system-diagram.png used on input line 64.
+Package pdftex.def Info: img/system-diagram.png  used on input line 64.
 (pdftex.def)             Requested size: 317.07614pt x 207.1779pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 70.
  [2 <./img/system-diagram.png>] [3]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 94.
+<img/plot/equal-load-read-only.png, id=179, 462.528pt x 346.896pt>
+File: img/plot/equal-load-read-only.png Graphic file (type png)
+<use img/plot/equal-load-read-only.png>
+Package pdftex.def Info: img/plot/equal-load-read-only.png  used on input line 
+92.
+(pdftex.def)             Requested size: 149.48022pt x 112.10997pt.
+<img/plot/equal-load-write-only.png, id=182, 462.528pt x 346.896pt>
+File: img/plot/equal-load-write-only.png Graphic file (type png)
+<use img/plot/equal-load-write-only.png>
+Package pdftex.def Info: img/plot/equal-load-write-only.png  used on input line
+ 98.
+(pdftex.def)             Requested size: 149.48022pt x 112.10997pt.
+<img/plot/equal-load-sharded-get.png, id=184, 462.528pt x 346.896pt>
+File: img/plot/equal-load-sharded-get.png Graphic file (type png)
+<use img/plot/equal-load-sharded-get.png>
+Package pdftex.def Info: img/plot/equal-load-sharded-get.png  used on input lin
+e 104.
+(pdftex.def)             Requested size: 149.48022pt x 112.10997pt.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 118.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 94.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 118.
+ [4 <./img/plot/equal-load-read-only.png> <./img/plot/equal-load-write-only.png
+> <./img/plot/equal-load-sharded-get.png>]
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 129.
+ine 153.
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 129--129
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 153--153
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 129--129
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 153--153
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 129--129
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 153--153
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 129--129
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 153--153
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 130--132
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--156
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 157--159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 133--135
+Underfull \hbox (badness 10000) in paragraph at lines 160--162
 
  []
 
-[5] <img/plot/csb1-wo-law_tpt.png, id=200, 462.528pt x 346.896pt>
+[6]
+<img/plot/csb1-wo-law_tpt.png, id=244, 462.528pt x 346.896pt>
 File: img/plot/csb1-wo-law_tpt.png Graphic file (type png)
-
 <use img/plot/csb1-wo-law_tpt.png>
-Package pdftex.def Info: img/plot/csb1-wo-law_tpt.png used on input line 147.
+Package pdftex.def Info: img/plot/csb1-wo-law_tpt.png  used on input line 175.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/csb1-wo-law_lat.png, id=203, 462.528pt x 346.896pt>
+<img/plot/csb1-wo-law_lat.png, id=246, 462.528pt x 346.896pt>
 File: img/plot/csb1-wo-law_lat.png Graphic file (type png)
-
 <use img/plot/csb1-wo-law_lat.png>
-Package pdftex.def Info: img/plot/csb1-wo-law_lat.png used on input line 153.
+Package pdftex.def Info: img/plot/csb1-wo-law_lat.png  used on input line 181.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/csb1-ro-law_tpt.png, id=205, 462.528pt x 346.896pt>
+<img/plot/csb1-ro-law_tpt.png, id=248, 462.528pt x 346.896pt>
 File: img/plot/csb1-ro-law_tpt.png Graphic file (type png)
-
 <use img/plot/csb1-ro-law_tpt.png>
-Package pdftex.def Info: img/plot/csb1-ro-law_tpt.png used on input line 165.
+Package pdftex.def Info: img/plot/csb1-ro-law_tpt.png  used on input line 193.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/csb1-ro-law_lat.png, id=207, 462.528pt x 346.896pt>
+<img/plot/csb1-ro-law_lat.png, id=250, 462.528pt x 346.896pt>
 File: img/plot/csb1-ro-law_lat.png Graphic file (type png)
-
 <use img/plot/csb1-ro-law_lat.png>
-Package pdftex.def Info: img/plot/csb1-ro-law_lat.png used on input line 171.
+Package pdftex.def Info: img/plot/csb1-ro-law_lat.png  used on input line 199.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
- [6 <./img/plot/csb1-wo-law_tpt.png> <./img/plot/csb1-wo-law_lat.png> <./img/pl
-ot/csb1-ro-law_tpt.png> <./img/plot/csb1-ro-law_lat.png>] <img/plot/csb2-wo-law
-_tpt.png, id=225, 462.528pt x 346.896pt>
+ [7 <./img/plot/csb1-wo-law_tpt.png> <./img/plot/csb1-wo-law_lat.png> <./img/pl
+ot/csb1-ro-law_tpt.png> <./img/plot/csb1-ro-law_lat.png>]
+<img/plot/csb2-wo-law_tpt.png, id=267, 462.528pt x 346.896pt>
 File: img/plot/csb2-wo-law_tpt.png Graphic file (type png)
-
 <use img/plot/csb2-wo-law_tpt.png>
-Package pdftex.def Info: img/plot/csb2-wo-law_tpt.png used on input line 195.
+Package pdftex.def Info: img/plot/csb2-wo-law_tpt.png  used on input line 223.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/csb2-wo-law_lat.png, id=227, 462.528pt x 346.896pt>
+<img/plot/csb2-wo-law_lat.png, id=269, 462.528pt x 346.896pt>
 File: img/plot/csb2-wo-law_lat.png Graphic file (type png)
-
 <use img/plot/csb2-wo-law_lat.png>
-Package pdftex.def Info: img/plot/csb2-wo-law_lat.png used on input line 201.
+Package pdftex.def Info: img/plot/csb2-wo-law_lat.png  used on input line 229.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/csb2-ro-law_tpt.png, id=229, 462.528pt x 346.896pt>
+<img/plot/csb2-ro-law_tpt.png, id=271, 462.528pt x 346.896pt>
 File: img/plot/csb2-ro-law_tpt.png Graphic file (type png)
-
 <use img/plot/csb2-ro-law_tpt.png>
-Package pdftex.def Info: img/plot/csb2-ro-law_tpt.png used on input line 213.
+Package pdftex.def Info: img/plot/csb2-ro-law_tpt.png  used on input line 241.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/csb2-ro-law_lat.png, id=231, 462.528pt x 346.896pt>
+<img/plot/csb2-ro-law_lat.png, id=273, 462.528pt x 346.896pt>
 File: img/plot/csb2-ro-law_lat.png Graphic file (type png)
-
 <use img/plot/csb2-ro-law_lat.png>
-Package pdftex.def Info: img/plot/csb2-ro-law_lat.png used on input line 219.
+Package pdftex.def Info: img/plot/csb2-ro-law_lat.png  used on input line 247.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[7 <./img/plot/csb2-wo-law_tpt.png> <./img/plot/csb2-wo-law_lat.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 237--237
-[]\OT1/cmr/m/n/10.95 Read-only
+[8 <./img/plot/csb2-wo-law_tpt.png> <./img/plot/csb2-wo-law_lat.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 265.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 265.
+
+Underfull \hbox (badness 10000) in paragraph at lines 266--266
+[]\OT1/cmr/m/n/10 Read-only
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--237
-[]\OT1/cmr/m/n/10.95 Write-only
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 237--238
-[]\OT1/cmr/m/n/10.95 Configuration gives max.
+Underfull \hbox (badness 10000) in paragraph at lines 266--266
+[]\OT1/cmr/m/n/10 Write-only
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[8 <./img/plot/csb2-ro-law_tpt.png> <./img/plot/csb2-ro-law_lat.png>]
-Overfull \hbox (5.08089pt too wide) in paragraph at lines 249--249
+[9 <./img/plot/csb2-ro-law_tpt.png> <./img/plot/csb2-ro-law_lat.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 274--276
+
+ []
+
+
+Overfull \hbox (5.08089pt too wide) in paragraph at lines 280--280
 [][][][]\OT1/cmr/m/n/10.95 Comment 
  []
 
 
-Overfull \hbox (5.08089pt too wide) in paragraph at lines 249--249
+Overfull \hbox (5.08089pt too wide) in paragraph at lines 280--280
 [][][][]\OT1/cmr/m/n/10.95 Comment 
  []
 
 
-Overfull \hbox (5.08089pt too wide) in paragraph at lines 249--249
+Overfull \hbox (5.08089pt too wide) in paragraph at lines 280--280
 [][][][]\OT1/cmr/m/n/10.95 Comment 
  []
 
 
-Overfull \hbox (5.08089pt too wide) in paragraph at lines 249--249
+Overfull \hbox (5.08089pt too wide) in paragraph at lines 280--280
 [][][][]\OT1/cmr/m/n/10.95 Comment 
  []
 
-<img/plot/mwb1-ro-tp_mw.png, id=262, 462.528pt x 346.896pt>
+<img/plot/mwb1-ro-tp_mw.png, id=301, 462.528pt x 346.896pt>
 File: img/plot/mwb1-ro-tp_mw.png Graphic file (type png)
-
 <use img/plot/mwb1-ro-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb1-ro-tp_mw.png used on input line 258.
+Package pdftex.def Info: img/plot/mwb1-ro-tp_mw.png  used on input line 289.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/mwb1-ro-lat_mw.png, id=264, 462.528pt x 346.896pt>
+<img/plot/mwb1-ro-lat_mw.png, id=303, 462.528pt x 346.896pt>
 File: img/plot/mwb1-ro-lat_mw.png Graphic file (type png)
-
 <use img/plot/mwb1-ro-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb1-ro-lat_mw.png used on input line 264.
+Package pdftex.def Info: img/plot/mwb1-ro-lat_mw.png  used on input line 295.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
-<img/plot/mwb1-ro-qlen-mini.png, id=266, 361.35pt x 289.08pt>
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<img/plot/mwb1-ro-qlen-mini.png, id=305, 361.35pt x 289.08pt>
 File: img/plot/mwb1-ro-qlen-mini.png Graphic file (type png)
-
 <use img/plot/mwb1-ro-qlen-mini.png>
-Package pdftex.def Info: img/plot/mwb1-ro-qlen-mini.png used on input line 276.
-
+Package pdftex.def Info: img/plot/mwb1-ro-qlen-mini.png  used on input line 307
+.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb1-ro-qtime-mini.png, id=268, 361.35pt x 289.08pt>
+<img/plot/mwb1-ro-qtime-mini.png, id=307, 361.35pt x 289.08pt>
 File: img/plot/mwb1-ro-qtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb1-ro-qtime-mini.png>
-Package pdftex.def Info: img/plot/mwb1-ro-qtime-mini.png used on input line 282
-.
+Package pdftex.def Info: img/plot/mwb1-ro-qtime-mini.png  used on input line 31
+3.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb1-ro-wtime-mini.png, id=270, 361.35pt x 289.08pt>
+<img/plot/mwb1-ro-wtime-mini.png, id=309, 361.35pt x 289.08pt>
 File: img/plot/mwb1-ro-wtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb1-ro-wtime-mini.png>
-Package pdftex.def Info: img/plot/mwb1-ro-wtime-mini.png used on input line 288
-.
+Package pdftex.def Info: img/plot/mwb1-ro-wtime-mini.png  used on input line 31
+9.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/mwb1-wo-tp_mw.png, id=272, 462.528pt x 346.896pt>
+<img/plot/mwb1-wo-tp_mw.png, id=311, 462.528pt x 346.896pt>
 File: img/plot/mwb1-wo-tp_mw.png Graphic file (type png)
-
 <use img/plot/mwb1-wo-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb1-wo-tp_mw.png used on input line 300.
+Package pdftex.def Info: img/plot/mwb1-wo-tp_mw.png  used on input line 331.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/mwb1-wo-lat_mw.png, id=274, 462.528pt x 346.896pt>
+<img/plot/mwb1-wo-lat_mw.png, id=313, 462.528pt x 346.896pt>
 File: img/plot/mwb1-wo-lat_mw.png Graphic file (type png)
-
 <use img/plot/mwb1-wo-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb1-wo-lat_mw.png used on input line 306.
+Package pdftex.def Info: img/plot/mwb1-wo-lat_mw.png  used on input line 337.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/mwb1-wo-qlen-mini.png, id=276, 361.35pt x 289.08pt>
+<img/plot/mwb1-wo-qlen-mini.png, id=315, 361.35pt x 289.08pt>
 File: img/plot/mwb1-wo-qlen-mini.png Graphic file (type png)
-
 <use img/plot/mwb1-wo-qlen-mini.png>
-Package pdftex.def Info: img/plot/mwb1-wo-qlen-mini.png used on input line 318.
-
+Package pdftex.def Info: img/plot/mwb1-wo-qlen-mini.png  used on input line 349
+.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb1-wo-qtime-mini.png, id=278, 361.35pt x 289.08pt>
+<img/plot/mwb1-wo-qtime-mini.png, id=317, 361.35pt x 289.08pt>
 File: img/plot/mwb1-wo-qtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb1-wo-qtime-mini.png>
-Package pdftex.def Info: img/plot/mwb1-wo-qtime-mini.png used on input line 324
-.
+Package pdftex.def Info: img/plot/mwb1-wo-qtime-mini.png  used on input line 35
+5.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb1-wo-wtime-mini.png, id=280, 361.35pt x 289.08pt>
+<img/plot/mwb1-wo-wtime-mini.png, id=319, 361.35pt x 289.08pt>
 File: img/plot/mwb1-wo-wtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb1-wo-wtime-mini.png>
-Package pdftex.def Info: img/plot/mwb1-wo-wtime-mini.png used on input line 330
-.
+Package pdftex.def Info: img/plot/mwb1-wo-wtime-mini.png  used on input line 36
+1.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[9 <./img/plot/mwb1-ro-tp_mw.png> <./img/plot/mwb1-ro-lat_mw.png>]
-Overfull \hbox (0.54881pt too wide) in paragraph at lines 340--340
+[10]
+Overfull \hbox (0.54881pt too wide) in paragraph at lines 371--371
 [][][][]\OT1/cmr/m/n/10.95 marginal 
  []
 
 
-Overfull \hbox (0.54881pt too wide) in paragraph at lines 340--340
+Overfull \hbox (0.54881pt too wide) in paragraph at lines 371--371
 [][][][]\OT1/cmr/m/n/10.95 marginal 
  []
 
 
-Overfull \hbox (0.54881pt too wide) in paragraph at lines 340--340
+Overfull \hbox (0.54881pt too wide) in paragraph at lines 371--371
 [][][][]\OT1/cmr/m/n/10.95 marginal 
  []
 
 
-Overfull \hbox (0.54881pt too wide) in paragraph at lines 340--340
+Overfull \hbox (0.54881pt too wide) in paragraph at lines 371--371
 [][][][]\OT1/cmr/m/n/10.95 marginal 
  []
 
-[10 <./img/plot/mwb1-ro-qlen-mini.png> <./img/plot/mwb1-ro-qtime-mini.png> <./i
-mg/plot/mwb1-ro-wtime-mini.png> <./img/plot/mwb1-wo-tp_mw.png> <./img/plot/mwb1
--wo-lat_mw.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 341--343
+
+Underfull \hbox (badness 10000) in paragraph at lines 372--374
 
  []
 
-[11 <./img/plot/mwb1-wo-qlen-mini.png> <./img/plot/mwb1-wo-qtime-mini.png> <./i
-mg/plot/mwb1-wo-wtime-mini.png>]
-<img/plot/mwb2-ro-tp_mw.png, id=329, 462.528pt x 346.896pt>
+
+LaTeX Warning: Marginpar on page 11 moved.
+
+[11 <./img/plot/mwb1-ro-tp_mw.png> <./img/plot/mwb1-ro-lat_mw.png> <./img/plot/
+mwb1-ro-qlen-mini.png> <./img/plot/mwb1-ro-qtime-mini.png> <./img/plot/mwb1-ro-
+wtime-mini.png>] [12 <./img/plot/mwb1-wo-tp_mw.png> <./img/plot/mwb1-wo-lat_mw.
+png> <./img/plot/mwb1-wo-qlen-mini.png> <./img/plot/mwb1-wo-qtime-mini.png> <./
+img/plot/mwb1-wo-wtime-mini.png>]
+<img/plot/mwb2-ro-tp_mw.png, id=370, 462.528pt x 346.896pt>
 File: img/plot/mwb2-ro-tp_mw.png Graphic file (type png)
-
 <use img/plot/mwb2-ro-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb2-ro-tp_mw.png used on input line 354.
+Package pdftex.def Info: img/plot/mwb2-ro-tp_mw.png  used on input line 387.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/mwb2-ro-lat_mw.png, id=331, 462.528pt x 346.896pt>
+<img/plot/mwb2-ro-lat_mw.png, id=372, 462.528pt x 346.896pt>
 File: img/plot/mwb2-ro-lat_mw.png Graphic file (type png)
-
 <use img/plot/mwb2-ro-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb2-ro-lat_mw.png used on input line 360.
+Package pdftex.def Info: img/plot/mwb2-ro-lat_mw.png  used on input line 393.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
-<img/plot/mwb2-ro-qlen-mini.png, id=333, 361.35pt x 289.08pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<img/plot/mwb2-ro-qlen-mini.png, id=374, 361.35pt x 289.08pt>
 File: img/plot/mwb2-ro-qlen-mini.png Graphic file (type png)
-
 <use img/plot/mwb2-ro-qlen-mini.png>
-Package pdftex.def Info: img/plot/mwb2-ro-qlen-mini.png used on input line 372.
-
+Package pdftex.def Info: img/plot/mwb2-ro-qlen-mini.png  used on input line 405
+.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb2-ro-qtime-mini.png, id=335, 361.35pt x 289.08pt>
+<img/plot/mwb2-ro-qtime-mini.png, id=376, 361.35pt x 289.08pt>
 File: img/plot/mwb2-ro-qtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb2-ro-qtime-mini.png>
-Package pdftex.def Info: img/plot/mwb2-ro-qtime-mini.png used on input line 378
-.
+Package pdftex.def Info: img/plot/mwb2-ro-qtime-mini.png  used on input line 41
+1.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb2-ro-wtime-mini.png, id=337, 361.35pt x 289.08pt>
+<img/plot/mwb2-ro-wtime-mini.png, id=378, 361.35pt x 289.08pt>
 File: img/plot/mwb2-ro-wtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb2-ro-wtime-mini.png>
-Package pdftex.def Info: img/plot/mwb2-ro-wtime-mini.png used on input line 384
-.
+Package pdftex.def Info: img/plot/mwb2-ro-wtime-mini.png  used on input line 41
+7.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
 
-<img/plot/mwb2-wo-tp_mw.png, id=339, 462.528pt x 346.896pt>
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<img/plot/mwb2-wo-tp_mw.png, id=380, 462.528pt x 346.896pt>
 File: img/plot/mwb2-wo-tp_mw.png Graphic file (type png)
-
 <use img/plot/mwb2-wo-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-tp_mw.png used on input line 396.
+Package pdftex.def Info: img/plot/mwb2-wo-tp_mw.png  used on input line 429.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/mwb2-wo-lat_mw.png, id=341, 462.528pt x 346.896pt>
+<img/plot/mwb2-wo-lat_mw.png, id=382, 462.528pt x 346.896pt>
 File: img/plot/mwb2-wo-lat_mw.png Graphic file (type png)
-
 <use img/plot/mwb2-wo-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-lat_mw.png used on input line 402.
+Package pdftex.def Info: img/plot/mwb2-wo-lat_mw.png  used on input line 435.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/mwb2-wo-qlen-mini.png, id=343, 361.35pt x 289.08pt>
+<img/plot/mwb2-wo-qlen-mini.png, id=384, 361.35pt x 289.08pt>
 File: img/plot/mwb2-wo-qlen-mini.png Graphic file (type png)
-
 <use img/plot/mwb2-wo-qlen-mini.png>
-Package pdftex.def Info: img/plot/mwb2-wo-qlen-mini.png used on input line 414.
-
+Package pdftex.def Info: img/plot/mwb2-wo-qlen-mini.png  used on input line 447
+.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb2-wo-qtime-mini.png, id=345, 361.35pt x 289.08pt>
+<img/plot/mwb2-wo-qtime-mini.png, id=386, 361.35pt x 289.08pt>
 File: img/plot/mwb2-wo-qtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb2-wo-qtime-mini.png>
-Package pdftex.def Info: img/plot/mwb2-wo-qtime-mini.png used on input line 420
-.
+Package pdftex.def Info: img/plot/mwb2-wo-qtime-mini.png  used on input line 45
+3.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/mwb2-wo-wtime-mini.png, id=347, 361.35pt x 289.08pt>
+<img/plot/mwb2-wo-wtime-mini.png, id=388, 361.35pt x 289.08pt>
 File: img/plot/mwb2-wo-wtime-mini.png Graphic file (type png)
-
 <use img/plot/mwb2-wo-wtime-mini.png>
-Package pdftex.def Info: img/plot/mwb2-wo-wtime-mini.png used on input line 426
-.
+Package pdftex.def Info: img/plot/mwb2-wo-wtime-mini.png  used on input line 45
+9.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[12 <./img/plot/mwb2-ro-tp_mw.png> <./img/plot/mwb2-ro-lat_mw.png> <./img/plot/
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 474--476
+
+ []
+
+[14 <./img/plot/mwb2-ro-tp_mw.png> <./img/plot/mwb2-ro-lat_mw.png> <./img/plot/
 mwb2-ro-qlen-mini.png> <./img/plot/mwb2-ro-qtime-mini.png> <./img/plot/mwb2-ro-
-wtime-mini.png>] [13 <./img/plot/mwb2-wo-tp_mw.png> <./img/plot/mwb2-wo-lat_mw.
+wtime-mini.png>] [15 <./img/plot/mwb2-wo-tp_mw.png> <./img/plot/mwb2-wo-lat_mw.
 png> <./img/plot/mwb2-wo-qlen-mini.png> <./img/plot/mwb2-wo-qtime-mini.png> <./
 img/plot/mwb2-wo-wtime-mini.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 446--446
-[]\OT1/cmr/m/n/10.95 Response
+Underfull \hbox (badness 10000) in paragraph at lines 478--480
+
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 460--460
-[]\OT1/cmr/m/n/10.95 Response
- []
-
-<img/plot/tpfw-tp_mw.png, id=389, 462.528pt x 346.896pt>
+[16]
+<img/plot/tpfw-tp_mw.png, id=446, 462.528pt x 346.896pt>
 File: img/plot/tpfw-tp_mw.png Graphic file (type png)
-
 <use img/plot/tpfw-tp_mw.png>
-Package pdftex.def Info: img/plot/tpfw-tp_mw.png used on input line 477.
+Package pdftex.def Info: img/plot/tpfw-tp_mw.png  used on input line 520.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/tpfw-lat_mw.png, id=391, 462.528pt x 346.896pt>
+<img/plot/tpfw-lat_mw.png, id=448, 462.528pt x 346.896pt>
 File: img/plot/tpfw-lat_mw.png Graphic file (type png)
-
 <use img/plot/tpfw-lat_mw.png>
-Package pdftex.def Info: img/plot/tpfw-lat_mw.png used on input line 483.
+Package pdftex.def Info: img/plot/tpfw-lat_mw.png  used on input line 526.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<img/plot/tpfw-qlen_mw.png, id=393, 361.35pt x 289.08pt>
+<img/plot/tpfw-qlen_mw.png, id=455, 361.35pt x 289.08pt>
 File: img/plot/tpfw-qlen_mw.png Graphic file (type png)
-
 <use img/plot/tpfw-qlen_mw.png>
-Package pdftex.def Info: img/plot/tpfw-qlen_mw.png used on input line 495.
+Package pdftex.def Info: img/plot/tpfw-qlen_mw.png  used on input line 542.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/tpfw-qtime_mw.png, id=395, 361.35pt x 289.08pt>
+<img/plot/tpfw-qtime_mw.png, id=457, 361.35pt x 289.08pt>
 File: img/plot/tpfw-qtime_mw.png Graphic file (type png)
-
 <use img/plot/tpfw-qtime_mw.png>
-Package pdftex.def Info: img/plot/tpfw-qtime_mw.png used on input line 501.
+Package pdftex.def Info: img/plot/tpfw-qtime_mw.png  used on input line 548.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
-
-<img/plot/tpfw-wtime_mw.png, id=397, 361.35pt x 289.08pt>
+<img/plot/tpfw-wtime_mw.png, id=459, 361.35pt x 289.08pt>
 File: img/plot/tpfw-wtime_mw.png Graphic file (type png)
-
 <use img/plot/tpfw-wtime_mw.png>
-Package pdftex.def Info: img/plot/tpfw-wtime_mw.png used on input line 507.
+Package pdftex.def Info: img/plot/tpfw-wtime_mw.png  used on input line 554.
 (pdftex.def)             Requested size: 149.48022pt x 119.5822pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/auxiliary-2-tp_mw.png, id=399, 462.528pt x 346.896pt>
+<img/plot/auxiliary-2-tp_mw.png, id=461, 462.528pt x 346.896pt>
 File: img/plot/auxiliary-2-tp_mw.png Graphic file (type png)
-
 <use img/plot/auxiliary-2-tp_mw.png>
-Package pdftex.def Info: img/plot/auxiliary-2-tp_mw.png used on input line 520.
-
-(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-<img/plot/auxiliary-2-lat_mw.png, id=401, 462.528pt x 346.896pt>
-File: img/plot/auxiliary-2-lat_mw.png Graphic file (type png)
-
-<use img/plot/auxiliary-2-lat_mw.png>
-Package pdftex.def Info: img/plot/auxiliary-2-lat_mw.png used on input line 526
+Package pdftex.def Info: img/plot/auxiliary-2-tp_mw.png  used on input line 567
 .
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 541.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 541.
+<img/plot/auxiliary-2-lat_mw.png, id=463, 462.528pt x 346.896pt>
+File: img/plot/auxiliary-2-lat_mw.png Graphic file (type png)
+<use img/plot/auxiliary-2-lat_mw.png>
+Package pdftex.def Info: img/plot/auxiliary-2-lat_mw.png  used on input line 57
+3.
+(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[14] [15 <./img/plot/tpfw-tp_mw.png> <./img/plot/tpfw-lat_mw.png> <./img/plot/t
-pfw-qlen_mw.png> <./img/plot/tpfw-qtime_mw.png> <./img/plot/tpfw-wtime_mw.png>]
+[17 <./img/plot/tpfw-tp_mw.png> <./img/plot/tpfw-lat_mw.png>]
 
-Overfull \vbox (141.3259pt too high) has occurred while \output is active []
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[18 <./img/plot/tpfw-qlen_mw.png> <./img/plot/tpfw-qtime_mw.png> <./img/plot/tp
+fw-wtime_mw.png> <./img/plot/auxiliary-2-tp_mw.png> <./img/plot/auxiliary-2-lat
+_mw.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 633.
+ [19]
+
+LaTeX Warning: Marginpar on page 20 moved.
 
 
-[16 <./img/plot/auxiliary-2-tp_mw.png> <./img/plot/auxiliary-2-lat_mw.png>]
-[17]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 586.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 586.
+LaTeX Warning: Marginpar on page 20 moved.
+
+[20] [21]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 807.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 807.
  (./dcetin-project-report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 586.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 586.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 807.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 807.
 Package rerunfilecheck Info: File `dcetin-project-report.out' has not changed.
 (rerunfilecheck)             Checksum: 43FE513674822CC45D69A4B67AEB83D5;2304.
 
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 586.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 807.
  ) 
 Here is how much of TeX's memory you used:
- 17762 strings out of 493029
- 336194 string characters out of 6136233
- 435470 words of memory out of 5000000
- 20884 multiletter control sequences out of 15000+600000
- 8979 words of font info for 32 fonts, out of 8000000 for 9000
+ 17870 strings out of 492982
+ 338603 string characters out of 6134895
+ 472514 words of memory out of 5000000
+ 20996 multiletter control sequences out of 15000+600000
+ 9891 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,14n,94p,1592b,710s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,15n,94p,1396b,710s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmtt10.pfb>
-Output written on dcetin-project-report.pdf (17 pages, 1919721 bytes).
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on dcetin-project-report.pdf (21 pages, 1601566 bytes).
 PDF statistics:
- 499 PDF objects out of 1000 (max. 8388607)
- 360 compressed objects within 4 object streams
- 89 named destinations out of 1000 (max. 500000)
- 697 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 620 PDF objects out of 1000 (max. 8388607)
+ 454 compressed objects within 5 object streams
+ 108 named destinations out of 1000 (max. 500000)
+ 730 words of extra memory for PDF output out of 10000 (max. 10000000)
 

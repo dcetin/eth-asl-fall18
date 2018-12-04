@@ -31,193 +31,262 @@
 \newlabel{sec:ov-netthread}{{1.1.2}{3}{clientHandler (net-thread)}{subsubsection.1.1.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.3}serverHandlers (worker-threads)}{3}{subsubsection.1.1.3}}
 \newlabel{sec:ov-workerthread}{{1.1.3}{3}{serverHandlers (worker-threads)}{subsubsection.1.1.3}{}}
-\citation{dstat}
+\newlabel{fig:equal-load-read-only}{{2a}{4}{Read-only load\relax }{figure.caption.2}{}}
+\newlabel{sub@fig:equal-load-read-only}{{a}{4}{Read-only load\relax }{figure.caption.2}{}}
+\newlabel{fig:equal-load-write-only}{{2b}{4}{Write-only load\relax }{figure.caption.2}{}}
+\newlabel{sub@fig:equal-load-write-only}{{b}{4}{Write-only load\relax }{figure.caption.2}{}}
+\newlabel{fig:equal-load-sharded-get}{{2c}{4}{Sharded get requests\relax }{figure.caption.2}{}}
+\newlabel{sub@fig:equal-load-sharded-get}{{c}{4}{Sharded get requests\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Distribution of the requests to three servers over three repetitions. Each of the plots illustrate a different workload condition. Results are taken from the experiments of later sections. Figures \ref  {fig:equal-load-read-only} and \ref  {fig:equal-load-write-only} use the results from 2K experiments \ref  {sec:2k} and Figure \ref  {fig:equal-load-sharded-get} use those from gets and multi gets experiments \ref  {sec:gmg}\relax }}{4}{figure.caption.2}}
+\newlabel{fig:equal-load}{{2}{4}{Distribution of the requests to three servers over three repetitions. Each of the plots illustrate a different workload condition. Results are taken from the experiments of later sections. Figures \ref {fig:equal-load-read-only} and \ref {fig:equal-load-write-only} use the results from 2K experiments \ref {sec:2k} and Figure \ref {fig:equal-load-sharded-get} use those from gets and multi gets experiments \ref {sec:gmg}\relax }{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.4}ScheduledControl}{4}{subsubsection.1.1.4}}
 \newlabel{sec:ov-scheduledcontrol}{{1.1.4}{4}{ScheduledControl}{subsubsection.1.1.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.5}Internal parameters}{4}{subsubsection.1.1.5}}
 \newlabel{sec:ov-internalparameters}{{1.1.5}{4}{Internal parameters}{subsubsection.1.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Methodology}{4}{subsection.1.2}}
-\newlabel{sec:ov-methodology}{{1.2}{4}{Methodology}{subsection.1.2}{}}
-\@writefile{tdo}{\contentsline {todo}{Probably should detail which scripts correspond to which experiments and how the results should be placed.}{4}{section*.3}}
-\pgfsyspdfmark {pgfid1}{15798955}{8017016}
-\pgfsyspdfmark {pgfid4}{36699366}{8030472}
-\pgfsyspdfmark {pgfid5}{38321382}{7785286}
+\citation{dstat}
 \citation{cssh}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Abbreviations for experiment parameters.\relax }}{5}{table.caption.3}}
+\newlabel{tab:param-abbrs}{{1}{5}{Abbreviations for experiment parameters.\relax }{table.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Methodology}{5}{subsection.1.2}}
+\newlabel{sec:ov-methodology}{{1.2}{5}{Methodology}{subsection.1.2}{}}
+\@writefile{tdo}{\contentsline {todo}{Probably should detail which scripts correspond to which experiments and how the results should be placed.}{5}{section*.4}}
+\pgfsyspdfmark {pgfid1}{15798955}{20677825}
+\pgfsyspdfmark {pgfid4}{36699366}{20691281}
+\pgfsyspdfmark {pgfid5}{38321382}{20446095}
 \citation{iperf}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Abbreviations for experiment parameters.\relax }}{5}{table.caption.2}}
-\newlabel{tab:param-abbrs}{{1}{5}{Abbreviations for experiment parameters.\relax }{table.caption.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Baseline without Middleware}{5}{section.2}}
-\newlabel{sec:csb}{{2}{5}{Baseline without Middleware}{section.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}One Server}{6}{subsection.2.1}}
-\newlabel{sec:csb1}{{2.1}{6}{One Server}{subsection.2.1}{}}
-\newlabel{fig:csb1-wo-law_tpt}{{2a}{6}{Write-only throughput\relax }{figure.caption.4}{}}
-\newlabel{sub@fig:csb1-wo-law_tpt}{{a}{6}{Write-only throughput\relax }{figure.caption.4}{}}
-\newlabel{fig:csb1-wo-law_lat}{{2b}{6}{Write-only latency\relax }{figure.caption.4}{}}
-\newlabel{sub@fig:csb1-wo-law_lat}{{b}{6}{Write-only latency\relax }{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Throughput and latency values for the write-only workload for baseline without middleware, for one server case.\relax }}{6}{figure.caption.4}}
-\newlabel{fig:csb1-wo-law}{{2}{6}{Throughput and latency values for the write-only workload for baseline without middleware, for one server case.\relax }{figure.caption.4}{}}
-\newlabel{fig:csb1-ro-law_tpt}{{3a}{6}{Read-only throughput\relax }{figure.caption.5}{}}
-\newlabel{sub@fig:csb1-ro-law_tpt}{{a}{6}{Read-only throughput\relax }{figure.caption.5}{}}
-\newlabel{fig:csb1-ro-law_lat}{{3b}{6}{Read-only latency\relax }{figure.caption.5}{}}
-\newlabel{sub@fig:csb1-ro-law_lat}{{b}{6}{Read-only latency\relax }{figure.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Throughput and latency values for the read-only workload for baseline without middleware experiment with one server case.\relax }}{6}{figure.caption.5}}
-\newlabel{fig:csb1-ro-law}{{3}{6}{Throughput and latency values for the read-only workload for baseline without middleware experiment with one server case.\relax }{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Explanation}{6}{subsubsection.2.1.1}}
-\newlabel{sec:csb1-exp}{{2.1.1}{6}{Explanation}{subsubsection.2.1.1}{}}
-\@writefile{tdo}{\contentsline {todo}{is usage limited by correct, both here and below?}{7}{section*.6}}
-\pgfsyspdfmark {pgfid6}{23510018}{39460058}
-\pgfsyspdfmark {pgfid9}{36699366}{39473514}
-\pgfsyspdfmark {pgfid10}{38321382}{39228328}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Two Servers}{7}{subsection.2.2}}
-\newlabel{sec:csb2}{{2.2}{7}{Two Servers}{subsection.2.2}{}}
-\newlabel{fig:csb2-wo-law_tpt}{{4a}{7}{Write-only throughput\relax }{figure.caption.7}{}}
-\newlabel{sub@fig:csb2-wo-law_tpt}{{a}{7}{Write-only throughput\relax }{figure.caption.7}{}}
-\newlabel{fig:csb2-wo-law_lat}{{4b}{7}{Write-only latency\relax }{figure.caption.7}{}}
-\newlabel{sub@fig:csb2-wo-law_lat}{{b}{7}{Write-only latency\relax }{figure.caption.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Throughput and latency values for the write-only workload for baseline without middleware experiment with two servers.\relax }}{7}{figure.caption.7}}
-\newlabel{fig:csb2-wo-law}{{4}{7}{Throughput and latency values for the write-only workload for baseline without middleware experiment with two servers.\relax }{figure.caption.7}{}}
-\newlabel{fig:csb2-ro-law_tpt}{{5a}{8}{Read-only throughput\relax }{figure.caption.8}{}}
-\newlabel{sub@fig:csb2-ro-law_tpt}{{a}{8}{Read-only throughput\relax }{figure.caption.8}{}}
-\newlabel{fig:csb2-ro-law_lat}{{5b}{8}{Read-only latency\relax }{figure.caption.8}{}}
-\newlabel{sub@fig:csb2-ro-law_lat}{{b}{8}{Read-only latency\relax }{figure.caption.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Throughput and latency values for the read-only workload for baseline without middleware experiment with two servers.\relax }}{8}{figure.caption.8}}
-\newlabel{fig:csb2-ro-law}{{5}{8}{Throughput and latency values for the read-only workload for baseline without middleware experiment with two servers.\relax }{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Explanation}{8}{subsubsection.2.2.1}}
-\newlabel{sec:csb2-exp}{{2.2.1}{8}{Explanation}{subsubsection.2.2.1}{}}
-\@writefile{tdo}{\contentsline {todo}{why 12 and 8, why not equal?}{8}{section*.9}}
-\pgfsyspdfmark {pgfid11}{4736286}{25609949}
-\pgfsyspdfmark {pgfid14}{36699366}{25623405}
-\pgfsyspdfmark {pgfid15}{38321382}{25378219}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Summary}{8}{subsection.2.3}}
-\newlabel{sec:csb-summary}{{2.3}{8}{Summary}{subsection.2.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Summary of baseline without middleware experiments.\relax }}{9}{table.caption.10}}
-\newlabel{tab:csb-summary}{{2}{9}{Summary of baseline without middleware experiments.\relax }{table.caption.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Baseline with Middleware}{9}{section.3}}
-\@writefile{tdo}{\contentsline {todo}{Comment about interactive law.}{9}{section*.11}}
-\pgfsyspdfmark {pgfid16}{19750487}{31931429}
-\pgfsyspdfmark {pgfid19}{36699366}{31944885}
-\pgfsyspdfmark {pgfid20}{38321382}{31699699}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}One Middleware}{9}{subsection.3.1}}
-\newlabel{fig:mwb1-ro-tp_mw}{{6a}{9}{Read-only throughput\relax }{figure.caption.12}{}}
-\newlabel{sub@fig:mwb1-ro-tp_mw}{{a}{9}{Read-only throughput\relax }{figure.caption.12}{}}
-\newlabel{fig:mwb1-ro-lat_mw}{{6b}{9}{Read-only latency\relax }{figure.caption.12}{}}
-\newlabel{sub@fig:mwb1-ro-lat_mw}{{b}{9}{Read-only latency\relax }{figure.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Throughput and latency values for the read-only workload for baseline with middleware experiment with one middleware.\relax }}{9}{figure.caption.12}}
-\newlabel{fig:mwb1-ro_mw}{{6}{9}{Throughput and latency values for the read-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.12}{}}
-\newlabel{fig:mwb1-ro-qlen-mini}{{7a}{10}{Avg. queue length\relax }{figure.caption.13}{}}
-\newlabel{sub@fig:mwb1-ro-qlen-mini}{{a}{10}{Avg. queue length\relax }{figure.caption.13}{}}
-\newlabel{fig:mwb1-ro-qtime-mini}{{7b}{10}{Avg. queue time\relax }{figure.caption.13}{}}
-\newlabel{sub@fig:mwb1-ro-qtime-mini}{{b}{10}{Avg. queue time\relax }{figure.caption.13}{}}
-\newlabel{fig:mwb1-ro-wtime-mini}{{7c}{10}{Avg. waiting time\relax }{figure.caption.13}{}}
-\newlabel{sub@fig:mwb1-ro-wtime-mini}{{c}{10}{Avg. waiting time\relax }{figure.caption.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with one middleware.\relax }}{10}{figure.caption.13}}
-\newlabel{fig:mwb1-ro-mini}{{7}{10}{Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.13}{}}
-\newlabel{fig:mwb1-wo-tp_mw}{{8a}{10}{Write-only throughput\relax }{figure.caption.14}{}}
-\newlabel{sub@fig:mwb1-wo-tp_mw}{{a}{10}{Write-only throughput\relax }{figure.caption.14}{}}
-\newlabel{fig:mwb1-wo-lat_mw}{{8b}{10}{Write-only latency\relax }{figure.caption.14}{}}
-\newlabel{sub@fig:mwb1-wo-lat_mw}{{b}{10}{Write-only latency\relax }{figure.caption.14}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Throughput and latency values for the write-only workload for baseline with middleware experiment with one middleware.\relax }}{10}{figure.caption.14}}
-\newlabel{fig:mwb1-wo_mw}{{8}{10}{Throughput and latency values for the write-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Baseline without Middleware}{6}{section.2}}
+\newlabel{sec:csb}{{2}{6}{Baseline without Middleware}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}One Server}{7}{subsection.2.1}}
+\newlabel{sec:csb1}{{2.1}{7}{One Server}{subsection.2.1}{}}
+\newlabel{fig:csb1-wo-law_tpt}{{3a}{7}{Write-only throughput\relax }{figure.caption.5}{}}
+\newlabel{sub@fig:csb1-wo-law_tpt}{{a}{7}{Write-only throughput\relax }{figure.caption.5}{}}
+\newlabel{fig:csb1-wo-law_lat}{{3b}{7}{Write-only latency\relax }{figure.caption.5}{}}
+\newlabel{sub@fig:csb1-wo-law_lat}{{b}{7}{Write-only latency\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Throughput and latency values for the write-only workload for baseline without middleware, for one server case.\relax }}{7}{figure.caption.5}}
+\newlabel{fig:csb1-wo-law}{{3}{7}{Throughput and latency values for the write-only workload for baseline without middleware, for one server case.\relax }{figure.caption.5}{}}
+\newlabel{fig:csb1-ro-law_tpt}{{4a}{7}{Read-only throughput\relax }{figure.caption.6}{}}
+\newlabel{sub@fig:csb1-ro-law_tpt}{{a}{7}{Read-only throughput\relax }{figure.caption.6}{}}
+\newlabel{fig:csb1-ro-law_lat}{{4b}{7}{Read-only latency\relax }{figure.caption.6}{}}
+\newlabel{sub@fig:csb1-ro-law_lat}{{b}{7}{Read-only latency\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Throughput and latency values for the read-only workload for baseline without middleware experiment with one server case.\relax }}{7}{figure.caption.6}}
+\newlabel{fig:csb1-ro-law}{{4}{7}{Throughput and latency values for the read-only workload for baseline without middleware experiment with one server case.\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Explanation}{7}{subsubsection.2.1.1}}
+\newlabel{sec:csb1-exp}{{2.1.1}{7}{Explanation}{subsubsection.2.1.1}{}}
+\@writefile{tdo}{\contentsline {todo}{is usage limited by correct, both here and below?}{8}{section*.7}}
+\pgfsyspdfmark {pgfid6}{26520034}{42133928}
+\pgfsyspdfmark {pgfid9}{36699366}{42147384}
+\pgfsyspdfmark {pgfid10}{38321382}{41902198}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Two Servers}{8}{subsection.2.2}}
+\newlabel{sec:csb2}{{2.2}{8}{Two Servers}{subsection.2.2}{}}
+\newlabel{fig:csb2-wo-law_tpt}{{5a}{8}{Write-only throughput\relax }{figure.caption.8}{}}
+\newlabel{sub@fig:csb2-wo-law_tpt}{{a}{8}{Write-only throughput\relax }{figure.caption.8}{}}
+\newlabel{fig:csb2-wo-law_lat}{{5b}{8}{Write-only latency\relax }{figure.caption.8}{}}
+\newlabel{sub@fig:csb2-wo-law_lat}{{b}{8}{Write-only latency\relax }{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Throughput and latency values for the write-only workload for baseline without middleware experiment with two servers.\relax }}{8}{figure.caption.8}}
+\newlabel{fig:csb2-wo-law}{{5}{8}{Throughput and latency values for the write-only workload for baseline without middleware experiment with two servers.\relax }{figure.caption.8}{}}
+\newlabel{fig:csb2-ro-law_tpt}{{6a}{9}{Read-only throughput\relax }{figure.caption.9}{}}
+\newlabel{sub@fig:csb2-ro-law_tpt}{{a}{9}{Read-only throughput\relax }{figure.caption.9}{}}
+\newlabel{fig:csb2-ro-law_lat}{{6b}{9}{Read-only latency\relax }{figure.caption.9}{}}
+\newlabel{sub@fig:csb2-ro-law_lat}{{b}{9}{Read-only latency\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Throughput and latency values for the read-only workload for baseline without middleware experiment with two servers.\relax }}{9}{figure.caption.9}}
+\newlabel{fig:csb2-ro-law}{{6}{9}{Throughput and latency values for the read-only workload for baseline without middleware experiment with two servers.\relax }{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Explanation}{9}{subsubsection.2.2.1}}
+\newlabel{sec:csb2-exp}{{2.2.1}{9}{Explanation}{subsubsection.2.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Summary}{9}{subsection.2.3}}
+\newlabel{sec:csb-summary}{{2.3}{9}{Summary}{subsection.2.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Summary of baseline without middleware experiments.\relax }}{10}{table.caption.10}}
+\newlabel{tab:csb-summary}{{2}{10}{Summary of baseline without middleware experiments.\relax }{table.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Baseline with Middleware}{10}{section.3}}
+\newlabel{sec:mwb}{{3}{10}{Baseline with Middleware}{section.3}{}}
+\@writefile{tdo}{\contentsline {todo}{Comment about interactive law, maybe refer to the plot if included.}{10}{section*.11}}
+\pgfsyspdfmark {pgfid11}{19750487}{19036849}
+\pgfsyspdfmark {pgfid14}{36699366}{19050305}
+\pgfsyspdfmark {pgfid15}{38321382}{18805119}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}One Middleware}{10}{subsection.3.1}}
+\newlabel{sec:mwb1}{{3.1}{10}{One Middleware}{subsection.3.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Explanation}{10}{subsubsection.3.1.1}}
-\newlabel{fig:mwb1-wo-qlen-mini}{{9a}{11}{Avg. queue length\relax }{figure.caption.15}{}}
-\newlabel{sub@fig:mwb1-wo-qlen-mini}{{a}{11}{Avg. queue length\relax }{figure.caption.15}{}}
-\newlabel{fig:mwb1-wo-qtime-mini}{{9b}{11}{Avg. queue time\relax }{figure.caption.15}{}}
-\newlabel{sub@fig:mwb1-wo-qtime-mini}{{b}{11}{Avg. queue time\relax }{figure.caption.15}{}}
-\newlabel{fig:mwb1-wo-wtime-mini}{{9c}{11}{Avg. waiting time\relax }{figure.caption.15}{}}
-\newlabel{sub@fig:mwb1-wo-wtime-mini}{{c}{11}{Avg. waiting time\relax }{figure.caption.15}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with one middleware.\relax }}{11}{figure.caption.15}}
-\newlabel{fig:mwb1-wo-mini}{{9}{11}{Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.15}{}}
+\newlabel{sec:mwb1-exp}{{3.1.1}{10}{Explanation}{subsubsection.3.1.1}{}}
+\newlabel{fig:mwb1-ro-tp_mw}{{7a}{11}{Read-only throughput\relax }{figure.caption.12}{}}
+\newlabel{sub@fig:mwb1-ro-tp_mw}{{a}{11}{Read-only throughput\relax }{figure.caption.12}{}}
+\newlabel{fig:mwb1-ro-lat_mw}{{7b}{11}{Read-only latency\relax }{figure.caption.12}{}}
+\newlabel{sub@fig:mwb1-ro-lat_mw}{{b}{11}{Read-only latency\relax }{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Throughput and latency values for the read-only workload for baseline with middleware experiment with one middleware.\relax }}{11}{figure.caption.12}}
+\newlabel{fig:mwb1-ro_mw}{{7}{11}{Throughput and latency values for the read-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.12}{}}
+\newlabel{fig:mwb1-ro-qlen-mini}{{8a}{11}{Avg. queue length\relax }{figure.caption.13}{}}
+\newlabel{sub@fig:mwb1-ro-qlen-mini}{{a}{11}{Avg. queue length\relax }{figure.caption.13}{}}
+\newlabel{fig:mwb1-ro-qtime-mini}{{8b}{11}{Avg. queue time\relax }{figure.caption.13}{}}
+\newlabel{sub@fig:mwb1-ro-qtime-mini}{{b}{11}{Avg. queue time\relax }{figure.caption.13}{}}
+\newlabel{fig:mwb1-ro-wtime-mini}{{8c}{11}{Avg. waiting time\relax }{figure.caption.13}{}}
+\newlabel{sub@fig:mwb1-ro-wtime-mini}{{c}{11}{Avg. waiting time\relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with one middleware.\relax }}{11}{figure.caption.13}}
+\newlabel{fig:mwb1-ro-mini}{{8}{11}{Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.13}{}}
 \@writefile{tdo}{\contentsline {todo}{marginal change for tmw's}{11}{section*.16}}
-\pgfsyspdfmark {pgfid21}{27730023}{36499002}
-\pgfsyspdfmark {pgfid24}{36699366}{36512458}
-\pgfsyspdfmark {pgfid25}{38321382}{36267272}
-\@writefile{tdo}{\contentsline {todo}{BE WARY, rethink that, compare against csb values}{12}{section*.17}}
-\pgfsyspdfmark {pgfid26}{29055624}{43916508}
-\pgfsyspdfmark {pgfid29}{36699366}{43929964}
-\pgfsyspdfmark {pgfid30}{38321382}{43684778}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Two Middlewares}{12}{subsection.3.2}}
-\newlabel{fig:mwb2-ro-tp_mw}{{10a}{12}{Read-only throughput\relax }{figure.caption.18}{}}
-\newlabel{sub@fig:mwb2-ro-tp_mw}{{a}{12}{Read-only throughput\relax }{figure.caption.18}{}}
-\newlabel{fig:mwb2-ro-lat_mw}{{10b}{12}{Read-only latency\relax }{figure.caption.18}{}}
-\newlabel{sub@fig:mwb2-ro-lat_mw}{{b}{12}{Read-only latency\relax }{figure.caption.18}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Throughput and latency values for the read-only workload for baseline with middleware experiment with two middlewares.\relax }}{12}{figure.caption.18}}
-\newlabel{fig:mwb2-ro_mw}{{10}{12}{Throughput and latency values for the read-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.18}{}}
-\newlabel{fig:mwb2-ro-qlen-mini}{{11a}{12}{Avg. queue length\relax }{figure.caption.19}{}}
-\newlabel{sub@fig:mwb2-ro-qlen-mini}{{a}{12}{Avg. queue length\relax }{figure.caption.19}{}}
-\newlabel{fig:mwb2-ro-qtime-mini}{{11b}{12}{Avg. queue time\relax }{figure.caption.19}{}}
-\newlabel{sub@fig:mwb2-ro-qtime-mini}{{b}{12}{Avg. queue time\relax }{figure.caption.19}{}}
-\newlabel{fig:mwb2-ro-wtime-mini}{{11c}{12}{Avg. waiting time\relax }{figure.caption.19}{}}
-\newlabel{sub@fig:mwb2-ro-wtime-mini}{{c}{12}{Avg. waiting time\relax }{figure.caption.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with two middlewares.\relax }}{12}{figure.caption.19}}
-\newlabel{fig:mwb2-ro-mini}{{11}{12}{Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.19}{}}
-\newlabel{fig:mwb2-wo-tp_mw}{{12a}{13}{Write-only throughput\relax }{figure.caption.20}{}}
-\newlabel{sub@fig:mwb2-wo-tp_mw}{{a}{13}{Write-only throughput\relax }{figure.caption.20}{}}
-\newlabel{fig:mwb2-wo-lat_mw}{{12b}{13}{Write-only latency\relax }{figure.caption.20}{}}
-\newlabel{sub@fig:mwb2-wo-lat_mw}{{b}{13}{Write-only latency\relax }{figure.caption.20}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Throughput and latency values for the write-only workload for baseline with middleware experiment with two middlewares.\relax }}{13}{figure.caption.20}}
-\newlabel{fig:mwb2-wo_mw}{{12}{13}{Throughput and latency values for the write-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.20}{}}
-\newlabel{fig:mwb2-wo-qlen-mini}{{13a}{13}{Avg. queue length\relax }{figure.caption.21}{}}
-\newlabel{sub@fig:mwb2-wo-qlen-mini}{{a}{13}{Avg. queue length\relax }{figure.caption.21}{}}
-\newlabel{fig:mwb2-wo-qtime-mini}{{13b}{13}{Avg. queue time\relax }{figure.caption.21}{}}
-\newlabel{sub@fig:mwb2-wo-qtime-mini}{{b}{13}{Avg. queue time\relax }{figure.caption.21}{}}
-\newlabel{fig:mwb2-wo-wtime-mini}{{13c}{13}{Avg. waiting time\relax }{figure.caption.21}{}}
-\newlabel{sub@fig:mwb2-wo-wtime-mini}{{c}{13}{Avg. waiting time\relax }{figure.caption.21}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with two middlewares.\relax }}{13}{figure.caption.21}}
-\newlabel{fig:mwb2-wo-mini}{{13}{13}{Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.21}{}}
+\pgfsyspdfmark {pgfid16}{27730023}{9376002}
+\pgfsyspdfmark {pgfid19}{36699366}{9389458}
+\pgfsyspdfmark {pgfid20}{38321382}{9144272}
+\@writefile{tdo}{\contentsline {todo}{this whole paragraph needs review}{11}{section*.17}}
+\pgfsyspdfmark {pgfid21}{5850398}{8484712}
+\pgfsyspdfmark {pgfid24}{36699366}{5362434}
+\pgfsyspdfmark {pgfid25}{38321382}{5117248}
+\newlabel{fig:mwb1-wo-tp_mw}{{9a}{12}{Write-only throughput\relax }{figure.caption.14}{}}
+\newlabel{sub@fig:mwb1-wo-tp_mw}{{a}{12}{Write-only throughput\relax }{figure.caption.14}{}}
+\newlabel{fig:mwb1-wo-lat_mw}{{9b}{12}{Write-only latency\relax }{figure.caption.14}{}}
+\newlabel{sub@fig:mwb1-wo-lat_mw}{{b}{12}{Write-only latency\relax }{figure.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Throughput and latency values for the write-only workload for baseline with middleware experiment with one middleware.\relax }}{12}{figure.caption.14}}
+\newlabel{fig:mwb1-wo_mw}{{9}{12}{Throughput and latency values for the write-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.14}{}}
+\newlabel{fig:mwb1-wo-qlen-mini}{{10a}{12}{Avg. queue length\relax }{figure.caption.15}{}}
+\newlabel{sub@fig:mwb1-wo-qlen-mini}{{a}{12}{Avg. queue length\relax }{figure.caption.15}{}}
+\newlabel{fig:mwb1-wo-qtime-mini}{{10b}{12}{Avg. queue time\relax }{figure.caption.15}{}}
+\newlabel{sub@fig:mwb1-wo-qtime-mini}{{b}{12}{Avg. queue time\relax }{figure.caption.15}{}}
+\newlabel{fig:mwb1-wo-wtime-mini}{{10c}{12}{Avg. waiting time\relax }{figure.caption.15}{}}
+\newlabel{sub@fig:mwb1-wo-wtime-mini}{{c}{12}{Avg. waiting time\relax }{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with one middleware.\relax }}{12}{figure.caption.15}}
+\newlabel{fig:mwb1-wo-mini}{{10}{12}{Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with one middleware.\relax }{figure.caption.15}{}}
+\@writefile{tdo}{\contentsline {todo}{BE WARY, rethink that, compare against csb values}{13}{section*.18}}
+\pgfsyspdfmark {pgfid26}{29055624}{24308128}
+\pgfsyspdfmark {pgfid29}{36699366}{24321584}
+\pgfsyspdfmark {pgfid30}{38321382}{24076398}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Two Middlewares}{13}{subsection.3.2}}
+\newlabel{sec:mwb2}{{3.2}{13}{Two Middlewares}{subsection.3.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Explanation}{13}{subsubsection.3.2.1}}
-\@writefile{tdo}{\contentsline {todo}{waiting times}{13}{section*.22}}
-\pgfsyspdfmark {pgfid31}{26290794}{7129961}
-\pgfsyspdfmark {pgfid34}{36699366}{7143417}
-\pgfsyspdfmark {pgfid35}{38321382}{6898231}
+\newlabel{sec:mwb2-exp}{{3.2.1}{13}{Explanation}{subsubsection.3.2.1}{}}
+\newlabel{fig:mwb2-ro-tp_mw}{{11a}{14}{Read-only throughput\relax }{figure.caption.19}{}}
+\newlabel{sub@fig:mwb2-ro-tp_mw}{{a}{14}{Read-only throughput\relax }{figure.caption.19}{}}
+\newlabel{fig:mwb2-ro-lat_mw}{{11b}{14}{Read-only latency\relax }{figure.caption.19}{}}
+\newlabel{sub@fig:mwb2-ro-lat_mw}{{b}{14}{Read-only latency\relax }{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Throughput and latency values for the read-only workload for baseline with middleware experiment with two middlewares.\relax }}{14}{figure.caption.19}}
+\newlabel{fig:mwb2-ro_mw}{{11}{14}{Throughput and latency values for the read-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.19}{}}
+\newlabel{fig:mwb2-ro-qlen-mini}{{12a}{14}{Avg. queue length\relax }{figure.caption.20}{}}
+\newlabel{sub@fig:mwb2-ro-qlen-mini}{{a}{14}{Avg. queue length\relax }{figure.caption.20}{}}
+\newlabel{fig:mwb2-ro-qtime-mini}{{12b}{14}{Avg. queue time\relax }{figure.caption.20}{}}
+\newlabel{sub@fig:mwb2-ro-qtime-mini}{{b}{14}{Avg. queue time\relax }{figure.caption.20}{}}
+\newlabel{fig:mwb2-ro-wtime-mini}{{12c}{14}{Avg. waiting time\relax }{figure.caption.20}{}}
+\newlabel{sub@fig:mwb2-ro-wtime-mini}{{c}{14}{Avg. waiting time\relax }{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Average queue lengths, queue times and waiting times (server service times) for the read-only workload for baseline with middleware experiment with two middlewares.\relax }}{14}{figure.caption.20}}
+\newlabel{fig:mwb2-ro-mini}{{12}{14}{Average queue lengths, queue times and waiting times (server service times) for the read-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.20}{}}
+\@writefile{tdo}{\contentsline {todo}{waiting times}{14}{section*.23}}
+\pgfsyspdfmark {pgfid31}{23815005}{9376002}
+\pgfsyspdfmark {pgfid34}{36699366}{9389458}
+\pgfsyspdfmark {pgfid35}{38321382}{9144272}
+\newlabel{fig:mwb2-wo-tp_mw}{{13a}{15}{Write-only throughput\relax }{figure.caption.21}{}}
+\newlabel{sub@fig:mwb2-wo-tp_mw}{{a}{15}{Write-only throughput\relax }{figure.caption.21}{}}
+\newlabel{fig:mwb2-wo-lat_mw}{{13b}{15}{Write-only latency\relax }{figure.caption.21}{}}
+\newlabel{sub@fig:mwb2-wo-lat_mw}{{b}{15}{Write-only latency\relax }{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Throughput and latency values for the write-only workload for baseline with middleware experiment with two middlewares.\relax }}{15}{figure.caption.21}}
+\newlabel{fig:mwb2-wo_mw}{{13}{15}{Throughput and latency values for the write-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.21}{}}
+\newlabel{fig:mwb2-wo-qlen-mini}{{14a}{15}{Avg. queue length\relax }{figure.caption.22}{}}
+\newlabel{sub@fig:mwb2-wo-qlen-mini}{{a}{15}{Avg. queue length\relax }{figure.caption.22}{}}
+\newlabel{fig:mwb2-wo-qtime-mini}{{14b}{15}{Avg. queue time\relax }{figure.caption.22}{}}
+\newlabel{sub@fig:mwb2-wo-qtime-mini}{{b}{15}{Avg. queue time\relax }{figure.caption.22}{}}
+\newlabel{fig:mwb2-wo-wtime-mini}{{14c}{15}{Avg. waiting time (server service times)\relax }{figure.caption.22}{}}
+\newlabel{sub@fig:mwb2-wo-wtime-mini}{{c}{15}{Avg. waiting time (server service times)\relax }{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Average queue lengths, queue times and waiting times (server service times) for the write-only workload for baseline with middleware experiment with two middlewares.\relax }}{15}{figure.caption.22}}
+\newlabel{fig:mwb2-wo-mini}{{14}{15}{Average queue lengths, queue times and waiting times (server service times) for the write-only workload for baseline with middleware experiment with two middlewares.\relax }{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Summary}{15}{subsection.3.3}}
+\newlabel{sec:mwb-summary}{{3.3}{15}{Summary}{subsection.3.3}{}}
+\@writefile{tdo}{\contentsline {todo}{I should talk about queueing times and response times here possibly}{16}{section*.24}}
+\pgfsyspdfmark {pgfid36}{4736286}{23416838}
+\pgfsyspdfmark {pgfid39}{36699366}{23430294}
+\pgfsyspdfmark {pgfid40}{38321382}{23185108}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Summary of the baseline with one middleware.\relax }}{16}{table.caption.25}}
+\newlabel{tab:mwb1-summary}{{3}{16}{Summary of the baseline with one middleware.\relax }{table.caption.25}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Summary of the baseline with two middlewares.\relax }}{16}{table.caption.26}}
+\newlabel{tab:mwb2-summary}{{4}{16}{Summary of the baseline with two middlewares.\relax }{table.caption.26}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Throughput for Writes}{17}{section.4}}
+\newlabel{sec:tpfw}{{4}{17}{Throughput for Writes}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Full System}{17}{subsection.4.1}}
+\newlabel{sec:tpfw-fs}{{4.1}{17}{Full System}{subsection.4.1}{}}
+\newlabel{fig:tpfw-tp_mw}{{15a}{17}{Throughput\relax }{figure.caption.27}{}}
+\newlabel{sub@fig:tpfw-tp_mw}{{a}{17}{Throughput\relax }{figure.caption.27}{}}
+\newlabel{fig:tpfw-lat_mw}{{15b}{17}{Latency\relax }{figure.caption.27}{}}
+\newlabel{sub@fig:tpfw-lat_mw}{{b}{17}{Latency\relax }{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Throughput and latency values for the throughput for writes experiment, write-only workload.\relax }}{17}{figure.caption.27}}
+\newlabel{fig:tpfw_mw}{{15}{17}{Throughput and latency values for the throughput for writes experiment, write-only workload.\relax }{figure.caption.27}{}}
+\newlabel{fig:tpfw-qlen_mw}{{16a}{18}{Avg. queue length\relax }{figure.caption.28}{}}
+\newlabel{sub@fig:tpfw-qlen_mw}{{a}{18}{Avg. queue length\relax }{figure.caption.28}{}}
+\newlabel{fig:tpfw-qtime_mw}{{16b}{18}{Avg. queue time\relax }{figure.caption.28}{}}
+\newlabel{sub@fig:tpfw-qtime_mw}{{b}{18}{Avg. queue time\relax }{figure.caption.28}{}}
+\newlabel{fig:tpfw-wtime_mw}{{16c}{18}{Avg. waiting time (server service times)\relax }{figure.caption.28}{}}
+\newlabel{sub@fig:tpfw-wtime_mw}{{c}{18}{Avg. waiting time (server service times)\relax }{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Average queue lengths, queue times and waiting times (server service times) for the throughput for writes experiment, write-only workload.\relax }}{18}{figure.caption.28}}
+\newlabel{fig:tpfw_stats_mw}{{16}{18}{Average queue lengths, queue times and waiting times (server service times) for the throughput for writes experiment, write-only workload.\relax }{figure.caption.28}{}}
+\newlabel{fig:auxiliary-2-tp_mw}{{17a}{18}{Throughput\relax }{figure.caption.29}{}}
+\newlabel{sub@fig:auxiliary-2-tp_mw}{{a}{18}{Throughput\relax }{figure.caption.29}{}}
+\newlabel{fig:auxiliary-2-lat_mw}{{17b}{18}{Latency\relax }{figure.caption.29}{}}
+\newlabel{sub@fig:auxiliary-2-lat_mw}{{b}{18}{Latency\relax }{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Throughput and latency values for the auxiliary experiment, write-only workload with 64 worker threads on middlewares. tpfw stands for the throughput for writes experiment, whereas the mwb2 denotes the middleware baseline experiment with two baselines.\relax }}{18}{figure.caption.29}}
+\newlabel{fig:auxiliary-2_mw}{{17}{18}{Throughput and latency values for the auxiliary experiment, write-only workload with 64 worker threads on middlewares. tpfw stands for the throughput for writes experiment, whereas the mwb2 denotes the middleware baseline experiment with two baselines.\relax }{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Explanation}{18}{subsubsection.4.1.1}}
+\newlabel{sec:tpfw-exp}{{4.1.1}{18}{Explanation}{subsubsection.4.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Summary}{18}{subsection.4.2}}
+\newlabel{sec:tpfw-summary}{{4.2}{18}{Summary}{subsection.4.2}{}}
+\@writefile{tdo}{\contentsline {todo}{see how the predicted values do not really match the acutal values}{18}{section*.30}}
+\pgfsyspdfmark {pgfid41}{4736286}{17440624}
+\pgfsyspdfmark {pgfid44}{36699366}{17454080}
+\pgfsyspdfmark {pgfid45}{38321382}{17208894}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Summary of the throughput for writes experiments.\relax }}{19}{table.caption.31}}
+\newlabel{tab:tpfw-summary}{{5}{19}{Summary of the throughput for writes experiments.\relax }{table.caption.31}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Gets and Multi-gets}{19}{section.5}}
+\newlabel{sec:gmg}{{5}{19}{Gets and Multi-gets}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Sharded Case}{19}{subsection.5.1}}
+\newlabel{sec:gmg-true}{{5.1}{19}{Sharded Case}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Explanation}{19}{subsubsection.5.1.1}}
+\newlabel{sec:gmg-true-exp}{{5.1.1}{19}{Explanation}{subsubsection.5.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Non-sharded Case}{19}{subsection.5.2}}
+\newlabel{sec:gmg-false}{{5.2}{19}{Non-sharded Case}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Explanation}{19}{subsubsection.5.2.1}}
+\newlabel{sec:gmg-false-exp}{{5.2.1}{19}{Explanation}{subsubsection.5.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Histogram}{19}{subsection.5.3}}
+\newlabel{sec:gmg-hist}{{5.3}{19}{Histogram}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Summary}{19}{subsection.5.4}}
+\newlabel{sec:gmg-summary}{{5.4}{19}{Summary}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}2K Analysis}{19}{section.6}}
+\newlabel{sec:2k}{{6}{19}{2K Analysis}{section.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces $2^{k}$ experimental design used in this section, specifying the factors and treatments.\relax }}{19}{table.caption.32}}
+\newlabel{tab:2k-factors}{{6}{19}{$2^{k}$ experimental design used in this section, specifying the factors and treatments.\relax }{table.caption.32}{}}
+\newlabel{eq:add-model}{{1}{19}{2K Analysis}{equation.6.1}{}}
+\newlabel{eq:mult-model}{{2}{19}{2K Analysis}{equation.6.2}{}}
+\newlabel{eq:ssa}{{3}{20}{2K Analysis}{equation.6.3}{}}
+\newlabel{eq:sse}{{4}{20}{2K Analysis}{equation.6.4}{}}
+\newlabel{eq:sst}{{5}{20}{2K Analysis}{equation.6.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces An example system of equations for the $2^{k}$ factorial analyses. Specifically, this set of equations with the corresponding y values model the throughput for the write-only load, assuming additive variable effects. Variable xA, xB and xC denote respectively the effects of number of middlewares, number of servers and the number of worker threads in our model.\relax }}{20}{table.caption.33}}
+\newlabel{tab:2k-example-table}{{7}{20}{An example system of equations for the $2^{k}$ factorial analyses. Specifically, this set of equations with the corresponding y values model the throughput for the write-only load, assuming additive variable effects. Variable xA, xB and xC denote respectively the effects of number of middlewares, number of servers and the number of worker threads in our model.\relax }{table.caption.33}{}}
+\@writefile{tdo}{\contentsline {todo}{explain results here, fill the tables}{20}{section*.34}}
+\pgfsyspdfmark {pgfid46}{5850398}{21226267}
+\@writefile{tdo}{\contentsline {todo}{The SSE is the unexplained variation attributed to the experimental errors.}{20}{section*.35}}
+\pgfsyspdfmark {pgfid51}{5850398}{21226267}
+\@writefile{tdo}{\contentsline {todo}{The logarithmic transformation is useful only if the ratio y max /y min is large. For a small range the log function is almost linear, and so the analysis with the multiplicative model will produce results similar to that with the additive model.}{20}{section*.36}}
+\pgfsyspdfmark {pgfid56}{5850398}{21226267}
+\pgfsyspdfmark {pgfid49}{36699366}{21239723}
+\pgfsyspdfmark {pgfid50}{38321382}{20994537}
+\pgfsyspdfmark {pgfid54}{36699366}{16321409}
+\pgfsyspdfmark {pgfid55}{38321382}{16076223}
+\pgfsyspdfmark {pgfid59}{36699366}{5164065}
+\pgfsyspdfmark {pgfid60}{38321382}{4918879}
+\newlabel{tab:2k-ro}{{6}{20}{2K Analysis}{table.caption.37}{}}
+\newlabel{tab:2k-wo}{{6}{20}{2K Analysis}{table.caption.38}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Throughput analysis, read-only load\relax }}{20}{table.caption.37}}
+\newlabel{tab:2k-tpt-ro}{{8}{20}{Throughput analysis, read-only load\relax }{table.caption.37}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Latency analysis, read-only load\relax }}{20}{table.caption.37}}
+\newlabel{tab:2k-lat-ro}{{9}{20}{Latency analysis, read-only load\relax }{table.caption.37}{}}
 \bibcite{memcached}{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Summary}{14}{subsection.3.3}}
-\@writefile{tdo}{\contentsline {todo}{write a summary, explain the miss rates}{14}{section*.23}}
-\pgfsyspdfmark {pgfid36}{4736286}{40640088}
-\pgfsyspdfmark {pgfid39}{36699366}{40653544}
-\pgfsyspdfmark {pgfid40}{38321382}{40408358}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Summary of the baseline with one middleware.\relax }}{14}{table.caption.24}}
-\newlabel{tab:mwb1-summary}{{3}{14}{Summary of the baseline with one middleware.\relax }{table.caption.24}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Summary of the baseline with two middlewares.\relax }}{14}{table.caption.25}}
-\newlabel{tab:mwb2-summary}{{4}{14}{Summary of the baseline with two middlewares.\relax }{table.caption.25}{}}
-\newlabel{fig:tpfw-tp_mw}{{14a}{15}{Throughput\relax }{figure.caption.26}{}}
-\newlabel{sub@fig:tpfw-tp_mw}{{a}{15}{Throughput\relax }{figure.caption.26}{}}
-\newlabel{fig:tpfw-lat_mw}{{14b}{15}{Latency\relax }{figure.caption.26}{}}
-\newlabel{sub@fig:tpfw-lat_mw}{{b}{15}{Latency\relax }{figure.caption.26}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Throughput and latency values for the throughput for writes experiment, write-only workload.\relax }}{15}{figure.caption.26}}
-\newlabel{fig:tpfw_mw}{{14}{15}{Throughput and latency values for the throughput for writes experiment, write-only workload.\relax }{figure.caption.26}{}}
-\newlabel{fig:tpfw-qlen_mw}{{15a}{15}{Avg. queue length\relax }{figure.caption.27}{}}
-\newlabel{sub@fig:tpfw-qlen_mw}{{a}{15}{Avg. queue length\relax }{figure.caption.27}{}}
-\newlabel{fig:tpfw-qtime_mw}{{15b}{15}{Avg. queue time\relax }{figure.caption.27}{}}
-\newlabel{sub@fig:tpfw-qtime_mw}{{b}{15}{Avg. queue time\relax }{figure.caption.27}{}}
-\newlabel{fig:tpfw-wtime_mw}{{15c}{15}{Avg. waiting time\relax }{figure.caption.27}{}}
-\newlabel{sub@fig:tpfw-wtime_mw}{{c}{15}{Avg. waiting time\relax }{figure.caption.27}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Average queue lengths, queue times and waiting times for the throughput for writes experiment, write-only workload.\relax }}{15}{figure.caption.27}}
-\newlabel{fig:tpfw_stats_mw}{{15}{15}{Average queue lengths, queue times and waiting times for the throughput for writes experiment, write-only workload.\relax }{figure.caption.27}{}}
-\newlabel{fig:auxiliary-2-tp_mw}{{16a}{16}{Throughput\relax }{figure.caption.28}{}}
-\newlabel{sub@fig:auxiliary-2-tp_mw}{{a}{16}{Throughput\relax }{figure.caption.28}{}}
-\newlabel{fig:auxiliary-2-lat_mw}{{16b}{16}{Latency\relax }{figure.caption.28}{}}
-\newlabel{sub@fig:auxiliary-2-lat_mw}{{b}{16}{Latency\relax }{figure.caption.28}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Throughput and latency values for the auxiliary experiment, write-only workload with 64 worker threads on middlewares. tpfw stands for the throughput for writes experiment, whereas the mwb2 denotes the middleware baseline experiment with two baselines.\relax }}{16}{figure.caption.28}}
-\newlabel{fig:auxiliary-2_mw}{{16}{16}{Throughput and latency values for the auxiliary experiment, write-only workload with 64 worker threads on middlewares. tpfw stands for the throughput for writes experiment, whereas the mwb2 denotes the middleware baseline experiment with two baselines.\relax }{figure.caption.28}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Summary of the throughput for writes experiments.\relax }}{16}{table.caption.29}}
-\newlabel{tab:tpfw-summary}{{5}{16}{Summary of the throughput for writes experiments.\relax }{table.caption.29}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Throughput for Writes}{16}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Full System}{16}{subsection.4.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Explanation}{16}{subsubsection.4.1.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Summary}{16}{subsection.4.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Gets and Multi-gets}{16}{section.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Sharded Case}{16}{subsection.5.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Explanation}{16}{subsubsection.5.1.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Non-sharded Case}{16}{subsection.5.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Explanation}{16}{subsubsection.5.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Histogram}{16}{subsection.5.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Summary}{16}{subsection.5.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}2K Analysis}{16}{section.6}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Queuing Model}{16}{section.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}M/M/1}{16}{subsection.7.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}M/M/m}{16}{subsection.7.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Network of Queues}{16}{subsection.7.3}}
 \bibcite{memtier}{2}
 \bibcite{dstat}{3}
 \bibcite{cssh}{4}
 \bibcite{iperf}{5}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Throughput analysis, write-only load\relax }}{21}{table.caption.38}}
+\newlabel{tab:2k-tpt-wo}{{10}{21}{Throughput analysis, write-only load\relax }{table.caption.38}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Latency analysis, write-only load\relax }}{21}{table.caption.38}}
+\newlabel{tab:2k-lat-wo}{{11}{21}{Latency analysis, write-only load\relax }{table.caption.38}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Queuing Model}{21}{section.7}}
+\newlabel{sec:queueing-model}{{7}{21}{Queuing Model}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}M/M/1}{21}{subsection.7.1}}
+\newlabel{sec:mm1}{{7.1}{21}{M/M/1}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}M/M/m}{21}{subsection.7.2}}
+\newlabel{sec:mmm}{{7.2}{21}{M/M/m}{subsection.7.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Network of Queues}{21}{subsection.7.3}}
+\newlabel{sec:network-of-queues}{{7.3}{21}{Network of Queues}{subsection.7.3}{}}
+\@writefile{tdo}{\contentsline {todo}{You need to consider both 1 and 2 middleware configuration. You need to analyze both read only and write only workloads. You can set the number of worker threads to the constant that delivers highest throughput.}{21}{section*.39}}
+\pgfsyspdfmark {pgfid61}{4736286}{32352099}
+\pgfsyspdfmark {pgfid64}{36699366}{32365555}
+\pgfsyspdfmark {pgfid65}{38321382}{32120369}
