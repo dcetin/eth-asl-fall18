@@ -9,6 +9,10 @@ import sys
 # resbase="/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 
+plt.rcParams.update({'font.size': 14})
+plt.rc('xtick', labelsize=12) 
+plt.rc('ytick', labelsize=12) 
+
 # CHOOSE THE EXPERIMENT TYPE
 experiment = sys.argv[1] # e.g. "1-wo"
 out_format = sys.argv[2] # e.g. "show" or "save"
@@ -141,19 +145,18 @@ if experiment == "1-wo" or experiment == "2-wo":
 if experiment == "1-ro" or experiment == "2-ro":
 	subtitle = subtitle + ', read-only load'
 
-import matplotlib
-matplotlib.rc('xtick', labelsize=10) 
-
 if (1):
+
+	plt.figure(figsize=(8.3,5))
 	y = tptavg
 	yerr = tpterr
 	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Throughput', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tpttitle, fontsize=14, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
-	plt.legend(loc='upper left')
+	plt.figtext(.5,.95,tpttitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
+	plt.legend(loc='lower right')
 	plt.xticks(xticks)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
@@ -165,15 +168,17 @@ if (1):
 		plt.clf()
 
 if (1):
+
+	plt.figure(figsize=(8.3,5))
 	y = latavg
 	yerr = laterr
 	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Latency', marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=14, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
-	plt.legend(loc='upper left')
+	plt.figtext(.5,.95,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
+	plt.legend(loc='lower right')
 	plt.xticks(xticks)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
@@ -211,6 +216,8 @@ tptlabel = "Throughput (1000 ops/sec)"
 latlabel = "Latency (msec)"
 
 if (1):
+
+	plt.figure(figsize=(8.3,5))
 	y = law_tptavg
 	yerr = law_tpterr
 	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Predicted throughput', marker='o', capsize=2, capthick=1)
@@ -220,9 +227,9 @@ if (1):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_tpttitle, fontsize=14, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
-	plt.legend(loc='upper left')
+	plt.figtext(.5,.95,law_tpttitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
+	plt.legend(loc='lower right')
 	plt.xticks(xticks)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")
@@ -234,6 +241,8 @@ if (1):
 		plt.clf()
 
 if (1):
+
+	plt.figure(figsize=(8.3,5))
 	y = law_latavg
 	yerr = law_laterr
 	line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label='Predicted latency', marker='o', capsize=2, capthick=1)
@@ -243,9 +252,9 @@ if (1):
 
 	plt.ylabel(latlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_lattitle, fontsize=14, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
-	plt.legend(loc='upper left')
+	plt.figtext(.5,.95,law_lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
+	plt.legend(loc='lower right')
 	plt.xticks(xticks)
 	plt.ylim((0,np.max(y)*1.2))
 	plt.grid(True, axis="both")

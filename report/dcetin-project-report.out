@@ -1,0 +1,35 @@
+\BOOKMARK [1][-]{section.1}{System Overview}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{System Design}{section.1}% 2
+\BOOKMARK [3][-]{subsubsection.1.1.1}{Main thread}{subsection.1.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.1.2}{clientHandler \(net-thread\)}{subsection.1.1}% 4
+\BOOKMARK [3][-]{subsubsection.1.1.3}{serverHandlers \(worker-threads\)}{subsection.1.1}% 5
+\BOOKMARK [3][-]{subsubsection.1.1.4}{ScheduledControl}{subsection.1.1}% 6
+\BOOKMARK [2][-]{subsection.1.2}{Methodology}{section.1}% 7
+\BOOKMARK [1][-]{section.2}{Baseline without Middleware}{}% 8
+\BOOKMARK [2][-]{subsection.2.1}{One Server}{section.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Explanation}{subsection.2.1}% 10
+\BOOKMARK [2][-]{subsection.2.2}{Two Servers}{section.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Explanation}{subsection.2.2}% 12
+\BOOKMARK [2][-]{subsection.2.3}{Summary}{section.2}% 13
+\BOOKMARK [1][-]{section.3}{Baseline with Middleware}{}% 14
+\BOOKMARK [2][-]{subsection.3.1}{One Middleware}{section.3}% 15
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Explanation}{subsection.3.1}% 16
+\BOOKMARK [2][-]{subsection.3.2}{Two Middlewares}{section.3}% 17
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Explanation}{subsection.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.3}{Summary}{section.3}% 19
+\BOOKMARK [1][-]{section.4}{Throughput for Writes}{}% 20
+\BOOKMARK [2][-]{subsection.4.1}{Full System}{section.4}% 21
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Explanation}{subsection.4.1}% 22
+\BOOKMARK [2][-]{subsection.4.2}{Summary}{section.4}% 23
+\BOOKMARK [1][-]{section.5}{Gets and Multi-gets}{}% 24
+\BOOKMARK [2][-]{subsection.5.1}{Sharded Case}{section.5}% 25
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Explanation}{subsection.5.1}% 26
+\BOOKMARK [2][-]{subsection.5.2}{Non-sharded Case}{section.5}% 27
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Explanation}{subsection.5.2}% 28
+\BOOKMARK [2][-]{subsection.5.3}{Histogram}{section.5}% 29
+\BOOKMARK [2][-]{subsection.5.4}{Summary}{section.5}% 30
+\BOOKMARK [1][-]{section.6}{2K Analysis}{}% 31
+\BOOKMARK [1][-]{section.7}{Queuing Model}{}% 32
+\BOOKMARK [2][-]{subsection.7.1}{M/M/1}{section.7}% 33
+\BOOKMARK [2][-]{subsection.7.2}{M/M/m}{section.7}% 34
+\BOOKMARK [2][-]{subsection.7.3}{Network of Queues}{section.7}% 35

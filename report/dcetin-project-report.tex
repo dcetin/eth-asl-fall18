@@ -8,6 +8,9 @@
 \usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage{subcaption}
 \usepackage{lipsum}
+\usepackage{soul}
+\usepackage{dirtytalk}
+\usepackage{siunitx}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -57,107 +60,93 @@
 \newpage
 
 \section{System Overview} \label{sec:overview}
-Aim of the middleware is to collect and forward queries from clients to servers, wait for the responses and reply the clients back — all under specified conditions and configurations. Aforementioned servers and clients are the single-threaded instances of Memcached \cite{memcached} and of memtier\_benchmark \cite{memtier}, respectively. The design of the middleware spans several classes and functions that implement different functionalities. The classes operate in a multithreaded fashion so the different functionalities can work together asynchronously.
+We begin our introduction by first presenting the middleware system and its components (Section \ref{sec:ov-system-design}) and then discussing our methodology (Section \ref{sec:ov-methodology}) before moving on to the experiments and their results.
 
 \subsection{System Design} \label{sec:ov-system-design}
+This section details the inner structure of the middleware. Aim of this middleware is to collect and forward queries from clients to servers, wait for the responses and reply the clients back — all under specified conditions and configurations. Aforementioned servers and clients are the single-threaded instances of Memcached \cite{memcached} and of memtier\_benchmark \cite{memtier}, respectively. The design of the middleware spans several classes and functions that implement different functionalities. The classes operate in a multithreaded fashion so the different functionalities can work together asynchronously. Middleware continuously collect and aggregate statistics so that we can interpret and characterize different workload conditions and experimental configurations.
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.7\linewidth,trim={0px 0px 0px 0px},clip]{img/system-diagram.png}
-  \caption{A simplified diagram of the system showing the inner structure of the system and the interaction of its components in an informal manner. Circles represent the clientData objects and the squares represent the requestData objects, whose instances encapsulate the ones of the former. Dark gray rectangles represent the threads in the system, of which there are always three plus the size of the worker thread pool. Light gray rectangles represent the shared lists, of which there are three as shown. Light gray rounded rectangles illustrate the external systems, namely the clients and servers. Dashed line shows the communication with the welcomingSocket and the dotted line is net-thread checking if there is any request available. Solid lines represent the main information flow from clients to servers and again back to the clients.}
+  \includegraphics[width=0.8\linewidth,trim={0px 0px 0px 0px},clip]{img/system-diagram.png}
+  \caption{A simplified diagram of the system showing the inner structure of the system and the interaction of its components in an informal manner. Yellow circles represent the clientData objects and the orange squares represent the requestData objects, whose instances encapsulate the ones of the former. Dark blue rectangles represent the threads in the system, of which there are always three plus the size of the worker thread pool. Red rectangles represent the shared lists and queues which form the pipeline and help aggregation of the statistics. Green rounded rectangles illustrate the external systems, namely the clients and servers. Dashed line shows the communication with the welcomingSocket and the dotted line is net-thread checking if there is any request available. Solid lines represent the main information flow from clients to servers and again back to the clients.}
   \label{fig:system-diagram}
 \end{figure}
 
 \subsubsection{Main thread} \label{sec:overview-mainthread}
-Main thread of the \underline{MyMiddleware} class is responsible for setting up the working environment for the whole system. It first initializes the shared data structures that are to be used by other threads; namely, these are \underline{clientDataList} (which stores information about each one of the connected clients), \underline{requestQueue} (which is a first-in, first-out queue for queries awaiting execution) and \underline{finishedQueue} (which temporarily stores the completed requests for the aggregation of their statistics). It then creates a \underline{clientHandler} (so-called "net-thread", which is responsible for handling communication with clients) and the specified number of \underline{serverHandler} threads (so-called "worker-threads", which are responsible with for handling communication with the servers). Throughout this report, names clientHandler and net-thread will be used interchangeably. Same also applies for worker-threads and serverHandlers. Lastly, the main thread creates the \underline{welcomingSocket} and listens for incoming client connections in a loop. As soon as such a connection request is received, main thread creates the respective \underline{clientData} object and pushes it into the clientDataList.
+Main thread of the \underline{MyMiddleware} class is responsible for setting up the working environment for the whole system. It first initializes the shared data structures that are to be used by other threads; namely, these are \underline{clientDataList} (which stores information about each one of the connected clients), \underline{requestQueue} (which is a first-in, first-out queue for queries awaiting execution) and \underline{finishedQueue} (which temporarily stores the completed requests for the aggregation of their statistics). It then creates a \underline{clientHandler} (so-called \say{net-thread}, which is responsible for handling communication with clients) and the specified number of \underline{serverHandler} threads (so-called \say{worker-threads}, which are responsible with for handling communication with the servers). Throughout this report, names clientHandler and net-thread will be used interchangeably. Same also applies for worker-threads and serverHandlers. Lastly, the main thread creates the \underline{welcomingSocket} and listens for incoming client connections in a loop. As soon as such a connection request is received, main thread creates the respective \underline{clientData} object and pushes it into the clientDataList. welcomingSocket has a backlog queue for 512 connections, so it is expected to handle at most 512 concurrent incoming connections. This size is more than we will ever need with our experiments and provided as a safety measure.
 \par
 clientData objects store the information relevant for communicating with the clients. They consist of the net socket, its respective reader and writer streams, an identifier number and lastly a flag that denotes if the client has already sent its request and awaiting for reply.
 
 \subsubsection{clientHandler (net-thread)} \label{sec:ov-netthread}
-The clientHandler constantly iterates over the clientDataList, waiting for new requests from clients. It employs busy waiting as it non-blockingly check each client to see if there is an available request. As soon as it receives its first query from a client, clientHandler initializes the \underline{ScheduledControl} thread, which is responsible for periodically aggregating statistics of the system. clientHandler checks for each client if it has not been waiting for a repy and data is available in its reader stream. That means that client has a new request so the clientHandler creates a new \underline{RequestData} object and pushes it into the requestQueue for it to be handled by the worker-threads.
+The clientHandler constantly iterates over the clientDataList, waiting for new requests from clients. It employs busy waiting as it non-blockingly check each client to see if there is an available request. As soon as it receives its first query from a client, clientHandler initializes the \underline{ScheduledControl} thread, which is responsible for periodically aggregating statistics of the system. clientHandler checks for each client if it has not been waiting for a repy and data is available in its reader stream. That means that client has a new request so the clientHandler creates a new \underline{RequestData} object and pushes it into the requestQueue for it to be handled by the worker-threads. clientHandler thread does not parse or modify the requests and directly transfer them to the worker-threads.
 \par
-At the beginning of each iteration over the clientDataList, clientHandler compares the time with the timestamp of the last received query. If it is larger than some safe threshold, that means no other requests will arrive for our working conditions, so it moves on to close the system killing all threads. Before exiting clientHandler prints the response time histogram created by the ScheduledControl thread.
+At the beginning of each iteration over the clientDataList, clientHandler compares the time with the timestamp of the last received query. If it is larger than some safe threshold, that means no other requests will arrive for our working conditions, so it moves on to close the system killing all threads. Before exiting clientHandler prints the response time histograms created by the ScheduledControl thread.
 \par
 requestData objects contain the necessary relevant information about a request so that it can be executed correctly and its statistics can be aggregated with ease. Aside from information about its respective client, it stores an identifier number, the type of the request (set, get or multi-get), which server the request is sent to (if it is a get or multi-get request), which worker-thread handled the request, how many items were requested and received (if it is a get or multi-get request) and its timestamps.
 \par
-Timestamps are all kept in nanoseconds. \underline{ns\_netThreadReceived} marks the time net-thread received the request from the client. \underline{ns\_workerThreadReceived} marks the time the request has exited the request queue to be handled by a worker-thread. The difference of those two timestamps give the \textbf{waiting time in the queue}. Lastly, there is \underline{ns\_workerThreadFinished} that marks the worker-thread received an answer from the servers (either successful or not) and replied to the querying client for the request. The difference of this last two timestamps (namely ns\_workerThreadFinished and ns\_workerThreadReceived) gives the \textbf{service time of the memcached servers}. The terms queueing time and waiting time in the discussions that take place in the later sections refer respectively to waiting time in the queue and the service time of the memcached servers.
+Timestamps are all obtained in nanoseconds using Java's \texttt{System.nanoTime}. \underline{ns\_netThreadReceived} marks the time net-thread received the request from the client. \underline{ns\_workerThreadReceived} marks the time the request has exited the request queue to be handled by a worker-thread. The difference of those two timestamps give the \textbf{waiting time in the queue}. Lastly, there is \underline{ns\_workerThreadFinished} that marks the worker-thread received an answer from the servers (either successful or not) and replied to the querying client for the request. The difference of this last two timestamps (namely ns\_workerThreadFinished and ns\_workerThreadReceived) gives the \textbf{service time of the memcached servers}. The terms queueing time and waiting time in the discussions that take place in the later sections refer respectively to waiting time in the queue and the service time of the memcached servers.
 
 \subsubsection{serverHandlers (worker-threads)} \label{sec:ov-workerthread}
-serverHandler threads initially set up dedicated connections to each server with their reader and writer streams. They also operate in an infinite loop, waiting for new request to take from the requestQueue in a blocking manner. It is blocking as a worker thread has no other jobs than handling requests. As soon as there is an available request in the queue the worker-thread wakes up, marks the time and unpacks the requestData structure. Worker-threads are the ones that parse the messages, so the certain specifics of the requests are unknown to the system until they exit the queue. After it has been handled accordingly to its type, the resulting requestData is pushed into the finishedQueue.
+serverHandler threads initially set up dedicated connections to each server with their reader and writer streams. They also operate in an infinite loop, waiting for new request to take from the requestQueue in a blocking manner. It is blocking as a worker thread has no other jobs than handling requests. As soon as there is an available request in the queue the worker-thread wakes up, marks the time and unpacks the requestData structure. \textbf{Worker-threads are the ones that parse the messages}, so the certain specifics of the requests are unknown to the system until they exit the queue. After it has been handled accordingly to its type, the resulting requestData is pushed into the finishedQueue.
 \par
-If it is a set query, the request is sent to all of the servers and reported as successful to the client only if all the responses indicate so. If not, one of the error messages are relayed to the sender client. If it is a get request there are two possibilities. If it is a multi-get request in a multi-server setting with \texttt{readSharded} option provided as true, then it is sharded into smaller requests. If the query requests a single object, there is a single server or \texttt{readSharded} is provided as false, then the request will be sent to only one server. In either case, middleware employs a simple load balancing scheme through a round-robin scheduling. It iterates over all servers while sending get requests or the sharded get requests. For both set and get requests middleware first sends the requests to servers and then collect the responses. Middleware outputs for the later experiments confirm that thw workload is indeed distributed equally to multiple servers, as seen on Figure\ref{fig:equal-load}.
+If it is a set query, the request is sent to all of the servers and reported as successful to the client only if all the responses indicate so. If not, one of the error messages are relayed to the sender client. If it is a get request there are two possibilities. If it is a multi-get request in a multi-server setting with \texttt{readSharded} option provided as true, then it is sharded into smaller requests. If the query requests a single object, there is a single server or \texttt{readSharded} is provided as false, then the request will be sent to only one server. In either case, middleware employs a simple load balancing scheme through a round-robin scheduling. It iterates over all servers while sending get requests or the sharded get requests. For both set and get requests middleware first sends the requests to servers and then collect the responses. Middleware outputs for the later experiments confirm that the workload is indeed distributed equally to multiple servers, as seen on Figure \ref{fig:equal-load}.
+%
+%\begin{figure}[h]
+%\centering
+%\begin{subfigure}{.33\textwidth}
+%  \centering
+%  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-read-only.png}
+%  \caption{Read-only load}
+%  \label{fig:equal-load-read-only}
+%\end{subfigure}%
+%\begin{subfigure}{.33\textwidth}
+%  \centering
+%  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-write-only.png}
+%  \caption{Write-only load}
+%  \label{fig:equal-load-write-only}
+%\end{subfigure}%
+%\begin{subfigure}{.33\textwidth}
+%  \centering
+%  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-sharded-get.png}
+%  \caption{Sharded get requests}
+%  \label{fig:equal-load-sharded-get}
+%\end{subfigure}
+%\caption{Distribution of the requests to three servers over three repetitions. Each of the plots illustrate a different workload condition. Results are taken from the experiments of later sections. Figures \ref{fig:equal-load-read-only} and \ref{fig:equal-load-write-only} use the results from 2K experiments \ref{sec:2k} and Figure \ref{fig:equal-load-sharded-get} use those from gets and multi gets experiments \ref{sec:gmg}}
+%\label{fig:equal-load}
+%\end{figure}
 
 \begin{figure}[h]
-\centering
-\begin{subfigure}{.33\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-read-only.png}
-  \caption{Read-only load}
-  \label{fig:equal-load-read-only}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-write-only.png}
-  \caption{Write-only load}
-  \label{fig:equal-load-write-only}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-sharded-get.png}
-  \caption{Sharded get requests}
-  \label{fig:equal-load-sharded-get}
-\end{subfigure}
-\caption{Distribution of the requests to three servers over three repetitions. Each of the plots illustrate a different workload condition. Results are taken from the experiments of later sections. Figures \ref{fig:equal-load-read-only} and \ref{fig:equal-load-write-only} use the results from 2K experiments \ref{sec:2k} and Figure \ref{fig:equal-load-sharded-get} use those from gets and multi gets experiments \ref{sec:gmg}}
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/equal-load-all.png}
+\caption{Distribution of the requests to three servers over three repetitions. Each of the plots illustrate a different workload condition. Results are taken from the experiments of later sections. First two plot use the results from 2K experiments \ref{sec:2k} and the last plot use those from gets and multi gets experiments \ref{sec:gmg}. Experiment with read-only and write-only loads inspect 1 middleware with 8 threads, whereas the sharded read experiment is plotted using aggreagted results for the get requests in one of the two middlewares, on 1:6 workload ratio.}
 \label{fig:equal-load}
 \end{figure}
 
 \subsubsection{ScheduledControl} \label{sec:ov-scheduledcontrol}
-ScheduledControl is started by the net-thread as it receives its first request. It periodically wakes up, aggregates the new information, then sleeps again. It goes over the entries in finishedQueue in its each run, collecting type-specific statistics. ScheduledControl keeps track of the distribution of the response times for different types of requests by constructing a separate histogram for each type of request, namely sets, gets and multi-gets. While going over the list of requests the ScheduledControl assigns each of the requests to the appropriate histogram bin with respect to its response time and type. Additionally, length of the requestQueue is saved in each run of the ScheduledControl.
-
-\subsubsection{Internal parameters} \label{sec:ov-internalparameters}
-The system has several options hardcoded as parameters of MyMiddleware class:
-\begin{itemize}
-\item \texttt{verboseLogs} specifies if the system should output the work logs or not. Such logs are printed when a request is received, relayed to servers, got answered and replied back to the clients. It also prints out details about which thread handled the request, which client sent the request, to which server the request was sent to and the completely parsed messages and replies. It is a useful option for understanding the inner workings and state transitions of the middleware system. It should be set as false if user is not debugging.
-\item \texttt{verboseAggr} controls the outputting of the aggregated statistics. It is always true for our experiments as it is our main tool for analysing the system.
-\item \texttt{timeoutSecs} specifies the amoun of time the system should wait until new queries before shutting itself down. Altough the middleware can work seamlessly without any interruption, systems needs to be restarted to operate in its most efficient manner in its current implementation. 3 seconds are proved to be enough for our experiments.
-\item \texttt{initDelaySecs} and \texttt{periodSecs} respectively specify the initial delay and the period of the ScheduledControl runs. Both are given as 1, that means the ScheduledControl thread begins collecting data after an initial delay of 1 seconds and it wakes itself at the end of every 1 second period after that.
-\item \texttt{sep} sets the column separator to be used by ScheduledControl when outputting aggregated statistics. We output the aggregation table inside the output file in a comma separated format, so we set sep as \texttt{','}.
-\end{itemize}
+ScheduledControl is started by the net-thread as it receives its first request. It periodically wakes up, aggregates the statistics over the most recent requests, then sleeps again. It goes over the entries in finishedQueue in its each run, collecting type-specific statistics. \textbf{For all our experiments, the aggregation period is set as 1 second}.
+\par The thread aggregates the number of requests, queue waiting times and server waiting times separately for set, get and multi-get requests. For multi-get and get times, overall miss-rate is also aggregated together. Miss-rates are calculated over the total number of distinct get requests, breaking apart the multi-gets. For example, for two multi-gets with 5 keys if one item in one multi-get is a cache miss, the miss-rate is reported as 10\%, not as 50\%.
+\par ScheduledControl also keeps track of the distribution of the response times for different types of requests by constructing a separate histogram for each type of request, namely sets, gets and multi-gets. While going over the list of requests the ScheduledControl assigns each of the requests to the appropriate histogram bin with respect to its response time and type. Lastly, length of the requestQueue is saved in each run of the ScheduledControl.
 
 \subsection{Methodology} \label{sec:ov-methodology}
-\begin{table}
-\begin{minipage}{.5\textwidth}
-	\centering
-	\begin{tabular}{|l|c|}
-		\hline Number of servers                & nsvr		\\
-		\hline Number of client machines        & ncli		\\
-		\hline Instances of memtier per machine & icli		\\
-		\hline Threads per memtier instance     & tcli		\\
-		\hline Virtual clients per thread       & vcli		\\
-		\hline Workload                         & wrkld		\\
-		\hline 
-	\end{tabular}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
-	\centering
-	\begin{tabular}{|l|c|}
-		\hline Multi-Get behavior               & mgshrd	\\
-		\hline Multi-Get size                   & mgsize	\\
-		\hline Number of middlewares            & nmw		\\
-		\hline Worker threads per middleware    & tmw		\\
-		\hline Repetitions                      & reps		\\
-		\hline Test time                        & ttime		\\
-		\hline 
-	\end{tabular}
-\end{minipage}
-\caption{Abbreviations for experiment parameters.} \label{tab:param-abbrs}
-\end{table}
-All the necessary commands for initializing the experimental setup and conducting the experiments are provided in a companion file called \texttt{commands.sh}. It also exemplifies the usage of auxiliary technologies used for further analysing the system and its environment as well as it contains some other helpful commands for copying and plotting the experiment results. \texttt{plot} folder contains all scripts (and their eventual outputs) necessary for plotting the results placed under the \texttt{res} folder. Every plot provided inside or alongside this report is reproducible with the provided data and the scripts. \change{Probably should detail which scripts correspond to which experiments and how the results should be placed.}Lastly, \texttt{runner.sh} is the encapsulating script that runs the desired agent (i.e. client, middleware, server or dstat \cite{dstat} tool) for the configuration provided through the command line arguments. The arguments it expects share the same nomenclature we use	in scripts to refer the experiment parameters. Here, in Table \ref{tab:param-abbrs}, we list these abbreviations. Result directory hierarchy also obeys the same nomenclature.
-\par It is important to pay attention the order and timing of executing commands. Servers should be run first and the middlewares (if any) should start waiting connections. Then, both the clients and dstat processes should start simultaneously — we could do this by using Cluster SSH (also called as cssh) \cite{cssh}. Clients, middlewares and dstat processes ran accordingly for three separate repetitions, afterwards they should be restarted by hand. Another important thing to keep in mind while using the project codebase is to remember that the codes do not cover erroneous cases. For example, middleware does not support any other operations than set or get. Similarly, plotting scripts may not work with data with erroneous content, filenames, directory hierarchy and such.
-\\
 \par Three repetitions were seem to be sufficient all the experiments as both our middleware and the external systems it communicated had shown performances that stayed fairly stable under repetitions. Similarly, trimming five seconds of warm-up and cool-down periods, respectively at the beginning and the end of experiments, was found as sufficient through the initial exploratory experiments performed. Clients can lag behind around at most one second per a three repetition run, but it is still negligible with the times cut for warm-up and cool-down periods. Baseline without middleware expriments (Section \ref{sec:csb}) were run for 100 seconds per each iteration, yielding a one and a half minute period after cutting the warm-up and cool-down times. Experiments involving middleware (Sections \ref{sec:mwb}, \ref{sec:tpfw}, \ref{sec:gmg} and \ref{sec:2k} consists of three repetitions of 70-second runs yielding a 60 second stable period for aggregation.
-\par iPerf3 \cite{iperf} is used to measure the maximum achievable bandwith in between different machines in our environment. For each machine in every experiment, we collect data through dstat. dstat is run in its default mode, so it collects statistics cpu, disk, network, paging and system  statistics. It collects data every second after an initial delay of one second — similar to the ScheduledControl in our middleware.
-\\
-\par Error bars in plots show a range of one standard variance, unless indicated otherwise. Most of the plots have their x-axis as the number of clients. It is the effective number of different clients and is simply calculated by multiplying four numbers: number of virtual clients per thread, number of threads per memtier instance, number of memtier instances per virtual machine and the number of client machines. Using the abbreviations in Talbe \ref{tab:param-abbrs} the formula could be written as $numClients = vcli \times tcli \times icli \times ncli$. The term latency is used interchangeably with the term response time. Plots specify the source of measurements as middlewares or clients in their subtitles, so it is easy to find for a plot whose perspective it reflects.
+\par iPerf3 \cite{iperf} is used to measure the maximum achievable bandwith in between different machines in our environment. The results can be seen in Table \ref{tab:iperf3-bandwidth}. For each machine in every experiment, we collect data through dstat \cite{dstat}. dstat is run in its default mode, so it collects statistics cpu, disk, network, paging and system  statistics. It collects data every second after an initial delay of one second — similar to the ScheduledControl in our middleware.
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Machine & Bandwidth (Mbps) & Bandwidth (MB/s) & Effective bandwidth* (MB/s) \\ 
+\hline 
+Client & 200 & 25 & $\sim 24$ \\ 
+\hline 
+Middleware & 800 & 100 & $\sim 96$ \\ 
+\hline 
+Server & 100 & 12.5 & $\sim 12$ \\ 
+\hline 
+\end{tabular}}
+{*: for read-only and write-only workloads}
+\caption{Maximum achievable bandwidth values for all machines, obtained using iperf3. So-called ``effective bandwidth'' is the maximum bandwidth a machine can utilize only with the set queries or get replies. It is an informal measure that comes as useful while analyzing read-only and write-only workloads in later sections.} \label{tab:iperf3-bandwidth}
+\end{table}
+\par We illustrate the dispersion over different repetitions of individual experiments through standard variance. For every plot, error bars indicate a range of one standard variance calculated over the repetitions. At times such error bars may not be visible to the reader, indicating a fairly robust experimental setup. Most of the plots have their x-axis as the number of clients. It is the effective number of different clients and is simply calculated by multiplying four numbers: number of virtual clients per thread, number of threads per memtier instance, number of memtier instances per virtual machine and the number of client machines. Using the abbreviations in Talbe \ref{tab:param-abbrs} the formula could be written as $numClients = vcli \times tcli \times icli \times ncli$. The term latency is used interchangeably with the term response time. Plots specify the source of measurements as middlewares or clients in their subtitles, so it is easy to find for a plot whose perspective it reflects.
 \par For every experiment, interactive law is verified by both calculating the throughput from the response times and vice versa. As it would approximately double all the plots we provide here to show that the interactive law indeed holds for all the experiments, we only provide the illustration of this guarantee in Section \ref{sec:csb}. Figures \ref{fig:csb1-wo-law}, \ref{fig:csb1-ro-law}, \ref{fig:csb2-wo-law} and \ref{fig:csb2-ro-law} show the actual and predicted values coincide perfectly. Reader should feel free to run the provided scripts for other experiments and see the interactive law in action in other experiments as well.
 \\
 \par In  experiments involving the get operations the servers are always populated beforehand so miss rates are either realistic and negligible. Server population is always done in the same manner: first 99\% of the keys that are to be used in experiments were set by the sequential load option of the memtier. Therefore, for all the get requests we expect similar miss rates which are around 1\%. Some actual miss rates, from the baseline with middleware experiments, can be viewed in Section \ref{sec:mwb-summary}.
@@ -173,13 +162,13 @@ First setting contains three memtier clients connecting to one memcached server.
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb1-wo-law_tpt.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 35px 0px},clip]{img/plot/csb1-wo-law_tpt.png}
   \caption{Write-only throughput}
   \label{fig:csb1-wo-law_tpt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb1-wo-law_lat.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 40px 0px},clip]{img/plot/csb1-wo-law_lat.png}
   \caption{Write-only latency}
   \label{fig:csb1-wo-law_lat}
 \end{subfigure}
@@ -191,13 +180,13 @@ First setting contains three memtier clients connecting to one memcached server.
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb1-ro-law_tpt.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 35px 0px},clip]{img/plot/csb1-ro-law_tpt.png}
   \caption{Read-only throughput}
   \label{fig:csb1-ro-law_tpt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb1-ro-law_lat.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 40px 0px},clip]{img/plot/csb1-ro-law_lat.png}
   \caption{Read-only latency}
   \label{fig:csb1-ro-law_lat}
 \end{subfigure}
@@ -209,10 +198,10 @@ First setting contains three memtier clients connecting to one memcached server.
 We see the results for the one server configuration in Figures \ref{fig:csb1-wo-law} and \ref{fig:csb1-ro-law}. Plots show that the interactive law holds true for both experiments.
 
 \par For the write-only part, we can observe the systems starts as undersaturated and saturates around 144 clients by looking at the values of both plots. Throughput increases steadily until the saturation point, as additional clients are connected to the system. Afterwards we cannot observe even marginal increases in the throughput. We see a similar trend in the response time plot as it is slightly curved until around the saturation point but linear afterwards. After the saturation point, the systems cannot handle any more requests and the average response time increases linearly with respect to number of clients while there is no increase in throughput values as the system is already at full capacity.
-\par The reason behind this saturation is meeting the network bandwidth capacity. dstat files show that each client can send at most 24MB per second on average. Looking at the iperf results we can see that client to server communication is limited by 24MB per second for different configurations. As we send 4096B data that means we can send $\sim 6000$ requests per machine, $\sim 18000$ requests in total, and this corroborates our results.\maybe{is usage limited by correct, both here and below?}
+\par The reason behind this saturation is meeting the network bandwidth capacity. dstat files show that each client can send at most 24MB per second on average. Looking at the iperf results (Table \ref{tab:iperf3-bandwidth}) we can see that client to server communication is limited by 24MB per second for different configurations. As we send 4096B data that means we can send $\sim 6000$ requests per machine, $\sim 18000$ requests in total, and this corroborates our results.\maybe{is usage limited by correct, both here and below?}
 
 \par In the read-only part, we see that the system begins operating in the overly-saturated region for the minimum number of clients we can achieve, which is 6. We conclude this as we cannot observe any noticeable change in throughput when we vary the number of clients and the response time is approximately a linear function of the number of clients everywhere. Although we can see the absolute maximum of the throughput plot is at 32 clients, it is clear that the system becomes highly inefficient with the addition of each additional client to the system after 6 clients. Only increases in the throughput are quite marginal whereas response times double when we double the number of clients in the system.
-\par Again, dstat and iperf together confirm our assertions and indicates the reason for the saturation. iperf states the server to client connection is limited by 12MB per second and it is what we observe in our server for varying number of clients through all repetitions. This implies the server can reply to at most $\sim 3000$ requests per second and it is in line with our results.
+\par Again, dstat and iperf together confirm our assertions and indicates the reason for the saturation. iperf states the server to client connection is limited by 12MB per second (Table \ref{tab:iperf3-bandwidth}) and it is what we observe in our server for varying number of clients through all repetitions. This implies the server can reply to at most $\sim 3000$ requests per second and it is in line with our results.
 
 \subsection{Two Servers} \label{sec:csb2}
 This configuration deals with one client machine sending requests to two servers. This time the client machine has two instances of memtier running (each connected to a different server) with one client thread per instance. We again change the workload (write-only and read-only) and change the total number of clients by varying the virtual number of clients and observe the changes in the performance.
@@ -221,13 +210,13 @@ This configuration deals with one client machine sending requests to two servers
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb2-wo-law_tpt.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 35px 0px},clip]{img/plot/csb2-wo-law_tpt.png}
   \caption{Write-only throughput}
   \label{fig:csb2-wo-law_tpt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb2-wo-law_lat.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 40px 0px},clip]{img/plot/csb2-wo-law_lat.png}
   \caption{Write-only latency}
   \label{fig:csb2-wo-law_lat}
 \end{subfigure}
@@ -239,13 +228,13 @@ This configuration deals with one client machine sending requests to two servers
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb2-ro-law_tpt.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 35px 0px},clip]{img/plot/csb2-ro-law_tpt.png}
   \caption{Read-only throughput}
   \label{fig:csb2-ro-law_tpt}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/csb2-ro-law_lat.png}
+  \includegraphics[width=1.0\linewidth,trim={20px 0px 40px 0px},clip]{img/plot/csb2-ro-law_lat.png}
   \caption{Read-only latency}
   \label{fig:csb2-ro-law_lat}
 \end{subfigure}
@@ -255,7 +244,7 @@ This configuration deals with one client machine sending requests to two servers
 
 \subsubsection{Explanation} \label{sec:csb2-exp}
 Results are illustrated in Figures \ref{fig:csb2-wo-law} and \ref{fig:csb2-ro-law}. Unlike the first part, we obtain similar plots for both the read-only and the write-only case. We say that the system saturates when there is 8 clients in the system for both cases, as it is elbow point for the throughput plots and the response time values continue increasing linearly after crossing 8 clients. We can clearly say that the system is under saturated before those points as the throughput rises quickly we only see marginal changes in the response times in both workloads.
-\par The main reasons behind the saturation for both cases are the same: the network bandwith limitations. Although interestingly, the write-only and read-only cases have their bottlenecks in different parts of the network pipeline. Situtation is quite similar to the earlier results in Section \ref{sec:csb1}. For the write-only case, dstat outputs for the saturated configurations show that the client sends at most 24MB per second to servers, which is its limit confirmed by iperf statistics. This corresponds to a total of $\sim 6000$ requests distributed to two servers, corroborating our results. We also know through iperf that a server can send at most 12MB per second and and we see the same numbers in our dstat files for the read-only part. This equals to 24MB per second received by clients, again amounting to a total of $\sim 6000$ requests, this time as a result of another limiting factor. As a bottom line, both configuration saturating around 8 clients is a coincidental outcome of the bandwidth parameters since one configuration is limited by the client side whereas the other is limited by the server side.
+\par The main reasons behind the saturation for both cases are the same: the network bandwith limitations. Although interestingly, the write-only and read-only cases have their bottlenecks in different parts of the network pipeline. Situtation is quite similar to the earlier results in Section \ref{sec:csb1}. For the write-only case, dstat outputs for the saturated configurations show that the client sends at most 24MB per second to servers, which is its limit confirmed by iperf statistics (Table \ref{tab:iperf3-bandwidth}). This corresponds to a total of $\sim 6000$ requests distributed to two servers, corroborating our results. We also know through iperf that a server can send at most 12MB per second (Table \ref{tab:iperf3-bandwidth}) and and we see the same numbers in our dstat files for the read-only part. This equals to 24MB per second received by clients, again amounting to a total of $\sim 6000$ requests, this time as a result of another limiting factor. As a bottom line, both configuration saturating around 8 clients is a coincidental outcome of the bandwidth parameters since one configuration is limited by the client side whereas the other is limited by the server side.
 
 \subsection{Summary} \label{sec:csb-summary}
 Here, we comparatively analyse the different results for the previously discussed set of experiments. The results are explained in more detail in Sections \ref{sec:csb1-exp} and \ref{sec:csb2-exp}, so we will not be going into the specifics of each experiment here.
@@ -271,14 +260,14 @@ Here, we comparatively analyse the different results for the previously discusse
 \end{tabular}
 \caption{Summary of baseline without middleware experiments.} \label{tab:csb-summary}
 \end{table}
-\par Table \ref{tab:csb-summary} reports the maximum throughput obtained in both experiments and the configurations that allow such maxima. For both experiments under either read-only or write-only workload conditions, we have concluded that the bottleneck of the system is always the network bandwidth. Intuitively enough, write-only requests have large queries and small responses as they send the data to be stored and only return with a confirmation or an error message. The situation is reversed for the read-only workload as get requests merely contain the keys but their replies carry the data itself (as we get a hit rather than a miss almost everywhere). Therefore, it is in line with our expectations that the throughput values for the experiments with write-only workload are limited by the client to server bandwidth and similarly, throughput values for the read-only counterparts are limited by the server to client bandwidth. These arguments apparently reflect on our results in Table \ref{tab:csb-summary}. 
+\par Table \ref{tab:csb-summary} reports the maximum throughput obtained in both experiments and the configurations that allow such maxima. For both experiments under either read-only or write-only workload conditions, we have concluded that the bottleneck of the system is always the network bandwidth. Intuitively enough, write-only requests have large queries and small responses as they send the data to be stored and only return with a confirmation or an error message. The situation is reversed for the read-only workload as get requests merely contain the keys but their replies carry the data itself (as we get a hit rather than a miss almost everywhere). Therefore, it is in line with our expectations that the throughput values for the experiments with write-only workload are limited by the client to server bandwidth and similarly, throughput values for the read-only counterparts are limited by the server to client bandwidth. These arguments are clearly evidenced by our results in Table \ref{tab:csb-summary}. 
 \par Read-only throughput doubles as we introduce another server to our one server setting. Similarly for the write-only workload, by going from three load generating machines to a one client setting we can see expect the throughput to become one third of what it was before.
 \\
 \par As a side note, we observe only the write-only workload with three client machines resulting a high percentage of CPU usage in servers, in the saturated region. The idle time of the server for this setting is under $20\%$ most of the time. Aside from this specific case not one server or client experience any high CPU utilization, idle times are consistently above $90\%$.
 \par It is also worth noting that for the read-only workload in one server setting (Section \ref{sec:csb1-exp}) we state the system is overly-saturated rather than saturated with the presence of 6 clients, even though we do not have any information regarding the fewer number of clients. It is the outcome of a comparison with the read-only experiments with two servers and one client, as we notice that with 6 clients on client machine can help achieve a throughput around 2000 requests. Keeping in mind that the server performance is not a bottleneck anywhere in these experiments we can expect that three clients in one server hypothetically achieveing a throughput of 6000 requests whereas the actual value is only the half of it. Then we conclude that system saturates even earlier, whose effective number of clients we cannot observe with our experimental design.
 
 \section{Baseline with Middleware} \label{sec:mwb}
-In this section, we observe the changes in the overall system when the middleware is introduced to the environment, as well as we discuss the characteristics of the middleware that we can observe in the scope of this set of experiments. \change{Comment about interactive law, maybe refer to the plot if included.}
+In this section, we observe the changes in the overall system when the middleware is introduced to the environment, as well as we discuss the characteristics of the middleware that we can observe in the scope of this set of experiments. Interactive law for every experiment is verified using the measurements on clients. More discussion on interactive law can be found at the end of Section \ref{sec:mwb-summary}.
 
 \subsection{One Middleware} \label{sec:mwb1}
 First experiment for this section is conducted on three client machines connected to one middleware, which in turn connected to one server. Apart from experimenting with two workloads (read-only and write-only) and varying the number of virtual clients we also change the number of worker threads in the middleware.
@@ -287,13 +276,13 @@ First experiment for this section is conducted on three client machines connecte
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-ro-tp_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-tp_mw.png}
   \caption{Read-only throughput}
   \label{fig:mwb1-ro-tp_mw}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-ro-lat_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-lat_mw.png}
   \caption{Read-only latency}
   \label{fig:mwb1-ro-lat_mw}
 \end{subfigure}
@@ -305,19 +294,19 @@ First experiment for this section is conducted on three client machines connecte
 \centering
 \begin{subfigure}{.33\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-ro-qlen-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-qlen-mini.png}
   \caption{Avg. queue length}
   \label{fig:mwb1-ro-qlen-mini}
 \end{subfigure}%
 \begin{subfigure}{.33\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-ro-qtime-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-qtime-mini.png}
   \caption{Avg. queue time}
   \label{fig:mwb1-ro-qtime-mini}
 \end{subfigure}%
 \begin{subfigure}{.33\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-ro-wtime-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-wtime-mini.png}
   \caption{Avg. waiting time}
   \label{fig:mwb1-ro-wtime-mini}
 \end{subfigure}
@@ -329,13 +318,13 @@ First experiment for this section is conducted on three client machines connecte
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-tp_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-wo-tp_mw.png}
   \caption{Write-only throughput}
   \label{fig:mwb1-wo-tp_mw}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-lat_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-wo-lat_mw.png}
   \caption{Write-only latency}
   \label{fig:mwb1-wo-lat_mw}
 \end{subfigure}
@@ -369,7 +358,7 @@ First experiment for this section is conducted on three client machines connecte
 
 \subsubsection{Explanation} \label{sec:mwb1-exp}
 Plots in Figures \ref{fig:mwb1-ro_mw} and \ref{fig:mwb1-wo_mw} illustrate the throughput and response time measured on the middleware, respectively for read-only and write-only loads. With the read-only load, we observe a trend quite similar to the read-only results in baselines without middleware. Until we reach around 24 clients we can observe quite an increase in the throughput which is only accompanied by relatively smaller increases in the response time, regardless of the size of the thread pool in middleware. Afterwards, the trend is again the same for different number of threads: an increase in the number of clients results in a linear increase in the response times and does not change the average throughput obtained. Therefore, we state that the system saturates when there are around 24 clients in the system, regardless of the size of the worker thread pool in the middleware.
-\par The reason behind this saturation is familiar to us from the previous sections: server to middleware connection is limited by a bandwidth of 12MB per second, so the server cannot send more replies because of the network limitations. This saturation happens so early in the system that we do not get to observe the effects of different threads in middleware. In other words, the middleware works efficiently even with 8 worker threads until the system saturates, so any number of worker threads could hypothetically handle more work if the server could be able respond more clients. It should also be noted that we cannot observe any network-wise limitations on top of the server-side send bottleneck and the CPU usage is fairly low for all the machines in the system ($80\%$ idle time at worst), as per dstat and iperf. \change{marginal change for tmw's}
+\par The reason behind this saturation is familiar to us from the previous sections: server to middleware connection is limited by a bandwidth of 12MB per second (Table \ref{tab:iperf3-bandwidth}), so the server cannot send more replies because of the network limitations. This saturation happens so early in the system that we do not get to observe the effects of different threads in middleware. In other words, the middleware works efficiently even with 8 worker threads until the system saturates, so any number of worker threads could hypothetically handle more work if the server could be able respond more clients. It should also be noted that we cannot observe any network-wise limitations on top of the server-side send bottleneck and the CPU usage is fairly low for all the machines in the system ($80\%$ idle time at worst), as per dstat and iperf. \change{marginal change for tmw's}
 \par \change{this whole paragraph needs review} Figure \ref{fig:mwb1-ro-qlen-mini} illustrates the average queue lengths for various configurations. As the system is network bound for this workload, the server can only reply a portion of the requests while the other thread wait to send their requests. We expect these number of waiting threads to be very small, if the number of clients are smaller than the number of middleware threads. For the range the number of clients are greater than the worker of threads every additional client should increase the average queue length linearly. The plot confirms both our intuitions as for every different number of worker threads the queue length stay close to zero until the number of clients exceed the number of worker threads and the difference in queue lengths for the linear region is proportional to the number of clients. Lastly, we can see by comparing the values in Figures \ref{fig:mwb1-ro-qlen-mini} and \ref{fig:mwb1-ro-qtime-mini} that the queue times and the queue lengths have an approximately linear correlation as expected. The reason behind such relation is that as the system is network bound it is not the middleware but the server side that affects the queue times in the saturated region so changing the number of worker threads does not make a difference.
 \\
 \par In the write-only case, we can observe a trend which is completely different from the read-only case, as the network is no longer our bottleneck. The trend until reaching 24 clients is similar with the read-only case as differences in the number of worker threads do not correspond to a difference in terms of the performance of the system, except 8 thread configuration which saturates around 24 clients. This is because the system is under-saturated for 16, 32 and 64 threads so we can expect their throughput and response time statistics to go hand in hand as the number of worker threads do not result in a noticeable difference in these metrics under light workload conditions. As we introduce more and more clients to the system we observe more divergence with respect to performance for different number of threads in the middleware.
@@ -381,59 +370,18 @@ Plots in Figures \ref{fig:mwb1-ro_mw} and \ref{fig:mwb1-wo_mw} illustrate the th
 \subsection{Two Middlewares} \label{sec:mwb2}
 Second experiment for this section again has an environment with three clients and one server, but two middlewares instead of one. Again, we vary the workloads, number of clients and number of worker threads in the middleware and discuss the results.
 
-\begin{figure}[h]
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-tp_mw.png}
-  \caption{Read-only throughput}
-  \label{fig:mwb2-ro-tp_mw}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-lat_mw}
-  \caption{Read-only latency}
-  \label{fig:mwb2-ro-lat_mw}
-\end{subfigure}
-\caption{Throughput and latency values for the read-only workload for baseline with middleware experiment with two middlewares.}
-\label{fig:mwb2-ro_mw}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-qlen-mini.png}
-  \caption{Avg. queue length}
-  \label{fig:mwb2-ro-qlen-mini}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-qtime-mini.png}
-  \caption{Avg. queue time}
-  \label{fig:mwb2-ro-qtime-mini}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-wtime-mini.png}
-  \caption{Avg. waiting time}
-  \label{fig:mwb2-ro-wtime-mini}
-\end{subfigure}
-\caption{Average queue lengths, queue times and waiting times (server service times) for the read-only workload for baseline with middleware experiment with two middlewares.}
-\label{fig:mwb2-ro-mini}
-\end{figure}
 
 \begin{figure}[h]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-tp_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-wo-tp_mw.png}
   \caption{Write-only throughput}
   \label{fig:mwb2-wo-tp_mw}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-lat_mw}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-wo-lat_mw}
   \caption{Write-only latency}
   \label{fig:mwb2-wo-lat_mw}
 \end{subfigure}
@@ -465,6 +413,48 @@ Second experiment for this section again has an environment with three clients a
 \label{fig:mwb2-wo-mini}
 \end{figure}
 
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-ro-tp_mw.png}
+  \caption{Read-only throughput}
+  \label{fig:mwb2-ro-tp_mw}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-ro-lat_mw}
+  \caption{Read-only latency}
+  \label{fig:mwb2-ro-lat_mw}
+\end{subfigure}
+\caption{Throughput and latency values for the read-only workload for baseline with middleware experiment with two middlewares.}
+\label{fig:mwb2-ro_mw}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.33\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-qlen-mini.png}
+  \caption{Avg. queue length}
+  \label{fig:mwb2-ro-qlen-mini}
+\end{subfigure}%
+\begin{subfigure}{.33\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-qtime-mini.png}
+  \caption{Avg. queue time}
+  \label{fig:mwb2-ro-qtime-mini}
+\end{subfigure}%
+\begin{subfigure}{.33\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-wtime-mini.png}
+  \caption{Avg. waiting time}
+  \label{fig:mwb2-ro-wtime-mini}
+\end{subfigure}
+\caption{Average queue lengths, queue times and waiting times (server service times) for the read-only workload for baseline with middleware experiment with two middlewares.}
+\label{fig:mwb2-ro-mini}
+\end{figure}
+
 \subsubsection{Explanation} \label{sec:mwb2-exp}
 Plots in Figures \ref{fig:mwb2-wo_mw} and \ref{fig:mwb2-wo-mini} illustrate various statistics for the write-only load. We see results similar to the one middleware setup. System saturates at different number of clients for different number of worker threads. For the same average queue lengths, the queue times shorten as the number of worker threads increases. Again the number of working threads is our limiting factor for the system performance. Thus, we conclude the middleware being the bottleneck for the write-only case with two middlewares. Again, we find it intuitive that the statistics for the one middleware setup matches those of the two middleware setup with the half amount of worker threads, as it was the case with the read-only workload.
 \par An intuitive correlation is as follows: statistics for the 8, 16 and 32 thread configurations for two middleware setup matches respectively with the 16, 32 and 64 thread settings for the one middleware. In other words, doubling the number of threads for one midleware has the same effects as introducing another middleware with the same number of threads on the system. Although, we can only say that for our experimental setup and configurations and this equivalence may not hold for factors much greater than two.
@@ -473,14 +463,6 @@ Plots in Figures \ref{fig:mwb2-wo_mw} and \ref{fig:mwb2-wo-mini} illustrate vari
 
 \subsection{Summary} \label{sec:mwb-summary}
 Tables \ref{tab:mwb1-summary} and \ref{tab:mwb2-summary} reports the results for the middleware experiments, respectively the one middleware and the two middleware setups. All of the results shown in the tables are from the 64 worker thread configuration of the respective experiments.
-\\
-\par First thing we can do is to compare the values aggregated by the clients with those obtained by the middlewares. Throughput and miss rate statistics show that they are approximately, but not absolutely, equal. As we aggregate data after cutting the warm-up and cool-down periods on both client and middleware outputs, this is a natural result. It is verified through additional experiments that the statistics match completely if the aggregations were to be done on the entirety of the data collected by both sides.
-\par For response times, there is a significant but consistent difference between the averaged values reported by the middlewares and the clients. Client response times also include the time a request requires to travel from a client to a middleware and its reply from the middleware to the client, similarly. The difference between the aforementioned response times are equal to the round-trip time (RTT) of the clients and serves for the respective experiments. We can also observe that this RTT is not always constant. It is again natural as the network characteristics may fluctuate in between (and even during) experiments and we also employ multiple clients on different physical machines, we expect not a constant difference but a RTT that samples a probability distribution.
-\par As discussed in Section \ref{sec:ov-methodology}, we populate the server with the 99\% of the keys we will use in the read-only experiments. This, in turn, (together with the fact that we do not allow any expiry) means that for each read-only experiment we should observe a miss rate around 1\% when looked from both middleware and client perspectives. Looking at the reported miss rates we can see that the values observed is in line with our expectations and client results corroborate the middleware aggregations.
-\\
-\par As explained in the preceding sections, maximum read-only throughput is just under 3000 requests per second, for both experiments. As the system is network bound under read-only load, changes in the number of middleware and the number of worker threads per middleware change neither where the system saturates, nor the maximum throughput achieved. Write-only experiments present us with a different picture. As the bottleneck of the system is middleware for both configurations, we see an increase in the maximum throughput obtained when we add a new middleware to the environment. This holds true not only for the 64 thread configuration which gives the best performance but for all sizes of the worker-thread pool. Looking once again at the Figures \ref{fig:mwb1-wo_mw} and \ref{fig:mwb2-wo_mw} we can see the saturation points for all worker-thread configurations go up with respect to clients. To illustrate, one middleware with 16 worker threads is already saturated with 48 clients but with two middlewares of 16 threads we see a continuous increase lasting between 72 and 96 clients. As discussed before, doubling the the number of middlewares has approximately the same effects on the system performance as doubling the size of the worker-thread pools in middlewares.
-\par Lastly, we note that even with two middlewares of 64 threads we cannot reach the maximum throughput achieved without middleware in the environment. We say the parameter values explored through experiments of this section is not enough to obtain performances comparable to the ones in Section \ref{sec:csb1}. For the same number of clients, additional network delays incurred and the overhead of the middlewares result in lower performances with the systems with middlewares.
-\change{I should talk about queueing times and response times here possibly}
 
 \begin{table}[h]
 \centering
@@ -495,7 +477,6 @@ Tables \ref{tab:mwb1-summary} and \ref{tab:mwb2-summary} reports the results for
 \end{tabular}
 \caption{Summary of the baseline with one middleware.} \label{tab:mwb1-summary}
 \end{table}
-
 \begin{table}[h]
 \centering
 {Maximum throughput for two middlewares.}
@@ -509,6 +490,32 @@ Tables \ref{tab:mwb1-summary} and \ref{tab:mwb2-summary} reports the results for
 \end{tabular}
 \caption{Summary of the baseline with two middlewares.} \label{tab:mwb2-summary}
 \end{table}
+\par First thing we can do is to compare the values aggregated by the clients with those obtained by the middlewares. Throughput and miss rate statistics show that they are approximately, but not absolutely, equal. As we aggregate data after cutting the warm-up and cool-down periods on both client and middleware outputs, this is a natural result. It is verified through additional experiments that the statistics match completely if the aggregations were to be done on the entirety of the data collected by both sides.
+\par For response times, there is a significant but consistent difference between the averaged values reported by the middlewares and the clients. Client response times also include the time a request requires to travel from a client to a middleware and its reply from the middleware to the client, similarly. The difference between the aforementioned response times are equal to the round-trip time (RTT) of the clients and serves for the respective experiments. We can also observe that this RTT is not always constant. It is again natural as the network characteristics may fluctuate in between (and even during) experiments and we also employ multiple clients on different physical machines, we expect not a constant difference but a RTT that samples a probability distribution.
+\par As discussed in Section \ref{sec:ov-methodology}, we populate the server with the 99\% of the keys we will use in the read-only experiments. This, in turn, (together with the fact that we do not allow any expiry) means that for each read-only experiment we should observe a miss rate around 1\% when looked from both middleware and client perspectives. Looking at the reported miss rates we can see that the values observed is in line with our expectations and client results corroborate the middleware aggregations. The marginal difference between values reported by clients and middlewares are due to times cut, as it is the case with throughput values.
+\\
+\par As explained in the preceding sections, maximum read-only throughput is just under 3000 requests per second, for both experiments. As the system is network bound under read-only load, changes in the number of middleware and the number of worker threads per middleware change neither where the system saturates, nor the maximum throughput achieved. Write-only experiments present us with a different picture. As the bottleneck of the system is middleware for both configurations, we see an increase in the maximum throughput obtained when we add a new middleware to the environment. This holds true not only for the 64 thread configuration which gives the best performance but for all sizes of the worker-thread pool. Looking once again at the Figures \ref{fig:mwb1-wo_mw} and \ref{fig:mwb2-wo_mw} we can see the saturation points for all worker-thread configurations go up with respect to clients. To illustrate, one middleware with 16 worker threads is already saturated with 48 clients but with two middlewares of 16 threads we see a continuous increase lasting between 72 and 96 clients. As discussed before, doubling the the number of middlewares has approximately the same effects on the system performance as doubling the size of the worker-thread pools in middlewares.
+\par Lastly, we note that even with two middlewares of 64 threads we cannot reach the maximum throughput achieved without middleware in the environment. We say the parameter values explored through experiments of this section is not enough to obtain performances comparable to the ones in Section \ref{sec:csb1}. For the same number of clients, additional network delays incurred and the overhead of the middlewares result in lower performances with the systems with middlewares.
+\change{I should talk about queueing times and response times here possibly}
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-wo-tp_law_cli.png}
+  \caption{Predictions on client measurements}
+  \label{fig:mwb2-wo-tp_law_cli}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-wo-tp_law_mw.png}
+  \caption{Predictions on adapted middleware measurements}
+  \label{fig:mwb2-wo-tp_law_mw}
+\end{subfigure}
+\caption{Application of the interactive law illustrated for predcitions made using client and midleware measurements. Each response time observed in middleware is increased by a constant amount to simulate the effects of RTT between clients and the middlewares. Results not being perfect indicate the RTT values are changing during experiments. These results show that RTT is not a constant value as in the ideal case, but it is a random variable.}
+\label{fig:mwb2-wo-tp_law}
+\end{figure}
+\par Figure \ref{fig:mwb2-wo-tp_law_cli} provides an example illustration of the interactive law, reader should compare this plot with the actual values in Figure \ref{fig:mwb2-ro-tp_mw}. We only provide one exemplary plot here and the reader should feel free to use provided scripts and auxiliary plots to see the interactive law in action on other configurations that include middleware.
+\par If we were to use the middleware measurements to predict the corresponding values, we would need to adapt the observed values. Our approach is to take the RTT between client and middleware machines as the think time of the clients when viewed from the perspective of the middleware. If we add the observed RTT times to the middleware response times for each experiment we would simply obtained the exact same results as ones with the client measurements. Instead, we also try modifying the middleware response times with an approximate RTT value for all expeirments and the results can be still satisfactory. Figure \ref{fig:mwb2-wo-tp_law_mw} illustrates such a case (actual values again in Figure \ref{fig:mwb2-ro-tp_mw}). Reader can see some discrepancies between actual and the predicted values, which indicates the end-to-end delays not being constant for the duration of one experimental configuration, even using the same physical setup. Quite intuitively, we cannot perfectly estimate the actual throughput and response time values from the middleware observations without knowing the network conditions for that specific experiment.
 
 \section{Throughput for Writes} \label{sec:tpfw}
 This section inspects the system with three clients, two middlewares and three servers, under write-only load. Number of worker-threads and the number of clients are varied in order to understand the characteristic of the system through different configurations.
@@ -600,34 +607,37 @@ Figures \ref{fig:tpfw-tp_mw} and \ref{fig:tpfw-lat_mw} illustrate the average th
 \end{table}
 
 \section{Gets and Multi-gets} \label{sec:gmg}
+This experiment again deals with the full sytem having 3 clients, 2 middlewares and 3 servers. Each of the two middleware has 8 worker threads. Clients sen multi-get requests together with set requests and set to multi-get ratio for each experiment is $1:X$ where $X$ is the number of keys in the multi-get requests. We change this key size and see how the system reacts. A comparative analysis is made on effects of the sharded and non-sharded aproaches with multi-get handling.
 \begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-mget-lat_cli.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-mget-lat_cli.png}
   \caption{Latency}
   \label{fig:gmg-mget-lat_cli}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-mget-tpt_cli.png}
-  \caption{Throughput}
-  \label{fig:gmg-mget-tpt_cli}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-mget-wtime_mw.png}
+  \caption{Server waiting times}
+  \label{fig:gmg-mget-wtime_mw}
 \end{subfigure}
 \caption{Throughput and response times of sharded and non-sharded reads in different key size experiments}
-\label{fig:gmg-mget_cli}
+\label{fig:gmg-mget_general}
 \end{figure}
 
 \subsection{Sharded Case} \label{sec:gmg-true}
+In sharded case we split the multi-get requests send all splits to respective servers and proceed to listen for replies in the order we sent the requests.
+
 \begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-perc-true.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-perc-true.png}
   \caption{Sharded case}
   \label{fig:gmg-perc-true}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-perc-false.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-perc-false.png}
   \caption{Non-sharded case}
   \label{fig:gmg-perc-false}
 \end{subfigure}
@@ -645,61 +655,76 @@ Figures \ref{fig:tpfw-tp_mw} and \ref{fig:tpfw-lat_mw} illustrate the average th
 \begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-hist6-true-mget_clients.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-hist6-true-mget_clients.png}
   \caption{Sharded case, client measurements}
   \label{fig:gmg-hist6-true-mget_clients}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-hist6-true-mget_middlewares.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-hist6-true-mget_middlewares.png}
   \caption{Sharded case, middleware measurements}
   \label{fig:gmg-hist6-true-mget_middlewares}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-hist6-false-mget_clients.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-hist6-false-mget_clients.png}
   \caption{Non-sharded case, client measurements}
   \label{fig:gmg-hist6-false-mget_clients}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/gmg-hist6-false-mget_middlewares.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-hist6-false-mget_middlewares.png}
   \caption{Non-sharded case, middleware measurements}
   \label{fig:gmg-hist6-false-mget_middlewares}
 \end{subfigure}
-\caption{Response time distribution histograms for 6 key case. Bucket size is chosen as $100\mu s$ for all histograms, except for their last bins which contains the number of outlier response times that are greater than $17ms$.}
+\caption{Response time distribution histograms for 6 key case. Bucket size is chosen as $100\mu s$ for all histograms, except for their last bins which contains the number of outlier response times that are greater than $14ms$. When choosing this cut-off value, it is ensured that less than 1\% of the occurences are collected in the last bin for each individual result used in aggreagation.}
 \label{fig:gmg-hist6}
 \end{figure}
 
+%\begin{figure}[h]
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/gmg-hist6-true-mget.png}
+%  \caption{Sharded case, client measurements}
+%  \label{fig:gmg-hist6-true-mget_clients}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/gmg-hist6-false-mget.png}
+%  \caption{Non-sharded case, client measurements}
+%  \label{fig:gmg-hist6-false-mget_clients}
+%\end{subfigure}
+%\caption{}
+%\label{fig:gmg-hist6}
+%\end{figure}
+
 \subsection{Summary} \label{sec:gmg-summary}
 \begin{figure}[h]
-
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/extra-gmg-mget-lat_cli.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-mget-lat_cli.png}
   \caption{Response times}
   \label{fig:extra-gmg-mget-lat_cli}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/extra-gmg-mget-wtime_mw.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-mget-wtime_mw.png}
   \caption{Server waiting times}
   \label{fig:extra-gmg-mget-wtime_mw}
 \end{subfigure}
-
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/extra-gmg-perc-true.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-perc-true.png}
   \caption{Sharded case}
   \label{fig:extra-gmg-perc-true}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={0 0 0 0},clip]{img/plot/extra-gmg-perc-false.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-perc-false.png}
   \caption{Non-sharded case}
   \label{fig:extra-gmg-perc-false}
 \end{subfigure}
-\caption{An auxiliary experiment for comparing sharded and non-sharded performances on multi-get requests with bigger key sets. Figures \ref{fig:extra-gmg-mget-lat_cli} and \ref{fig:extra-gmg-mget-wtime_mw} compare the average response time and server waiting time statistics for the sharded and non-sharded reads with 1, 9, 18 and 27 key cases. Figures \ref{fig:extra-gmg-perc-true} and \ref{fig:extra-gmg-perc-false} illustrates 25th, 50th, 75th, 90th and 99th percentiles of sharded and non-sharded reads, for the experiments with aforementioned set of key sizes.}
+\caption{An auxiliary experiment for comparing sharded and non-sharded performances on multi-get requests with bigger key sets. Figures \ref{fig:extra-gmg-mget-lat_cli} and \ref{fig:extra-gmg-mget-wtime_mw} compare the average response time and server waiting time statistics for the sharded and non-sharded reads with 9, 18, 27, 54 and 81 key cases. Figures \ref{fig:extra-gmg-perc-true} and \ref{fig:extra-gmg-perc-false} illustrates 25th, 50th, 75th, 90th and 99th percentiles of sharded and non-sharded reads, for the experiments with aforementioned set of key sizes.}
 \label{fig:extra-gmg}
 \end{figure}
 
@@ -720,7 +745,7 @@ Worker threads per middleware & C & xC & 8 & 32 \\
 \end{tabular} 
 \caption{$2^{k}$ experimental design used in this section, specifying the factors and treatments.} \label{tab:2k-factors}
 \end{table}
-\par Table \ref{tab:2k-factors} shows the system parameters and their correspoing variables and values chosen for the analyses. For each configurationon each workload, we solve two linear systems, which are illustrated in Equations \ref{eq:add-model} and \ref{eq:mult-model}. The former uses the assumption that the effects of the factors are additive, whereas the latter one assumes multiplicative effects. Multiplicative model is only different from the additive one in the sense that the response variables are logarithms of the observed values. In the scope of this section e denotes error whereas r denotes the number of repetitions.
+\par Table \ref{tab:2k-factors} shows the system parameters and their correspoing variables and values chosen for the analyses. For each configurationon each workload, we solve two linear systems, which are illustrated in Equations \ref{eq:add-model} and \ref{eq:mult-model}. The former uses the assumption that the effects of the factors are additive, whereas the latter one assumes multiplicative effects. Equation for the multiplicative model is only different from the additive one in the sense that the take the response variables as logarithms of the observed values. In the scope of this section e denotes error whereas r denotes the number of repetitions.
 \begin{footnotesize}
 \begin{equation} \label{eq:add-model}
 y = q0 + qA*xA + qB*xB + qC*xC + qAB*xA*xB + qBC*xB*xC + qAC*xA*xC + qABC*xA*xB*xC + e
@@ -729,13 +754,13 @@ y = q0 + qA*xA + qB*xB + qC*xC + qAB*xA*xB + qBC*xB*xC + qAC*xA*xC + qABC*xA*xB*
 log(y) = q0 + qA*xA + qB*xB + qC*xC + qAB*xA*xB + qBC*xB*xC + qAC*xA*xC + qABC*xA*xB*xC + e
 \end{equation}
 \end{footnotesize}
-\par Before going into the results of the analysis, it is good to know how the linear equations are formed and solved. Table \ref{tab:2k-example-table} shows an example of such equation systems, in this case the response variable being the throughput of the system on write-only load. Left part of the table is a sign table where $-1$'s refer to the minimum treatment and $+1$'s refer to the maxiumum treatment for a variable. We always condust our factorial analyses with replications (so-called $2^{k}r$ design) so we solve our equations for the mean response (y\_mean) and estimate the errors in response values as e1, e2 and e3 over three repetitions. After solving the equation system we obtain the effects of the variables (e.g. qA for variable xA or qBC for variable interaction xB*xC) and calculate allocation of variation for each factor through sum of squares values. Equations \ref{eq:ssa}, \ref{eq:sse} and \ref{eq:sst} show how these calculations were done.
+\par Before going into the results of the analysis, it is good to know how the linear equations are formed and solved. Table \ref{tab:2k-example-table} shows an example of such equation systems, in this case the response variable being the throughput of the system on write-only load. Left part of the table is a sign table where $-1$'s refer to the minimum treatment and $+1$'s refer to the maxiumum treatment for a variable. We always condust our factorial analyses with replications (so-called $2^{k}r$ design) so we solve our equations for the mean response (y\_mean) and estimate the errors in response values as e1, e2 and e3 over three repetitions. After solving the equation system we obtain the effects of the variables (e.g. qA for variable xA or qBC for variable interaction xB*xC) and calculate allocation of variation for each factor through sum of squares values. Equations \ref{eq:ssa}, \ref{eq:sse} and \ref{eq:sst} show how these calculations were done. The SSE accounts for the unexplained variation attributed to the experimental errors.
 \begin{small}
 \begin{equation} \label{eq:ssa}
-SSA = 2^2*qA^2 \textnormal{, Fraction of variation explained by factor A} = SSA / SST
+SSA = 2^2 qA^2 \textnormal{, Fraction of variation explained (\%) by factor A} = SSA / SST
 \end{equation}
 \begin{equation} \label{eq:sse}
-\textnormal{Sum of Squares for Error: } SSE = \sum_{i=1}^{2^{k}}\sum_{j=1}^{r} e_{ij}^{2}
+\textnormal{Sum of Squares for Error: } SSE = \sum_{i=1}^{2^{k}}\sum_{j=1}^{r} e_{ij}^{2} \textnormal{, Fraction of unexplained variation} = SSE / SST
 \end{equation}
 \begin{equation} \label{eq:sst}
 \textnormal{Total Sum of Squares: } SST = SSA + SSB + SSC + SSAB + SSBC + SSAC + SSABC + SSE
@@ -767,117 +792,116 @@ $1$ & $+1$ & $+1$ & $+1$ & $+1$ & $+1$ & $+1$ & $+1$ & 6782.0 & -16.40 & -2.95 &
 \caption{An example system of equations for the $2^{k}$ factorial analyses. Specifically, this set of equations with the corresponding y values model the throughput for the write-only load, assuming additive variable effects. Variable xA, xB and xC denote respectively the effects of number of middlewares, number of servers and the number of worker threads in our model.} \label{tab:2k-example-table}
 \end{table}
 
-\change{explain results here, fill the tables} \maybe{The SSE is the unexplained variation attributed to the experimental errors.} \maybe{The logarithmic transformation is useful only if the ratio y max /y min is large. For a small range the log function is almost linear, and so the analysis with the multiplicative model will produce results similar to that with the additive model.}
-
-\begin{table}
+Our principle reference for this chapter is Raj Jain's book \cite{book} on system performace analysis. It is argued that the \say{knowledge about the system behavior should always take precedence over statistical considerations}. As we are already familiar with the system through the different experimental setups in the previous sections, we do not view the system as a black box and rather choose the models that suits our parameter interactions best. For write-only workload we expect the factors xA (number of middlewares) and xC (number of threads per middleware) to be the important parameters, since our limiting factor is the total number of middleware threads in the system. As the total number of threads is the multiplication of these two factors and we expect the variation caused by the number of servers and the errors to be small, we choose multiplicative model for the write-only load. Similarly, with the read-only load we expect only the facor xB (number of servers) to be effective on the final results, so we choose the additive model as it also assumes the errors of the system are additive, not multiplicative.
+\par Although we choose the models that fit the inner workings of our system, it is a good practice to model the system using both additive and multiplicative models (for both workloads and response variables) to see if there are any critical differences between two approaches. Respective results for the not chosen models are presented in the appendix part of this report, in Tables \ref{tab:2k-add-wo-tpt}, \ref{tab:2k-add-wo-lat}, \ref{tab:2k-mult-ro-tpt} and \ref{tab:2k-mult-ro-lat}. We see that the differences between additive and multiplicative models for all our analyses were not quite significant as both models essentially indicate the same results. There are several reasons behind this outcome. System is robust across repetitions and the residuals are low, thus modeling the errors one way or another does not affect the unexplained variation greatly. As it is also indicated in the book, \say{the logarithmic transformation is useful only if the ratio $y_{max}/y_{min}$ is large. For a small range the log function is almost linear, and so the analysis with the multiplicative model will produce results similar to that with the additive model}, which is exactly our case. Going from the additive to multiplicative model does not create a big difference in terms of the modeling power.
+\begin{table}[h]
+\centering
+{Results of the additive model on read-only load}
 \begin{minipage}{.5\textwidth}
 \centering
 	\begin{tabular}{|c|c|c|}
 	\hline 
-	{\small Source} & {\small Mean Estimate} & {\small Variation Explained} \\ 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
 	\hline 
-	A & • & • \\ 
+	qA & $265.8600$ & $0.009$ \\ 
 	\hline 
-	B & • & • \\ 
+	qB & $2678.2889$ & $0.944$ \\ 
 	\hline 
-	C & • & • \\ 
+	qC & $263.8299$ & $0.009$ \\ 
 	\hline 
-	AB & • & • \\ 
+	qAB & $262.0704$ & $0.009$ \\ 
 	\hline 
-	BC & • & • \\ 
+	qBC & $260.5430$ & $0.009$ \\ 
 	\hline 
-	AC & • & • \\ 
+	qAC & $-257.6810$ & $0.009$ \\ 
 	\hline 
-	ABC & • & • \\ 
+	qABC & $-260.9624$ & $0.009$ \\ 
 	\hline 
-	Error & • & • \\ 
-	\hline 
-	Total & • & • \\ 
-	\hline 
-	\end{tabular} \caption{Throughput analysis, read-only load} \label{tab:2k-tpt-ro}
+	% Error & \SI{1.05e-4} & $0.002$ \\ 
+	% \hline 
+	\end{tabular} \caption{Throughput analysis} \label{tab:2k-add-ro-tpt}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 \centering
 	\begin{tabular}{|c|c|c|}
 	\hline 
-	{\small Source} & {\small Mean Estimate} & {\small Variation Explained} \\ 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
 	\hline 
-	A & • & • \\ 
+	qA & $-0.0009$ & $0.002$ \\ 
 	\hline 
-	B & • & • \\ 
+	qB & $-0.0208$ & $0.988$ \\ 
 	\hline 
-	C & • & • \\ 
+	qC & $-0.0009$ & $0.002$ \\ 
 	\hline 
-	AB & • & • \\ 
+	qAB & $-0.0009$ & $0.002$ \\ 
 	\hline 
-	BC & • & • \\ 
+	qBC & $-0.0009$ & $0.002$ \\ 
 	\hline 
-	AC & • & • \\ 
+	qAC & $0.0009$ & $0.002$ \\ 
 	\hline 
-	ABC & • & • \\ 
+	qABC & $0.0009$ & $0.002$ \\ 
 	\hline 
-	Error & • & • \\ 
-	\hline 
-	Total & • & • \\ 
-	\hline 
-	\end{tabular} \caption{Latency analysis, read-only load} \label{tab:2k-lat-ro}
+	% Error & \SI{1.18e-09} & $0.001$ \\ 
+	% \hline 
+	\end{tabular} \caption{Latency analysis} \label{tab:2k-add-ro-lat}
 \end{minipage}
-\end{table}\label{tab:2k-ro}
-
-\begin{table}
+\end{table}\label{tab:2k-add-ro}
+\\
+\par Now we turn our attention to the findings of the models. We present the mean estimate of the parameters and the percentage of variation in the response variable explained by the variation of those parameters for analyses on throughput and latency over read-only and write-only workloads. Tables \ref{tab:2k-add-ro-tpt} and \ref{tab:2k-add-ro-lat} show the results for the read-only load. Clearly, the only important factor is the number of servers in the system while the other factors and factor interactions are equally unimportant. Analyses on both throughput and latency corroborate each other: number of servers have a stong positive influence on the throughput and a strong negative influence on the response time values. As we have discussed this issue on Secions \ref{sec:csb} and \ref{sec:mwb}, network bandwidth is the bottleneck for the read-only load most of the time. Our choice of minimum and maximum treatments for each factor (Table \ref{tab:2k-factors}) results in number of servers being the bottleneck in every experiment except the 8 thread total with 3 servers case. This is in line with our expectations and findings in previous sections. Percentage of unexplained variation due to errors amount to $0.002$ and $0.001$, respectively for throughput and response time analyses. Therefore, we rule out the effects of sources other than the number of servers, including the error, as their variation does not really change values of the response variable.
+\begin{table}[h]
+\centering
+{Results of the multiplicative model on write-only load}
 \begin{minipage}{.5\textwidth}
 \centering
 	\begin{tabular}{|c|c|c|}
 	\hline 
-	{\small Source} & {\small Mean Estimate} & {\small Variation Explained} \\ 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
 	\hline 
-	A & • & • \\ 
+	qA & $0.1457$ & $0.194$ \\ 
 	\hline 
-	B & • & • \\ 
+	qB & $-0.0822$ & $0.062$ \\ 
 	\hline 
-	C & • & • \\ 
+	qC & $0.2832$ & $0.733$ \\ 
 	\hline 
-	AB & • & • \\ 
+	qAB & $0.0264$ & $0.006$ \\ 
 	\hline 
-	BC & • & • \\ 
+	qBC & $0.0137$ & $0.002$ \\ 
 	\hline 
-	AC & • & • \\ 
+	qAC & $-0.0017$ & $0.000$ \\ 
 	\hline 
-	ABC & • & • \\ 
+	qABC & $0.0039$ & $0.000$ \\ 
 	\hline 
-	Error & • & • \\ 
-	\hline 
-	Total & • & • \\ 
-	\hline 
-	\end{tabular} \caption{Throughput analysis, write-only load} \label{tab:2k-tpt-wo}
+	% Error & \SI{7.87e-05} & $0.003$ \\ 
+	% \hline 
+	\end{tabular} \caption{Throughput analysis} \label{tab:2k-mult-wo-tpt}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 \centering
 	\begin{tabular}{|c|c|c|}
 	\hline 
-	{\small Source} & {\small Mean Estimate} & {\small Variation Explained} \\ 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
 	\hline 
-	A & • & • \\ 
+	qA & $-0.1384$ & $0.165$ \\ 
 	\hline 
-	B & • & • \\ 
+	qB & $0.0963$ & $0.080$ \\ 
 	\hline 
-	C & • & • \\ 
+	qC & $-0.2730$ & $0.642$ \\ 
 	\hline 
-	AB & • & • \\ 
+	qAB & $-0.0192$ & $0.003$ \\ 
 	\hline 
-	BC & • & • \\ 
+	qBC & $-0.0031$ & $0.000$ \\ 
 	\hline 
-	AC & • & • \\ 
+	qAC & $0.0124$ & $0.001$ \\ 
 	\hline 
-	ABC & • & • \\ 
+	qABC & $0.0065$ & $0.000$ \\ 
 	\hline 
-	Error & • & • \\ 
-	\hline 
-	Total & • & • \\ 
-	\hline 
-	\end{tabular} \caption{Latency analysis, write-only load} \label{tab:2k-lat-wo}
+	% Error & \SI{1.35e-09} & $0.108$ \\ 
+	% \hline 
+	\end{tabular} \caption{Latency analysis} \label{tab:2k-mult-wo-lat}
 \end{minipage}
-\end{table}\label{tab:2k-wo}
+\end{table}\label{tab:2k-mult-wo}
+\par For the write-only workload we expect the total number of worker threads to have a strong effect on system performance such that more worker threads should correspond to higher througphut and lower response time values. Similarly, we believe the number of servers for write-only workloads should hinder the system performance, perhaps not as noticeably as with the total number of threads. We first send the queries to all servers and then wait for their responses. That way we do not experience the RTT for all the servers, although the time a worker thread waits increases linearly with the number of servers. In the optimistic case, reply from the first server would arrive as we finish sending the query to last server.
+\par In Tables \ref{tab:2k-mult-wo-tpt} and \ref{tab:2k-mult-wo-lat} we can see the factorial analysis results for the write-only workload. Number of middlewares and the number of threads per middleware together account for the vast majority of the variation for both throughput and latency as expected. The reason that the variation due to number of threads per middleware (xC) is greater than that of the number of middlewares (xA) should not be surprising as the min-max values for xC covers a greater change than the xA, with respect to total number of threads (Table \ref{tab:2k-factors}). We can also see xB having a slightly negative influence on throughput (vice versa for response times) since the number of servers only affect the performance marginally. Unexplained variations ($0.003$ and $0.108$ for throughput and response times, respectively) for the write-only load is greater than those for the read-only load, since the system conditions (e.g. end-to-end delays between physical machine pairs) have an effect on the performance of the system in the observed value ranges. It was not the case with the read-only workload as the network bandwidth limited the performance such that changing the number of threads in our range did not change the bottleneck being the bandwidth.
 
 \section{Queuing Model} \label{sec:queueing-model}
 
@@ -888,12 +912,165 @@ $1$ & $+1$ & $+1$ & $+1$ & $+1$ & $+1$ & $+1$ & $+1$ & 6782.0 & -16.40 & -2.95 &
 \subsection{Network of Queues} \label{sec:network-of-queues}
 \maybe{You need to consider both 1 and 2 middleware configuration. You need to analyze both read only and write only workloads. You can set the number of worker threads to the constant that delivers highest throughput.}
 
+\clearpage
+
+\section*{Appendix} \label{sec:appendix}
+
+\subsubsection*{2K Analysis: additional tables} \label{sec:app-2k-analysis-add-plots}
+\begin{table}[h]
+\centering
+{Results of the additive model on write-only load}
+\begin{minipage}{.5\textwidth}
+\centering
+	\begin{tabular}{|c|c|c|}
+	\hline 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
+	\hline 
+	qA & $689.1529$ & $0.196$ \\ 
+	\hline 
+	qB & $-360.4905$ & $0.054$ \\ 
+	\hline 
+	qC & $1331.8182$ & $0.731$ \\ 
+	\hline 
+	qAB & $78.3606$ & $0.003$ \\ 
+	\hline 
+	qBC & $-35.9031$ & $0.001$ \\ 
+	\hline 
+	qAC & $181.8770$ & $0.014$ \\ 
+	\hline 
+	qABC & $48.4125$ & $0.001$ \\ 
+	\hline 
+	% Error & \SI{1.18e-4} & $0.002$ \\ 
+	% \hline 
+	\end{tabular} \caption{Throughput analysis} \label{tab:2k-add-wo-tpt}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\centering
+	\begin{tabular}{|c|c|c|}
+	\hline 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
+	\hline 
+	qA & $-0.0064$ & $0.175$ \\ 
+	\hline 
+	qB & $0.0045$ & $0.087$ \\ 
+	\hline 
+	qC & $-0.0120$ & $0.620$ \\ 
+	\hline 
+	qAB & $-0.0015$ & $0.010$ \\ 
+	\hline 
+	qBC & $-0.0013$ & $0.008$ \\ 
+	\hline 
+	qAC & $0.0023$ & $0.022$ \\ 
+	\hline 
+	qABC & $0.0008$ & $0.003$ \\ 
+	\hline 
+	% Error & \SI{1.02e-09} & $0.076$ \\ 
+	% \hline 
+	\end{tabular} \caption{Latency analysis} \label{tab:2k-add-wo-lat}
+\end{minipage}
+\end{table}\label{tab:2k-add-wo}
+
+\begin{table}[h]
+\centering
+{Results of the multiplicative model on read-only load}
+\begin{minipage}{.5\textwidth}
+\centering
+	\begin{tabular}{|c|c|c|}
+	\hline 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
+	\hline 
+	qA & $0.0348$ & $0.004$ \\ 
+	\hline 
+	qB & $0.5144$ & $0.974$ \\ 
+	\hline 
+	qC & $0.0345$ & $0.004$ \\ 
+	\hline 
+	qAB & $0.0335$ & $0.004$ \\ 
+	\hline 
+	qBC & $0.0334$ & $0.004$ \\ 
+	\hline 
+	qAC & $-0.0330$ & $0.004$ \\ 
+	\hline 
+	qABC & $-0.0341$ & $0.004$ \\ 
+	\hline 
+	% Error & \SI{1.95e-4} & $0.001$ \\ 
+	% \hline 
+	\end{tabular} \caption{Throughput analysis} \label{tab:2k-mult-ro-tpt}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\centering
+	\begin{tabular}{|c|c|c|}
+	\hline 
+	{\small Source} & {\small Mean Estimate} & {\small Variation Expl. (\%)} \\ 
+	\hline 
+	qA & $-0.0351$ & $0.005$ \\ 
+	\hline 
+	qB & $-0.5130$ & $0.970$ \\ 
+	\hline 
+	qC & $-0.0353$ & $0.005$ \\ 
+	\hline 
+	qAB & $-0.0348$ & $0.004$ \\ 
+	\hline 
+	qBC & $-0.0346$ & $0.004$ \\ 
+	\hline 
+	qAC & $0.0348$ & $0.004$ \\ 
+	\hline 
+	qABC & $0.0356$ & $0.005$ \\ 
+	\hline 
+	% Error & \SI{1.77e-09} & $0.002$ \\ 
+	% \hline 
+	\end{tabular} \caption{Latency analysis} \label{tab:2k-mult-ro-lat}
+\end{minipage}
+\end{table}\label{tab:2k-mult-ro}
+
+\subsubsection*{Running the code} \label{sec:app-running-the-code}
+\begin{table}[h]
+\begin{minipage}{.5\textwidth}
+	\centering
+	\begin{tabular}{|l|c|}
+		\hline Number of servers                & nsvr		\\
+		\hline Number of client machines        & ncli		\\
+		\hline Instances of memtier per machine & icli		\\
+		\hline Threads per memtier instance     & tcli		\\
+		\hline Virtual clients per thread       & vcli		\\
+		\hline Workload                         & wrkld		\\
+		\hline 
+	\end{tabular}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\begin{tabular}{|l|c|}
+		\hline Multi-Get behavior               & mgshrd	\\
+		\hline Multi-Get size                   & mgsize	\\
+		\hline Number of middlewares            & nmw		\\
+		\hline Worker threads per middleware    & tmw		\\
+		\hline Repetitions                      & reps		\\
+		\hline Test time                        & ttime		\\
+		\hline 
+	\end{tabular}
+\end{minipage}
+\caption{Abbreviations for experiment parameters.} \label{tab:param-abbrs}
+\end{table}	
+All the necessary commands for initializing the experimental setup and conducting the experiments are provided in a companion file called \texttt{commands.sh}. It also exemplifies the usage of auxiliary technologies used for further analysing the system and its environment as well as it contains some other helpful commands for copying and plotting the experiment results. \texttt{plot} folder contains all scripts (and their eventual outputs) necessary for plotting the results placed under the \texttt{res} folder. Every plot provided inside or alongside this report is reproducible with the provided data and the scripts. \change{Probably should detail which scripts correspond to which experiments and how the results should be placed.}Lastly, \texttt{runner.sh} is the encapsulating script that runs the desired agent (i.e. client, middleware, server or dstat tool) for the configuration provided through the command line arguments. The arguments it expects share the same nomenclature we use	in scripts to refer the experiment parameters. Here, in Table \ref{tab:param-abbrs}, we list these abbreviations. Result directory hierarchy also obeys the same nomenclature.
+\par It is important to pay attention the order and timing of executing commands. Servers should be run first and the middlewares (if any) should start waiting connections. Then, both the clients and dstat processes should start simultaneously — we could do this by using Cluster SSH (also called as cssh) \cite{cssh}. Clients, middlewares and dstat processes ran accordingly for three separate repetitions, afterwards they should be restarted by hand. Another important thing to keep in mind while using the project codebase is to remember that the codes do not cover erroneous cases. For example, middleware does not support any other operations than set or get. Similarly, plotting scripts may not work with data with erroneous content, filenames, directory hierarchy and such.
+
+\subsubsection*{Internal parameters} \label{sec:app-internalparameters}
+The system has several options hardcoded as parameters of MyMiddleware class:
+\begin{itemize}
+\item \texttt{verboseLogs} specifies if the system should output the work logs or not. Such logs are printed when a request is received, relayed to servers, got answered and replied back to the clients. It also prints out details about which thread handled the request, which client sent the request, to which server the request was sent to and the completely parsed messages and replies. It is a useful option for understanding the inner workings and state transitions of the middleware system. It should be set as false if user is not debugging.
+\item \texttt{verboseAggr} controls the outputting of the aggregated statistics. It is always true for our experiments as it is our main tool for analysing the system.
+\item \texttt{timeoutSecs} specifies the amoun of time the system should wait until new queries before shutting itself down. Altough the middleware can work seamlessly without any interruption, systems needs to be restarted to operate in its most efficient manner in its current implementation. 3 seconds are proved to be enough for our experiments.
+\item \texttt{initDelaySecs} and \texttt{periodSecs} respectively specify the initial delay and the period of the ScheduledControl runs. Both are given as 1, that means the ScheduledControl thread begins collecting data after an initial delay of 1 seconds and it wakes itself at the end of every 1 second period after that.
+\item \texttt{sep} sets the column separator to be used by ScheduledControl when outputting aggregated statistics. We output the aggregation table inside the output file in a comma separated format, so we set sep as \texttt{','}.
+\end{itemize}
+
 \begin{thebibliography}{9}
 \bibitem{memcached} Memcached: a distributed memory object caching system \url{https://memcached.org/}
 \bibitem{memtier} memtier\_benchmark: a high-throughput benchmarking tool for Redis \& Memcached \url{https://github.com/RedisLabs/memtier\_benchmark}
 \bibitem{dstat} Dstat: a versatile resource statistics tool \url{http://dag.wiee.rs/home-made/dstat/}
-\bibitem{cssh} Cluster SSH: cluster administration tool via SSH \url{https://github.com/duncs/clusterssh}
 \bibitem{iperf} iPerf: the TCP, UDP and SCTP network bandwidth measurement tool \url{https://iperf.fr/}
+\bibitem{book} Jain, R. (1990). The art of computer systems performance analysis: techniques for experimental design, measurement, simulation, and modeling. John Wiley \& Sons.
+\bibitem{cssh} Cluster SSH: cluster administration tool via SSH \url{https://github.com/duncs/clusterssh}
 \end{thebibliography}
 
 \end{document}

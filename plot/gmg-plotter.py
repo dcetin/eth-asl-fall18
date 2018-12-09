@@ -2,45 +2,60 @@
 from __future__ import unicode_literals
 import matplotlib.pyplot as plt
 import numpy as np
-from summarizer import getAvgClientStat, getMiddlewareStat, drawHist, getClientPercentile, combineClientHists
+from summarizer import getAvgClientStat, getMiddlewareStat, drawHist, drawHist2, getClientPercentile, combineClientHists
 from summarizer import getMiddlewareHist, combineMiddlewareHists, aggregateHists, getClientOut
 import glob
 import sys
 
+plt.rcParams.update({'font.size': 14})
+plt.rc('xtick', labelsize=14) 
+plt.rc('ytick', labelsize=14) 
+
 op_type = sys.argv[1] # e.g. "set" or "mget"
 out_format = sys.argv[2] # e.g. "show" or "save"
-
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
-reps = [1,2,3]
-# mlist = [1,9,18,27]
-mlist = [1,3,6,9]
 mgshrdList = ["true", "false"]
 ttime = 70
-cutTime = 170
+reps = [1,2,3]
+
+mlist = [1,3,6,9]
+hist_cuttime = 140
+ymax_hist = 9000
+ymax_perc = 20
+ystep = 1
+# ymax_perc = 25
+# ystep = 2
+
+# mlist = [9,18,27,54,81]
+# ymax_perc = 280
+# ystep = 25
+# # ymax_perc = 40
+# # ystep = 5
 
 # Init plot vals
-cli_tpt_plot = []
-cli_lat_plot = []
-cli_tpt_maxy = 0
-cli_lat_maxy = 0
-mw_tpt_plot = []
-mw_lat_plot = []
-mw_tpt_maxy = 0
-mw_lat_maxy = 0
-law_cli_tpt_plot = []
-law_cli_lat_plot = []
-law_cli_tpt_maxy = 0
-law_cli_lat_maxy = 0
-law_mw_tpt_plot = []
-law_mw_lat_plot = []
-law_mw_tpt_maxy = 0
-law_mw_lat_maxy = 0
-mw_qlen_plot = []
-mw_qtime_plot = []
-mw_wtime_plot = []
-mw_qlen_maxy = 0
-mw_qtime_maxy = 0
-mw_wtime_maxy = 0
+if True:
+	cli_tpt_plot = []
+	cli_lat_plot = []
+	cli_tpt_maxy = 0
+	cli_lat_maxy = 0
+	mw_tpt_plot = []
+	mw_lat_plot = []
+	mw_tpt_maxy = 0
+	mw_lat_maxy = 0
+	law_cli_tpt_plot = []
+	law_cli_lat_plot = []
+	law_cli_tpt_maxy = 0
+	law_cli_lat_maxy = 0
+	law_mw_tpt_plot = []
+	law_mw_lat_plot = []
+	law_mw_tpt_maxy = 0
+	law_mw_lat_maxy = 0
+	mw_qlen_plot = []
+	mw_qtime_plot = []
+	mw_wtime_plot = []
+	mw_qlen_maxy = 0
+	mw_qtime_maxy = 0
+	mw_wtime_maxy = 0
 
 # Returns (cli_tpt, cli_lat, mw_tpt, mw_lat, mw_qtime, mw_wtime, mw_qlen)
 def dataFromFiles(mgshrd):
@@ -66,7 +81,7 @@ def dataFromFiles(mgshrd):
 
 	for mgsize in mlist:
 
-		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=64/ttime="+str(ttime)+"/"
+		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=8/ttime="+str(ttime)+"/"
 
 		for rep in reps:
 
@@ -321,38 +336,13 @@ def prepForPlot(aggRet):
 	if np.max(wtime_avg) > mw_wtime_maxy:
 		mw_wtime_maxy = np.max(wtime_avg)
 
-def makePlot(plot_list, plot_maxy, plot_file, title, subtitle):
-	# for i in range(0,len(mgshrdList)):
-	# 	y, yerr, label = plot_list[i]
-	# 	line = plt.errorbar(x=mlist , y=y, yerr=yerr, label=mgshrdList[i], marker='o', capsize=2, capthick=1)
-	mticks = np.arange(len(mlist))
-	y, yerr, label = plot_list[0]
-	bar = plt.bar(mticks-0.20, y, yerr=yerr, align='center', width=0.40, color=(0.2, 0.8, 0.2), capsize=10, label=mgshrdList[0])
-	y, yerr, label = plot_list[1]
-	bar = plt.bar(mticks+0.20, y, yerr=yerr, align='center', width=0.40, color=(0.8, 0.2, 0.2), capsize=10, label=mgshrdList[1])
-
-	plt.ylabel(label) # just here if need be: μ
-	plt.xlabel("Number of keys")
-	plt.figtext(.5,.94,title + " versus number of keys", fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
-	plt.legend(loc='upper left')
-	plt.xticks(mticks, mlist)
-	plt.ylim((0,plot_maxy*1.3))
-	plt.grid(True, axis="both")
-	if out_format == "show":
-		plt.show()
-		plt.clf()
-	if out_format == "save":
-		plt.savefig("./out/plot/gmg-" + plot_file)
-		plt.clf()
-
-def prepHistograms(percDict, mgshrd, op_type, histmaxy, show):
+def prepHistograms(percDict, mgshrd, op_type, histmaxy, cutTime):
 	global resbase
 	global reps
 	global mlist
 
 	for mgsize in mlist:
-		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=64/ttime="+str(ttime)+"/"
+		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=8/ttime="+str(ttime)+"/"
 
 		mw_mgsize_sethist = []
 		mw_mgsize_mgethist = []
@@ -405,21 +395,19 @@ def prepHistograms(percDict, mgshrd, op_type, histmaxy, show):
 				mw_rep_mgethist.append(mget_hist)
 			mw_mgsize_sethist.append(combineMiddlewareHists(mw_rep_sethist))
 			mw_mgsize_mgethist.append(combineMiddlewareHists(mw_rep_mgethist))
-		if op_type == "set":
-			temp = aggregateHists(cli_mgsize_sethist, cutTime)
-			if mgsize == 6 and show == True:
-				drawHist(temp[1], temp[2], subtitle=("clients", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
-			temp = aggregateHists(mw_mgsize_sethist, cutTime)
-			if mgsize == 6 and show == True:
-				drawHist(temp[1], temp[2], subtitle=("middlewares", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+		if mgsize == 6 and op_type == "set":
+			temp1 = aggregateHists(cli_mgsize_sethist, cutTime)
+			temp2 = aggregateHists(mw_mgsize_sethist, cutTime)
+			drawHist(temp1[1], temp1[2], temp1[3], subtitle=("clients", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+			drawHist(temp2[1], temp2[2], temp2[3], subtitle=("middlewares", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+			# drawHist2(temp1[1], temp1[2], temp2[1], temp2[2], temp1[3], temp2[3], subtitle=(mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
 
-		if op_type == "mget":
-			temp = aggregateHists(cli_mgsize_mgethist, cutTime)
-			if mgsize == 6 and show == True:
-				drawHist(temp[1], temp[2], subtitle=("clients", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
-			temp = aggregateHists(mw_mgsize_mgethist, cutTime)
-			if mgsize == 6 and show == True:
-				drawHist(temp[1], temp[2], subtitle=("middlewares", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+		if mgsize == 6 and op_type == "mget":
+			temp1 = aggregateHists(cli_mgsize_mgethist, cutTime)
+			temp2 = aggregateHists(mw_mgsize_mgethist, cutTime)
+			drawHist(temp1[1], temp1[2], temp1[3], subtitle=("clients", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			drawHist(temp2[1], temp2[2], temp2[3], subtitle=("middlewares", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			# drawHist2(temp1[1], temp1[2], temp2[1], temp2[2], temp1[3], temp2[3], subtitle=(mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
 
 		percDict[mgshrd + "-set-" + str(mgsize) + "-avg"] = np.average(np.vstack(cli_mgsize_setperc), 0)
 		percDict[mgshrd + "-set-" + str(mgsize) + "-std"] = np.std(np.vstack(cli_mgsize_setperc), 0)
@@ -428,7 +416,30 @@ def prepHistograms(percDict, mgshrd, op_type, histmaxy, show):
 
 	return percDict
 
-def plotPercentiles(percDict, op_type, mgshrd, out_format, ymax=None):
+def makePlot(plot_list, plot_maxy, plot_file, title, subtitle):
+	mgshrdLabelList = ["Sharded", "Non-sharded"]
+	mticks = np.arange(len(mlist))
+	y, yerr, label = plot_list[0]
+	bar = plt.bar(mticks-0.20, y, yerr=yerr, align='center', width=0.40, color=(0.2, 0.8, 0.2), capsize=7, label=mgshrdLabelList[0])
+	y, yerr, label = plot_list[1]
+	bar = plt.bar(mticks+0.20, y, yerr=yerr, align='center', width=0.40, color=(0.8, 0.2, 0.2), capsize=7, label=mgshrdLabelList[1])
+
+	plt.ylabel(label) # just here if need be: μ
+	plt.xlabel("Number of keys")
+	plt.figtext(.5,.94,title + " versus number of keys", fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
+	plt.legend(loc='upper left')
+	plt.xticks(mticks, mlist)
+	plt.ylim((0,plot_maxy*1.3))
+	plt.grid(True, axis="both")
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/gmg-" + plot_file)
+		plt.clf()
+
+def plotPercentiles(percDict, op_type, mgshrd, out_format, ystep, ymax=None):
 	global mlist
 
 	avgs = []
@@ -439,7 +450,7 @@ def plotPercentiles(percDict, op_type, mgshrd, out_format, ymax=None):
 		key = mgshrd + "-" + op_type + "-" + str(mgsize) + "-std"
 		stds.append(percDict[key])
 	avgs = np.vstack(avgs).T
-	stds = np.vstack(avgs).T
+	stds = np.vstack(stds).T
 	plist = ["25th", "50th", "75th", "90th", "99th"]
 
 	if ymax is None:
@@ -458,19 +469,19 @@ def plotPercentiles(percDict, op_type, mgshrd, out_format, ymax=None):
 
 	mticks = np.arange(len(mlist))
 	width = 0.15
-	bar = plt.bar(mticks-2*width, avgs[0], align='center', width=width, color=colorlist[0], capsize=10, label=plist[0]) # yerr=yerr
-	bar = plt.bar(mticks-width, avgs[1], align='center', width=width, color=colorlist[1], capsize=10, label=plist[1]) # yerr=yerr
-	bar = plt.bar(mticks, avgs[2], align='center', width=width, color=colorlist[2], capsize=10, label=plist[2]) # yerr=yerr
-	bar = plt.bar(mticks+width, avgs[3], align='center', width=width, color=colorlist[3], capsize=10, label=plist[3]) # yerr=yerr
-	bar = plt.bar(mticks+2*width, avgs[4], align='center', width=width, color=colorlist[4], capsize=10, label=plist[4]) # yerr=yerr
+	bar = plt.bar(mticks-2*width, avgs[0], yerr=stds[0], align='center', width=width, color=colorlist[0], capsize=3, label=plist[0])
+	bar = plt.bar(mticks-width, avgs[1], yerr=stds[1], align='center', width=width, color=colorlist[1], capsize=3, label=plist[1])
+	bar = plt.bar(mticks, avgs[2], yerr=stds[2], align='center', width=width, color=colorlist[2], capsize=3, label=plist[2])
+	bar = plt.bar(mticks+width, avgs[3], yerr=stds[3], align='center', width=width, color=colorlist[3], capsize=3, label=plist[3])
+	bar = plt.bar(mticks+2*width, avgs[4], yerr=stds[4], align='center', width=width, color=colorlist[4], capsize=3, label=plist[4])
 
 	plt.ylabel("Latency (msec)")
 	plt.xlabel("Number of keys")
-	plt.figtext(.5,.94,"Response time percentiles" + " versus number of keys", fontsize=12, ha='center')
-	plt.figtext(.5,.90,"Sharded gets: " + mgshrd + ", " +  op_type + " operations", fontsize=9, ha='center')
+	plt.figtext(.5,.94,"Response time percentiles" + " versus number of keys", fontsize=16, ha='center')
+	plt.figtext(.5,.90,"Sharded gets: " + mgshrd + ", " +  op_type + " operations", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mticks, mlist)
-	plt.yticks(np.arange(0,plot_maxy))
+	plt.yticks(np.arange(0,plot_maxy,ystep))
 	plt.ylim((0,plot_maxy))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -484,13 +495,13 @@ percDict = {}
 for mgshrd in mgshrdList:
 	data = dataFromFiles(mgshrd)
 	prepForPlot(data)
-	percDict = prepHistograms(percDict, mgshrd, op_type, 9000, show=True)
+	percDict = prepHistograms(percDict, mgshrd, op_type, ymax_hist, hist_cuttime)
 
-plotPercentiles(percDict, op_type, "true", out_format, ymax=20)
-plotPercentiles(percDict, op_type, "false", out_format, ymax=20)
+plotPercentiles(percDict, op_type, "true", out_format, ystep, ymax=ymax_perc)
+plotPercentiles(percDict, op_type, "false", out_format, ystep, ymax=ymax_perc)
+
 #TODO: think about the errorbars and stuff
 #TODO: aggregating now only using averaging
-#TODO: try other key values for this experiment
 #TODO: print (summary for gmg?)
 
 tpttitle = "Throughput"
@@ -498,7 +509,7 @@ lattitle = "Latency"
 qlentitle = "Queue length"
 qtimetitle = "Queue time"
 wtimetitle = "Waiting time"
-subtitle = 'Gets and multi-gets experiment, ' + op_type + ' operations'
+subtitle = 'Gets and multi-gets exp., ' + op_type + ' operations'
 
 if(1):
 	# Client latency

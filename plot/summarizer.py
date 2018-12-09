@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.rcParams.update({'font.size': 12})
+
 def getMiddlewareStatHist(fname, warmup, cooldown):
 
 	# Data header:
@@ -133,6 +135,7 @@ def drawHist(times, counts, errs=None, title='Response time histogram', subtitle
 		machine, mgsize, mgshrd, op_type = subtitle
 		subtitle = "Measured on " + machine + ", " + str(mgsize) + " keys, sharded read: " + mgshrd + ", " + op_type + " operations"
 
+	errs = errs / 1000.0
 	counts = counts / 1000.0
 	maxy = maxy / 1000.0
 
@@ -160,6 +163,63 @@ def drawHist(times, counts, errs=None, title='Response time histogram', subtitle
 	if maxy:
 		plt.ylim((0,maxy))
 	plt.xticks(np.arange(min(x), max(x)+1, 1))
+
+	if out_format == "show":
+		plt.show()
+		plt.clf()
+	if out_format == "save":
+		plt.savefig("./out/plot/gmg-hist" + str(mgsize) + "-" + mgshrd + "-" + op_type + "_" + machine +".png")
+		plt.clf()
+
+def drawHist2(times1, counts1, times2, counts2, errs1=None, errs2=None, title='Response time histogram', subtitle='', out_format="show", maxy=None):
+	if subtitle != '':
+		mgsize, mgshrd, op_type = subtitle
+		subtitle = str(mgsize) + " keys, sharded read: " + mgshrd + ", " + op_type + " operations"
+
+	plt.figure(figsize=(10,6))
+	# plt.rc('xtick', labelsize=20) 
+	# plt.rc('ytick', labelsize=20)
+	maxy = maxy / 1000.0
+
+	for i in [0,1]:
+		if i == 0:
+			plt.subplot(211)
+			errs = errs1
+			times = times1
+			counts = counts1
+
+		if i == 1:
+			plt.subplot(212)
+			errs = errs2
+			times = times2
+			counts = counts2
+
+		errs = errs / 1000.0
+		counts = counts / 1000.0
+		n = times.shape[0]
+		times = times / 10.0
+		tot = float(np.sum(counts))
+		end = n
+		begin = 0
+		x = times[begin:end]
+		y = counts[begin:end]
+
+
+		# plt.hist(x, weights=y, bins=end-begin)
+		if errs is None:
+			plt.bar(x, width=0.1,height=y, align="edge")
+		else:
+			plt.bar(x, width=0.1,height=y, yerr=errs, align="edge")
+		plt.xlim(min(x),max(x)+0.1)
+		plt.figtext(.5,.94,title, fontsize=16, ha='center')
+		plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
+		plt.grid(True)
+		if i == 1:
+			plt.xlabel('Latency (ms)')
+		plt.ylabel('Count (1000)')
+		if maxy:
+			plt.ylim((0,maxy))
+		plt.xticks(np.arange(min(x), max(x)+1, 1))
 
 	if out_format == "show":
 		plt.show()
@@ -210,6 +270,9 @@ def aggregateHists(histList, commonCutIdx=None):
 		commonCutIdx = np.min(cutList)
 
 	for i, (val, ws) in enumerate(histList):
+		cutPercentage = (np.sum(ws[commonCutIdx+1:]) / np.sum(ws[:commonCutIdx]))*100.0
+		if cutPercentage > 0:
+			print cutPercentage
 		# New weights correct except the last bin
 		new_weights = ws[:commonCutIdx+1]
 		# Aggregate the outlier weights

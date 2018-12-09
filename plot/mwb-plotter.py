@@ -10,6 +10,13 @@ import sys
 # resbase="/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 
+plt.rcParams.update({'font.size': 14})
+plt.rc('xtick', labelsize=12) 
+plt.rc('ytick', labelsize=12) 
+params = {'legend.fontsize': 12,
+          'legend.handlelength': 2}
+plt.rcParams.update(params)
+
 # CHOOSE THE EXPERIMENT TYPE
 experiment = sys.argv[1] # e.g. "1-wo"
 out_format = sys.argv[2] # e.g. "show" or "save"
@@ -253,11 +260,11 @@ for tmw in tlist:
 		if experiment == "2-wo" or experiment == "2-ro":
 			cliMult = 6
 		mult_vlist = np.asarray(vlist) * cliMult
-		# print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on clients"
-		# print "-"*50
-		# for i in range(0, len(vlist)):
-		# 	print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
-		# print " "
+		print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", client meas."
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
+		print " "
 
 		law_cli_lat = np.transpose(np.transpose(1/cli_tpt) * mult_vlist)
 		law_cli_tpt = np.transpose(np.transpose(1/cli_lat) * mult_vlist)
@@ -284,11 +291,11 @@ for tmw in tlist:
 		law_cli_laterr = np.std(law_cli_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
-		# print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", predictions made using measurements on clients"
-		# print "-"*50
-		# for i in range(0, len(vlist)):
-		# 	print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_cli_tptavg[i] + " ± " + "%.1f" % law_cli_tpterr[i] + "\t" + "%.3f" % law_cli_latavg[i] + " ± " + "%.3f" % law_cli_laterr[i]).encode('utf-8')
-		# print " "
+		print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", predictions made using measurements on clients"
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_cli_tptavg[i] + " ± " + "%.1f" % law_cli_tpterr[i] + "\t" + "%.3f" % law_cli_latavg[i] + " ± " + "%.3f" % law_cli_laterr[i]).encode('utf-8')
+		print " "
 
 	# Middleware aggregation
 	if (1):
@@ -337,18 +344,18 @@ for tmw in tlist:
 		if experiment == "2-wo" or experiment == "2-ro":
 			cliMult = 6
 		mult_vlist = np.asarray(vlist) * cliMult
-		# print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", measured on middlewares"
-		# print "-"*50
-		# for i in range(0, len(vlist)):
-		# 	print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
-		# print " "
+		print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", middleware meas."
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % tptavg[i] + " ± " + "%.1f" % tpterr[i] + "\t" + "%.3f" % latavg[i] + " ± " + "%.3f" % laterr[i]).encode('utf-8')
+		print " "
 
 		# Take the difference in calculations into consideration
-		# latDiff = 2.5 / 1000
-		# law_mw_lat = np.transpose(np.transpose(1/mw_tpt) * mult_vlist) - latDiff
-		# law_mw_tpt = np.transpose(np.transpose(1/(mw_lat + latDiff)) * mult_vlist)
-		law_mw_lat = np.transpose(np.transpose(1/mw_tpt) * mult_vlist)
-		law_mw_tpt = np.transpose(np.transpose(1/(mw_lat)) * mult_vlist)
+		latDiff = 2.5 / 1000
+		law_mw_lat = np.transpose(np.transpose(1/mw_tpt) * mult_vlist) - latDiff
+		law_mw_tpt = np.transpose(np.transpose(1/(mw_lat + latDiff)) * mult_vlist)
+		# law_mw_lat = np.transpose(np.transpose(1/mw_tpt) * mult_vlist)
+		# law_mw_tpt = np.transpose(np.transpose(1/(mw_lat)) * mult_vlist)
 
 		law_mw_tptavg = np.average(law_mw_tpt / 1000.0, 1)
 		law_mw_tpterr = np.std(law_mw_tpt / 1000.0, 1)
@@ -372,11 +379,11 @@ for tmw in tlist:
 		law_mw_laterr = np.std(law_mw_lat * 1000, 1)
 		latlabel = "Latency (msec)"
 
-		# print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", predictions made using measurements on middlewares"
-		# print "-"*50
-		# for i in range(0, len(vlist)):
-		# 	print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_mw_tptavg[i] + " ± " + "%.1f" % law_mw_tpterr[i] + "\t" + "%.3f" % law_mw_latavg[i] + " ± " + "%.3f" % law_mw_laterr[i]).encode('utf-8')
-		# print " "
+		print "vcli" + "\t" + "numCli" + "\t" + tptlabel + "\t" + latlabel + "\t" + "for tmw: " + str(tmw) + ", predictions made using measurements on middlewares"
+		print "-"*50
+		for i in range(0, len(vlist)):
+			print (str(vlist[i]) + "\t" + str(mult_vlist[i]) + "\t" + "%.1f" % law_mw_tptavg[i] + " ± " + "%.1f" % law_mw_tpterr[i] + "\t" + "%.3f" % law_mw_latavg[i] + " ± " + "%.3f" % law_mw_laterr[i]).encode('utf-8')
+		print " "
 
 		print "vcli" + "\t" + "numCli" + "\t" + "qlen" + "\t\t" + "qtime" + "\t\t" + "wtime" + "\t" + "for tmw: " + str(tmw)
 		print "-"*50
@@ -385,15 +392,15 @@ for tmw in tlist:
 		print " "
 
 vlist = np.asarray(vlist)
-tptitle = 'Throughput versus number of clients for diff. # worker threads in mw'
-lattitle = 'Latency versus number of clients for diff. # worker threads in mw'
+tptitle = 'Throughput versus number of clients' # + ' for diff. # worker threads in mw'
+lattitle = 'Latency versus number of clients' # + ' for diff. # worker threads in mw'
 vlist = np.asarray(vlist)
 if experiment == "1-wo" or experiment == "1-ro":
 	cliMult = 6
-	subtitle = 'Baseline with middleware, one middleware'
+	subtitle = 'Baseline with mw, one mw'
 if experiment == "2-wo" or experiment == "2-ro":
 	cliMult = 6
-	subtitle = 'Baseline with middleware, two middlewares'
+	subtitle = 'Baseline with mw, two mws'
 mult_vlist = vlist * cliMult
 xticks = mult_vlist
 if experiment == "1-wo":
@@ -405,15 +412,15 @@ if experiment == "1-ro" or experiment == "2-ro":
 	subtitle = subtitle + ', read-only load'
 
 # Client plots
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = cli_tpt_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle + ", measured on clients", fontsize=9, ha='center')
+	plt.figtext(.5,.94,tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle + ", client meas.", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
@@ -427,15 +434,15 @@ if (0):
 		plt.savefig("./out/plot/mwb" + experiment + "-tp" + "_cli.png")
 		plt.clf()
 
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = cli_lat_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle + ", measured on clients", fontsize=9, ha='center')
+	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle + ", client meas.", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,cli_lat_maxy*1.2))
@@ -448,15 +455,15 @@ if (0):
 		plt.clf()
 
 # Middleware plots
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = mw_tpt_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle + ", measured on middlewares", fontsize=9, ha='center')
+	plt.figtext(.5,.94,tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle + ", middleware meas.", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
@@ -470,15 +477,15 @@ if (0):
 		plt.savefig("./out/plot/mwb" + experiment + "-tp" + "_mw.png")
 		plt.clf()
 
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = mw_lat_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle + ", measured on middlewares", fontsize=9, ha='center')
+	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle + ", middleware meas.", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,mw_lat_maxy*1.2))
@@ -491,21 +498,21 @@ if (0):
 		plt.clf()
 
 # Law plots
-law_tptitle = 'Predicted throughput versus # of clients for diff. # worker threads in mw'
-law_lattitle = 'Predicted latency versus number of clients for diff. # worker threads in mw'
-subtitle = 'Baseline with middleware, one middleware, interactive law'
-law_cli_subtitle = subtitle + ' on client measurements'
-law_mw_subtitle = subtitle + ' on middleware measurements'
+law_tptitle = 'Predicted throughput versus # of clients' # + ' for diff. # worker threads in mw'
+law_lattitle = 'Predicted latency versus number of clients' # + ' for diff. # worker threads in mw'
+subtitle = 'Baseline with mw, one mw, interactive law'
+law_cli_subtitle = subtitle + ' on client meas.'
+law_mw_subtitle = subtitle + ' on middleware meas.'
 
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = law_cli_tpt_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_cli_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_cli_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
@@ -519,15 +526,15 @@ if (0):
 		plt.savefig("./out/plot/mwb" + experiment + "-tp" + "_law_cli.png")
 		plt.clf()
 
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = law_cli_lat_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_cli_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_cli_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,law_cli_lat_maxy*1.2))
@@ -539,15 +546,15 @@ if (0):
 		plt.savefig("./out/plot/mwb" + experiment + "-lat" + "_law_cli.png")
 		plt.clf()
 
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, tptlabel = law_mw_tpt_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_mw_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_mw_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
@@ -561,15 +568,15 @@ if (0):
 		plt.savefig("./out/plot/mwb" + experiment + "-tp" + "_law_mw.png")
 		plt.clf()
 
-if (0):
+if (1):
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = law_mw_lat_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_mw_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_mw_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,law_mw_lat_maxy*1.2))
@@ -586,9 +593,9 @@ qlentitle = "Queue length versus number of clients"
 qtimetitle = "Queue time versus number of clients"
 wtimetitle = "Waiting time versus number of clients"
 if experiment == "1-wo" or experiment == "1-ro":
-	subtitle = 'Baseline with middleware, one middleware'
+	subtitle = 'Baseline with mw, one mw'
 if experiment == "2-wo" or experiment == "2-ro":
-	subtitle = 'Baseline with middleware, two middlewares'
+	subtitle = 'Baseline with mw, two mws'
 
 if experiment == "1-wo" or experiment == "2-wo":
 	subtitle = subtitle + ', write-only load'
@@ -596,15 +603,15 @@ if experiment == "1-ro" or experiment == "2-ro":
 	subtitle = subtitle + ', read-only load'
 
 if (1):
-	plt.figure(figsize=(5,4))
+	# plt.figure(figsize=(5,4))
 	for i in range(0,len(tlist)):
 		y, yerr, qlenlabel = mw_qlen_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(qlenlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,qlentitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,qlentitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,mw_qlen_maxy*1.2))
@@ -617,15 +624,15 @@ if (1):
 		plt.clf()
 
 if (1):
-	plt.figure(figsize=(5,4))
+	# plt.figure(figsize=(5,4))
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = mw_qtime_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,qtimetitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,qtimetitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,mw_qtime_maxy*1.2))
@@ -638,15 +645,15 @@ if (1):
 		plt.clf()
 
 if (1):
-	plt.figure(figsize=(5,4))
+	# plt.figure(figsize=(5,4))
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = mw_wtime_plot[i]
 		line = plt.errorbar(x=mult_vlist, y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,wtimetitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,wtimetitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(mult_vlist)
 	plt.ylim((0,mw_wtime_maxy*1.2))
