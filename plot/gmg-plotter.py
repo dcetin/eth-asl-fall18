@@ -562,7 +562,7 @@ if(1):
 	# Middleware wtime
 	makePlot(mw_wtime_plot, mw_wtime_maxy, op_type + "-wtime_mw.png", wtimetitle, subtitle + ', measured on middlewares')
 
-printSummary("Client latency", cli_tpt_plot, mgshrdList, mlist)
+printSummary("Client latency", cli_lat_plot, mgshrdList, mlist)
 printSummary("Client throughput", cli_tpt_plot, mgshrdList, mlist)
 printSummary("Client num_items", cli_nitems_plot, mgshrdList, mlist)
 printSummary("Middleware latency", mw_lat_plot, mgshrdList, mlist)

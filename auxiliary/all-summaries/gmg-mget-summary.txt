@@ -10,15 +10,15 @@ Non-zero cut percentages:
  
 Client latency
 Sharded
-1 keys	1.124 ± 0.009
-3 keys	1.065 ± 0.001
-6 keys	1.019 ± 0.007
-9 keys	0.972 ± 0.005
+1 keys	5.008 ± 0.010
+3 keys	5.610 ± 0.007
+6 keys	5.882 ± 0.047
+9 keys	6.264 ± 0.032
 Non-sharded
-1 keys	1.120 ± 0.005
-3 keys	1.073 ± 0.007
-6 keys	1.024 ± 0.010
-9 keys	0.984 ± 0.002
+1 keys	4.994 ± 0.013
+3 keys	5.408 ± 0.046
+6 keys	5.809 ± 0.082
+9 keys	6.045 ± 0.063
  
 Client throughput
 Sharded

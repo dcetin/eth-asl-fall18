@@ -1,16 +1,16 @@
 Client latency
 Sharded
-9 keys	0.972 ± 0.005
-18 keys	0.492 ± 0.006
-27 keys	0.335 ± 0.001
-54 keys	0.167 ± 0.000
-81 keys	0.111 ± 0.000
+9 keys	6.063 ± 0.048
+18 keys	10.557 ± 0.212
+27 keys	13.635 ± 0.348
+54 keys	19.038 ± 0.138
+81 keys	20.575 ± 0.361
 Non-sharded
-9 keys	0.984 ± 0.002
-18 keys	0.505 ± 0.002
-27 keys	0.337 ± 0.002
-54 keys	0.167 ± 0.000
-81 keys	0.110 ± 0.000
+9 keys	6.130 ± 0.043
+18 keys	10.937 ± 0.040
+27 keys	14.333 ± 0.051
+54 keys	18.957 ± 0.091
+81 keys	19.754 ± 0.158
  
 Client throughput
 Sharded
