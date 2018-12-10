@@ -56,18 +56,21 @@
 	./memtier_benchmark --server=10.0.0.6 --port=11211 --clients=1 --threads=1 --test-time=15 --ratio=1:0 --expiry-range=9999-10000 --data-size=4096 --key-maximum=9900 --protocol=memcache_text --hide-histogram --key-pattern=S:S --debug
 	./memtier_benchmark --server=10.0.0.5 --port=11211 --clients=1 --threads=1 --test-time=15 --ratio=1:0 --expiry-range=9999-10000 --data-size=4096 --key-maximum=9900 --protocol=memcache_text --hide-histogram --key-pattern=S:S --debug
 	./memtier_benchmark --server=10.0.0.11 --port=11211 --clients=1 --threads=1 --test-time=15 --ratio=1:0 --expiry-range=9999-10000 --data-size=4096 --key-maximum=9900 --protocol=memcache_text --hide-histogram --key-pattern=S:S --debug
+	# Auxiliary experiment plots
+	python new-equal-load-plotter.py
+	python auxiliary-2-plotter.py show
 
 # COPYING EXPERIMENT RESULTS
-	rsync -a /home/doruk/Desktop/asl/experiment-results/csb/csb1/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/csb/csb2/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/mwb/mwb1-ro/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/mwb/mwb2-ro/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/mwb/mwb1-wo/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/mwb/mwb2-wo/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/tpfw/tpfw/ /home/doruk/Desktop/asl/asl-fall18-project/res/
-	rsync -a /home/doruk/Desktop/asl/experiment-results/gmg/gmg/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/csb1/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/csb2/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/mwb1-ro/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/mwb2-ro/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/mwb1-wo/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/mwb2-wo/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/tpfw/ /home/doruk/Desktop/asl/asl-fall18-project/res/
+	rsync -a /home/doruk/Desktop/asl/asl-fall18-project/experiment-results/gmg/ /home/doruk/Desktop/asl/asl-fall18-project/res/
 
-# PLOTTING
+# PLOTTING & SUMMARIZING
 	python new-csb-plotter.py 1-ro save > out/summary/csb1-ro-summary.txt
 	python new-csb-plotter.py 1-wo save > out/summary/csb1-wo-summary.txt
 	python new-csb-plotter.py 2-ro save > out/summary/csb2-ro-summary.txt
@@ -77,18 +80,18 @@
 	python mwb-plotter.py 2-ro save > out/summary/mwb2-ro-summary.txt
 	python mwb-plotter.py 2-wo save > out/summary/mwb2-wo-summary.txt
 	python tpfw-plotter.py save > out/summary/tpfw-summary.txt
-	python gmg-plotter.py mget save
-	python gmg-plotter.py set save
-	python -W ignore 2ka-analysis.py 1:0 cli_tpt 3 add > out/2k-wo-tpt-3-add.txt
-	python -W ignore 2ka-analysis.py 1:0 cli_tpt 3 mult > out/2k-wo-tpt-3-mult.txt
-	python -W ignore 2ka-analysis.py 1:0 cli_lat 3 add > out/2k-wo-lat-3-add.txt
-	python -W ignore 2ka-analysis.py 1:0 cli_lat 3 mult > out/2k-wo-lat-3-mult.txt
-	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 add > out/2k-ro-tpt-3-add.txt
-	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 mult > out/2k-ro-tpt-3-mult.txt
-	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 add > out/2k-ro-lat-3-add.txt
-	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 mult > out/2k-ro-lat-3-mult.txt
-	python new-equal-load-plotter.py
-	python auxiliary-2-plotter.py show
+	python gmg-plotter.py mget std save > out/summary/gmg-mget-summary.txt
+	python gmg-plotter.py set std save > out/summary/gmg-set-summary.txt
+	python gmg-plotter.py mget extra save > out/summary/gmg-extra-mget-summary.txt
+	python gmg-plotter.py set extra save > out/summary/gmg-extra-set-summary.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_tpt 3 add > out/summary/2k-wo-tpt-3-add.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_tpt 3 mult > out/summary/2k-wo-tpt-3-mult.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_lat 3 add > out/summary/2k-wo-lat-3-add.txt
+	python -W ignore 2ka-analysis.py 1:0 cli_lat 3 mult > out/summary/2k-wo-lat-3-mult.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 add > out/summary/2k-ro-tpt-3-add.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 mult > out/summary/2k-ro-tpt-3-mult.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 add > out/summary/2k-ro-lat-3-add.txt
+	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 mult > out/summary/2k-ro-lat-3-mult.txt
 
 # CLIENT-SERVER BASELINE 1
 	# Clients on VMs 1,2,3

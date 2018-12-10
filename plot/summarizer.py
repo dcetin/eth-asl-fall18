@@ -133,9 +133,14 @@ def getMiddlewareHist(fname, htype):
 def drawHist(times, counts, errs=None, title='Response time histogram', subtitle='', out_format="show", maxy=None):
 	if subtitle != '':
 		machine, mgsize, mgshrd, op_type = subtitle
-		subtitle = "Measured on " + machine + ", " + str(mgsize) + " keys, sharded read: " + mgshrd + ", " + op_type + " operations"
+		if mgshrd == "true":
+			shardedMode = "sharded"
+		else:
+			shardedMode = "non-sharded"
+		subtitle = "Meas. on " + machine + ", " + str(mgsize) + " keys, " + shardedMode + ", " + op_type + " operations"
 
-	errs = errs / 1000.0
+	if errs is not None:
+		errs = errs / 1000.0
 	counts = counts / 1000.0
 	maxy = maxy / 1000.0
 
@@ -155,8 +160,8 @@ def drawHist(times, counts, errs=None, title='Response time histogram', subtitle
 	else:
 		plt.bar(x, width=0.1,height=y, yerr=errs, align="edge")
 	plt.xlim(min(x),max(x)+0.1)
-	plt.figtext(.5,.94,title, fontsize=14, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,title, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.grid(True)
 	plt.xlabel('Latency (ms)')
 	plt.ylabel('Count (1000)')
@@ -273,6 +278,7 @@ def aggregateHists(histList, commonCutIdx=None):
 		cutPercentage = (np.sum(ws[commonCutIdx+1:]) / np.sum(ws[:commonCutIdx]))*100.0
 		if cutPercentage > 0:
 			print cutPercentage
+
 		# New weights correct except the last bin
 		new_weights = ws[:commonCutIdx+1]
 		# Aggregate the outlier weights
@@ -286,8 +292,9 @@ def aggregateHists(histList, commonCutIdx=None):
 		wss.append(ws)
 	wss = np.vstack(wss)
 	avg = np.average(wss,0)
-	err = np.std(wss, 0)
-	return commonCutIdx, val, avg, err
+	err = np.std(wss,0)
+	summed = np.sum(wss,0)
+	return commonCutIdx, val, avg, err, summed
 
 def findNearestIdx(array, value):
     array = np.asarray(array)
@@ -308,10 +315,12 @@ def getClientPercentile(fname, ttime, htype):
 		lastIdx = content.index("---")
 	if htype == "GET":
 		baseIdx = content.index("---")+1
-		lastIdx = len(content)-1
+		# lastIdx = len(content)-1
+		lastIdx = [i for i, n in enumerate(content) if n == '---'][1]
 
 	val = []
 	ws = []
+
 	for x in range(baseIdx, lastIdx):
 		temp = [float(x) for x in content[x].split()[1:]]
 		val.append(temp[0]*10.0)

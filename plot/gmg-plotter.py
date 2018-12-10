@@ -10,27 +10,29 @@ import sys
 plt.rcParams.update({'font.size': 14})
 plt.rc('xtick', labelsize=14) 
 plt.rc('ytick', labelsize=14) 
+params = {'legend.fontsize': 12,
+          'legend.handlelength': 2}
+plt.rcParams.update(params)
 
 op_type = sys.argv[1] # e.g. "set" or "mget"
-out_format = sys.argv[2] # e.g. "show" or "save"
+keys = sys.argv[2] # e.g. "std" or "extra"
+out_format = sys.argv[3] # e.g. "show" or "save"
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 mgshrdList = ["true", "false"]
 ttime = 70
 reps = [1,2,3]
 
-mlist = [1,3,6,9]
-hist_cuttime = 140
-ymax_hist = 9000
-ymax_perc = 20
-ystep = 1
-# ymax_perc = 25
-# ystep = 2
+hist_cuttime = 160
+ymax_hist = 14000
+if keys == "std":
+	mlist = [1,3,6,9]
+	ymax_perc = 20
+	ystep = 1
+if keys == "extra":
+	mlist = [9,18,27,54,81]
+	ymax_perc = 300
+	ystep = 25
 
-# mlist = [9,18,27,54,81]
-# ymax_perc = 280
-# ystep = 25
-# # ymax_perc = 40
-# # ystep = 5
 
 # Init plot vals
 if True:
@@ -395,19 +397,28 @@ def prepHistograms(percDict, mgshrd, op_type, histmaxy, cutTime):
 				mw_rep_mgethist.append(mget_hist)
 			mw_mgsize_sethist.append(combineMiddlewareHists(mw_rep_sethist))
 			mw_mgsize_mgethist.append(combineMiddlewareHists(mw_rep_mgethist))
+
 		if mgsize == 6 and op_type == "set":
+			print "Non-zero cut percentages: "
 			temp1 = aggregateHists(cli_mgsize_sethist, cutTime)
 			temp2 = aggregateHists(mw_mgsize_sethist, cutTime)
-			drawHist(temp1[1], temp1[2], temp1[3], subtitle=("clients", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
-			drawHist(temp2[1], temp2[2], temp2[3], subtitle=("middlewares", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+			drawHist(temp1[1], temp1[4], subtitle=("clients", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+			drawHist(temp2[1], temp2[4], subtitle=("middlewares", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+			# drawHist(temp1[1], temp1[2], temp1[3], subtitle=("clients", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
+			# drawHist(temp2[1], temp2[2], temp2[3], subtitle=("middlewares", mgsize, mgshrd, "set"), out_format=out_format, maxy=histmaxy)
 			# drawHist2(temp1[1], temp1[2], temp2[1], temp2[2], temp1[3], temp2[3], subtitle=(mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			print " "
 
 		if mgsize == 6 and op_type == "mget":
+			print "Non-zero cut percentages: "
 			temp1 = aggregateHists(cli_mgsize_mgethist, cutTime)
 			temp2 = aggregateHists(mw_mgsize_mgethist, cutTime)
-			drawHist(temp1[1], temp1[2], temp1[3], subtitle=("clients", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
-			drawHist(temp2[1], temp2[2], temp2[3], subtitle=("middlewares", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			drawHist(temp1[1], temp1[4], subtitle=("clients", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			drawHist(temp2[1], temp2[4], subtitle=("middlewares", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			# drawHist(temp1[1], temp1[2], temp1[3], subtitle=("clients", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			# drawHist(temp2[1], temp2[2], temp2[3], subtitle=("middlewares", mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
 			# drawHist2(temp1[1], temp1[2], temp2[1], temp2[2], temp1[3], temp2[3], subtitle=(mgsize, mgshrd, "mget"), out_format=out_format, maxy=histmaxy)
+			print " "
 
 		percDict[mgshrd + "-set-" + str(mgsize) + "-avg"] = np.average(np.vstack(cli_mgsize_setperc), 0)
 		percDict[mgshrd + "-set-" + str(mgsize) + "-std"] = np.std(np.vstack(cli_mgsize_setperc), 0)
@@ -436,7 +447,10 @@ def makePlot(plot_list, plot_maxy, plot_file, title, subtitle):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/gmg-" + plot_file)
+		if keys == "extra":
+			plt.savefig("./out/plot/gmg-extra-" + plot_file)
+		else:
+			plt.savefig("./out/plot/gmg-" + plot_file)
 		plt.clf()
 
 def plotPercentiles(percDict, op_type, mgshrd, out_format, ystep, ymax=None):
@@ -488,8 +502,24 @@ def plotPercentiles(percDict, op_type, mgshrd, out_format, ystep, ymax=None):
 		plt.show()
 		plt.clf()
 	if out_format == "save":
-		plt.savefig("./out/plot/gmg-perc-" + mgshrd + ".png")
+		if keys == "extra":
+			plt.savefig("./out/plot/gmg-extra-perc-" + op_type + "-" + mgshrd + ".png")
+		else:
+			plt.savefig("./out/plot/gmg-perc-" + op_type + "-" + mgshrd + ".png")
 		plt.clf()
+
+def printSummary(title, plot_list, mgshrdList, mlist):
+	t = "\t"
+	print title
+	for i in range(0, len(mgshrdList)):
+		if mgshrdList[i] == "true":
+			print "Sharded"
+		else:
+			print "Non-sharded"
+		x = plot_list[i]
+		for j in range(0, len(mlist)):
+			print (str(mlist[j]) + " keys" +t+ "%.3f" % (x[0][j]) +" ± "+ "%.3f" % (x[1][j])).encode('utf-8')
+	print " "
 
 percDict = {}
 for mgshrd in mgshrdList:
@@ -500,22 +530,27 @@ for mgshrd in mgshrdList:
 plotPercentiles(percDict, op_type, "true", out_format, ystep, ymax=ymax_perc)
 plotPercentiles(percDict, op_type, "false", out_format, ystep, ymax=ymax_perc)
 
-#TODO: think about the errorbars and stuff
-#TODO: aggregating now only using averaging
-#TODO: print (summary for gmg?)
-
 tpttitle = "Throughput"
 lattitle = "Latency"
 qlentitle = "Queue length"
 qtimetitle = "Queue time"
 wtimetitle = "Waiting time"
+nitemstitle = "Number of query items"
 subtitle = 'Gets and multi-gets exp., ' + op_type + ' operations'
+
+cli_nitems_plot = []
+for x in cli_tpt_plot:
+	cli_nitems_plot.append((np.multiply(x[0], mlist), np.multiply(x[1], mlist), x[2]))
+
+cli_nitems_maxy = np.max(  [np.max(cli_nitems_plot[0][0]), np.max(cli_nitems_plot[1][0])]  )
 
 if(1):
 	# Client latency
 	makePlot(cli_lat_plot, cli_lat_maxy, op_type + "-lat_cli.png", lattitle, subtitle + ', measured on clients')
 	# Client throughput
 	makePlot(cli_tpt_plot, cli_tpt_maxy, op_type + "-tpt_cli.png", tpttitle, subtitle + ', measured on clients')
+	# Client num_items
+	makePlot(cli_nitems_plot, cli_nitems_maxy, op_type + "-nitems_cli.png", nitemstitle, subtitle + ', measured on clients')
 	# Middleware latency
 	makePlot(mw_lat_plot, mw_lat_maxy, op_type + "-lat_mw.png", lattitle, subtitle + ', measured on middlewares')
 	# Middleware throughput
@@ -526,3 +561,12 @@ if(1):
 	makePlot(mw_qtime_plot, mw_qtime_maxy, op_type + "-qtime_mw.png", qtimetitle, subtitle + ', measured on middlewares')
 	# Middleware wtime
 	makePlot(mw_wtime_plot, mw_wtime_maxy, op_type + "-wtime_mw.png", wtimetitle, subtitle + ', measured on middlewares')
+
+printSummary("Client latency", cli_tpt_plot, mgshrdList, mlist)
+printSummary("Client throughput", cli_tpt_plot, mgshrdList, mlist)
+printSummary("Client num_items", cli_nitems_plot, mgshrdList, mlist)
+printSummary("Middleware latency", mw_lat_plot, mgshrdList, mlist)
+printSummary("Middleware throughput", mw_tpt_plot, mgshrdList, mlist)
+printSummary("Middleware qlen", mw_qlen_plot, mgshrdList, mlist)
+printSummary("Middleware qtime", mw_qtime_plot, mgshrdList, mlist)
+printSummary("Middleware wtime", mw_wtime_plot, mgshrdList, mlist)

@@ -10,6 +10,13 @@ import sys
 # resbase="/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 
+plt.rcParams.update({'font.size': 14})
+plt.rc('xtick', labelsize=12) 
+plt.rc('ytick', labelsize=12) 
+params = {'legend.fontsize': 12,
+          'legend.handlelength': 2}
+plt.rcParams.update(params)
+
 out_format = sys.argv[1] # e.g. "show" or "save"
 
 def_vlist = [1,4,8,16,32,48]
@@ -301,10 +308,10 @@ for tmw_idx, tmw in enumerate(tlist):
 		print " "
 
 def_vlist = np.asarray(def_vlist)
-tptitle = 'Throughput versus number of clients for diff. # worker threads in mw'
-lattitle = 'Latency versus number of clients for diff. # worker threads in mw'
+tptitle = 'Throughput versus number of clients'
+lattitle = 'Latency versus number of clients'
 cliMult = 6
-subtitle = 'Full system, full system, measured on clients'
+subtitle = 'Full system, measured on clients'
 def_vlist = def_vlist * cliMult
 for i,x in enumerate(vcli_lists):
 	vcli_lists[i] = np.asarray(vcli_lists[i]) * cliMult
@@ -319,8 +326,8 @@ if (1):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,cli_tpt_maxy*1.2))
@@ -339,8 +346,8 @@ if (1):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,cli_lat_maxy*1.2))
@@ -359,8 +366,8 @@ if (1):
 		line = plt.errorbar(x=vcli_lists[i] , y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,mw_tpt_maxy*1.2))
@@ -379,8 +386,8 @@ if (1):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,mw_lat_maxy*1.2))
@@ -393,11 +400,11 @@ if (1):
 		plt.clf()
 
 # Law plots
-law_tptitle = 'Predicted throughput versus # of clients for diff. # worker threads in mw'
-law_lattitle = 'Predicted latency versus number of clients for diff. # worker threads in mw'
+law_tptitle = 'Predicted throughput versus # of clients'
+law_lattitle = 'Predicted latency versus number of clients'
 subtitle = 'Full system, one middleware, interactive law'
-law_cli_subtitle = subtitle + ' on client measurements'
-law_mw_subtitle = subtitle + ' on middleware measurements'
+law_cli_subtitle = subtitle + ' on client meas.'
+law_mw_subtitle = subtitle + ' on middleware meas.'
 
 if (1):
 	for i in range(0,len(tlist)):
@@ -406,8 +413,8 @@ if (1):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_cli_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_cli_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,law_cli_tpt_maxy*1.2))
@@ -426,8 +433,8 @@ if (1):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_cli_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_cli_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,law_cli_lat_maxy*1.2))
@@ -446,8 +453,8 @@ if (1):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_mw_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_mw_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,law_mw_tpt_maxy*1.2))
@@ -466,8 +473,8 @@ if (1):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,law_lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,law_mw_subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,law_lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,law_mw_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,law_mw_lat_maxy*1.2))
@@ -486,15 +493,15 @@ wtimetitle = "Waiting time versus number of clients"
 subtitle = 'Full system, write-only load'
 
 if (1):
-	plt.figure(figsize=(5,4))
+	# plt.figure(figsize=(5,4))
 	for i in range(0,len(tlist)):
 		y, yerr, qlenlabel = mw_qlen_plot[i]
 		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(qlenlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,qlentitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,qlentitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,mw_qlen_maxy*1.2))
@@ -507,15 +514,15 @@ if (1):
 		plt.clf()
 
 if (1):
-	plt.figure(figsize=(5,4))
+	# plt.figure(figsize=(5,4))
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = mw_qtime_plot[i]
 		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,qtimetitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,qtimetitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,mw_qtime_maxy*1.2))
@@ -528,15 +535,15 @@ if (1):
 		plt.clf()
 
 if (1):
-	plt.figure(figsize=(5,4))
+	# plt.figure(figsize=(5,4))
 	for i in range(0,len(tlist)):
 		y, yerr, latlabel = mw_wtime_plot[i]
 		line = plt.errorbar(x=vcli_lists[i], y=y, yerr=yerr, label=str(tlist[i]) + " threads", marker='o', capsize=2, capthick=1)
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,wtimetitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,wtimetitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(def_vlist)
 	plt.ylim((0,mw_wtime_maxy*1.2))

@@ -1,0 +1,112 @@
+Client latency
+Sharded
+9 keys	0.972 ± 0.005
+18 keys	0.492 ± 0.006
+27 keys	0.335 ± 0.001
+54 keys	0.167 ± 0.000
+81 keys	0.111 ± 0.000
+Non-sharded
+9 keys	0.984 ± 0.002
+18 keys	0.505 ± 0.002
+27 keys	0.337 ± 0.002
+54 keys	0.167 ± 0.000
+81 keys	0.110 ± 0.000
+ 
+Client throughput
+Sharded
+9 keys	0.972 ± 0.005
+18 keys	0.492 ± 0.006
+27 keys	0.335 ± 0.001
+54 keys	0.167 ± 0.000
+81 keys	0.111 ± 0.000
+Non-sharded
+9 keys	0.984 ± 0.002
+18 keys	0.505 ± 0.002
+27 keys	0.337 ± 0.002
+54 keys	0.167 ± 0.000
+81 keys	0.110 ± 0.000
+ 
+Client num_items
+Sharded
+9 keys	8.750 ± 0.049
+18 keys	8.859 ± 0.107
+27 keys	9.054 ± 0.039
+54 keys	9.035 ± 0.004
+81 keys	9.017 ± 0.007
+Non-sharded
+9 keys	8.859 ± 0.017
+18 keys	9.084 ± 0.040
+27 keys	9.086 ± 0.052
+54 keys	9.042 ± 0.005
+81 keys	8.876 ± 0.011
+ 
+Middleware latency
+Sharded
+9 keys	4.128 ± 0.048
+18 keys	10.269 ± 1.779
+27 keys	12.217 ± 0.280
+54 keys	17.626 ± 0.116
+81 keys	19.150 ± 0.282
+Non-sharded
+9 keys	3.990 ± 0.069
+18 keys	9.217 ± 0.023
+27 keys	12.564 ± 0.029
+54 keys	17.487 ± 0.183
+81 keys	18.354 ± 0.144
+ 
+Middleware throughput
+Sharded
+9 keys	0.976 ± 0.005
+18 keys	0.490 ± 0.005
+27 keys	0.333 ± 0.000
+54 keys	0.167 ± 0.000
+81 keys	0.111 ± 0.000
+Non-sharded
+9 keys	0.987 ± 0.003
+18 keys	0.502 ± 0.000
+27 keys	0.335 ± 0.000
+54 keys	0.167 ± 0.000
+81 keys	0.110 ± 0.000
+ 
+Middleware qlen
+Sharded
+9 keys	0.087 ± 0.017
+18 keys	0.044 ± 0.024
+27 keys	0.027 ± 0.032
+54 keys	0.030 ± 0.017
+81 keys	0.011 ± 0.004
+Non-sharded
+9 keys	0.074 ± 0.020
+18 keys	0.038 ± 0.020
+27 keys	0.008 ± 0.007
+54 keys	0.022 ± 0.017
+81 keys	0.003 ± 0.004
+ 
+Middleware qtime
+Sharded
+9 keys	0.119 ± 0.003
+18 keys	0.127 ± 0.003
+27 keys	0.121 ± 0.004
+54 keys	0.114 ± 0.005
+81 keys	0.097 ± 0.005
+Non-sharded
+9 keys	0.117 ± 0.001
+18 keys	0.112 ± 0.001
+27 keys	0.102 ± 0.001
+54 keys	0.087 ± 0.003
+81 keys	0.087 ± 0.006
+ 
+Middleware wtime
+Sharded
+9 keys	4.009 ± 0.046
+18 keys	10.142 ± 1.777
+27 keys	12.096 ± 0.280
+54 keys	17.511 ± 0.113
+81 keys	19.053 ± 0.287
+Non-sharded
+9 keys	3.874 ± 0.070
+18 keys	9.105 ± 0.022
+27 keys	12.462 ± 0.029
+54 keys	17.400 ± 0.180
+81 keys	18.267 ± 0.138
+ 

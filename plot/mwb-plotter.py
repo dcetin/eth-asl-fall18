@@ -411,6 +411,10 @@ if experiment == "1-wo" or experiment == "2-wo":
 if experiment == "1-ro" or experiment == "2-ro":
 	subtitle = subtitle + ', read-only load'
 
+xticks = mult_vlist
+if experiment == "2-ro":
+	xticks = np.array([ 1, 3, 8, 32]) * cliMult
+
 # Client plots
 if (1):
 	for i in range(0,len(tlist)):
@@ -424,7 +428,7 @@ if (1):
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,cli_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -444,7 +448,7 @@ if (1):
 	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,subtitle + ", client meas.", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,cli_lat_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -467,7 +471,7 @@ if (1):
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,mw_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -487,7 +491,7 @@ if (1):
 	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,subtitle + ", middleware meas.", fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,mw_lat_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -516,7 +520,7 @@ if (1):
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,law_cli_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -536,7 +540,7 @@ if (1):
 	plt.figtext(.5,.94,law_lattitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,law_cli_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,law_cli_lat_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -558,7 +562,7 @@ if (1):
 	plt.legend(loc='upper left')
 	if experiment == "1-ro" or experiment == "2-ro":
 		plt.legend(loc='lower right')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,law_mw_tpt_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -578,7 +582,7 @@ if (1):
 	plt.figtext(.5,.94,law_lattitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,law_mw_subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,law_mw_lat_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -613,7 +617,7 @@ if (1):
 	plt.figtext(.5,.94,qlentitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,mw_qlen_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -634,7 +638,7 @@ if (1):
 	plt.figtext(.5,.94,qtimetitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,mw_qtime_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":
@@ -655,7 +659,7 @@ if (1):
 	plt.figtext(.5,.94,wtimetitle, fontsize=16, ha='center')
 	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
-	plt.xticks(mult_vlist)
+	plt.xticks(xticks)
 	plt.ylim((0,mw_wtime_maxy*1.2))
 	plt.grid(True, axis="both")
 	if out_format == "show":

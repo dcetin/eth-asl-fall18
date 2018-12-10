@@ -1,0 +1,106 @@
+Non-zero cut percentages: 
+0.6601008128112987
+0.6327246642496156
+0.6941448173370263
+ 
+Non-zero cut percentages: 
+0.9865643372166003
+0.7125025897014454
+0.6977520370316634
+ 
+Client latency
+Sharded
+1 keys	1.124 ± 0.009
+3 keys	1.065 ± 0.001
+6 keys	1.019 ± 0.007
+9 keys	0.972 ± 0.005
+Non-sharded
+1 keys	1.120 ± 0.005
+3 keys	1.073 ± 0.007
+6 keys	1.024 ± 0.010
+9 keys	0.984 ± 0.002
+ 
+Client throughput
+Sharded
+1 keys	1.124 ± 0.009
+3 keys	1.065 ± 0.001
+6 keys	1.019 ± 0.007
+9 keys	0.972 ± 0.005
+Non-sharded
+1 keys	1.120 ± 0.005
+3 keys	1.073 ± 0.007
+6 keys	1.024 ± 0.010
+9 keys	0.984 ± 0.002
+ 
+Client num_items
+Sharded
+1 keys	1.124 ± 0.009
+3 keys	3.194 ± 0.004
+6 keys	6.114 ± 0.044
+9 keys	8.749 ± 0.049
+Non-sharded
+1 keys	1.120 ± 0.005
+3 keys	3.219 ± 0.022
+6 keys	6.143 ± 0.058
+9 keys	8.858 ± 0.017
+ 
+Middleware latency
+Sharded
+1 keys	1.559 ± 0.023
+3 keys	2.364 ± 0.025
+6 keys	2.964 ± 0.037
+9 keys	3.491 ± 0.024
+Non-sharded
+1 keys	1.554 ± 0.012
+3 keys	2.115 ± 0.021
+6 keys	2.925 ± 0.064
+9 keys	3.233 ± 0.073
+ 
+Middleware throughput
+Sharded
+1 keys	1.128 ± 0.010
+3 keys	1.068 ± 0.003
+6 keys	1.025 ± 0.009
+9 keys	0.976 ± 0.005
+Non-sharded
+1 keys	1.124 ± 0.006
+3 keys	1.076 ± 0.008
+6 keys	1.030 ± 0.012
+9 keys	0.987 ± 0.003
+ 
+Middleware qlen
+Sharded
+1 keys	0.145 ± 0.047
+3 keys	0.107 ± 0.057
+6 keys	0.123 ± 0.048
+9 keys	0.087 ± 0.017
+Non-sharded
+1 keys	0.161 ± 0.022
+3 keys	0.126 ± 0.017
+6 keys	0.169 ± 0.043
+9 keys	0.074 ± 0.020
+ 
+Middleware qtime
+Sharded
+1 keys	0.119 ± 0.001
+3 keys	0.120 ± 0.001
+6 keys	0.120 ± 0.002
+9 keys	0.118 ± 0.002
+Non-sharded
+1 keys	0.121 ± 0.001
+3 keys	0.119 ± 0.002
+6 keys	0.116 ± 0.001
+9 keys	0.117 ± 0.002
+ 
+Middleware wtime
+Sharded
+1 keys	1.440 ± 0.024
+3 keys	2.244 ± 0.023
+6 keys	2.844 ± 0.038
+9 keys	3.373 ± 0.024
+Non-sharded
+1 keys	1.434 ± 0.011
+3 keys	1.995 ± 0.020
+6 keys	2.810 ± 0.063
+9 keys	3.116 ± 0.074
+ 

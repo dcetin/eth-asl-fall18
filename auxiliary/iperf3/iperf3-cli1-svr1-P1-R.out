@@ -1,0 +1,28 @@
+iperf 3.0.11
+Linux Client1 4.15.0-1028-azure #29~16.04.1-Ubuntu SMP Thu Oct 18 21:21:58 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Time: Sun, 11 Nov 2018 12:03:18 GMT
+Connecting to host 10.0.0.6, port 5201
+Reverse mode, remote host 10.0.0.6 is sending
+      Cookie: Client1.1541937798.843020.21dd874229
+      TCP MSS: 1406 (default)
+[  4] local 10.0.0.8 port 37318 connected to 10.0.0.6 port 5201
+Starting Test: protocol: TCP, 1 streams, 131072 byte blocks, omitting 0 seconds, 10 second test
+[ ID] Interval           Transfer     Bandwidth
+[  4]   0.00-1.00   sec  12.5 MBytes   105 Mbits/sec                  
+[  4]   1.00-2.00   sec  11.8 MBytes  99.3 Mbits/sec                  
+[  4]   2.00-3.00   sec  11.9 MBytes  99.7 Mbits/sec                  
+[  4]   3.00-4.00   sec  11.8 MBytes  99.0 Mbits/sec                  
+[  4]   4.00-5.00   sec  11.9 MBytes  99.7 Mbits/sec                  
+[  4]   5.00-6.00   sec  11.7 MBytes  98.5 Mbits/sec                  
+[  4]   6.00-7.00   sec  11.9 MBytes  99.5 Mbits/sec                  
+[  4]   7.00-8.00   sec  11.9 MBytes  99.5 Mbits/sec                  
+[  4]   8.00-9.00   sec  11.9 MBytes  99.5 Mbits/sec                  
+[  4]   9.00-10.00  sec  11.9 MBytes   100 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+Test Complete. Summary Results:
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec   120 MBytes   101 Mbits/sec  356             sender
+[  4]   0.00-10.00  sec   119 MBytes   100 Mbits/sec                  receiver
+CPU Utilization: local/receiver 1.5% (0.1%u/1.4%s), remote/sender 0.1% (0.0%u/0.1%s)
+
+iperf Done.

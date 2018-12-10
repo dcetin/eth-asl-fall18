@@ -1,0 +1,62 @@
+iperf 3.0.11
+Linux Client1 4.15.0-1028-azure #29~16.04.1-Ubuntu SMP Thu Oct 18 21:21:58 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Time: Sun, 11 Nov 2018 12:04:33 GMT
+Connecting to host 10.0.0.6, port 5201
+Reverse mode, remote host 10.0.0.6 is sending
+      Cookie: Client1.1541937873.316788.04b7c79f34
+      TCP MSS: 1406 (default)
+[  4] local 10.0.0.8 port 37516 connected to 10.0.0.6 port 5201
+[  6] local 10.0.0.8 port 37518 connected to 10.0.0.6 port 5201
+Starting Test: protocol: TCP, 2 streams, 131072 byte blocks, omitting 0 seconds, 10 second test
+[ ID] Interval           Transfer     Bandwidth
+[  4]   0.00-1.00   sec  6.03 MBytes  50.6 Mbits/sec                  
+[  6]   0.00-1.00   sec  6.89 MBytes  57.8 Mbits/sec                  
+[SUM]   0.00-1.00   sec  12.9 MBytes   108 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   1.00-2.00   sec  5.59 MBytes  46.9 Mbits/sec                  
+[  6]   1.00-2.00   sec  6.20 MBytes  52.0 Mbits/sec                  
+[SUM]   1.00-2.00   sec  11.8 MBytes  98.9 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   2.00-3.00   sec  5.01 MBytes  42.1 Mbits/sec                  
+[  6]   2.00-3.00   sec  6.94 MBytes  58.2 Mbits/sec                  
+[SUM]   2.00-3.00   sec  11.9 MBytes   100 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   3.00-4.00   sec  4.96 MBytes  41.6 Mbits/sec                  
+[  6]   3.00-4.00   sec  6.81 MBytes  57.1 Mbits/sec                  
+[SUM]   3.00-4.00   sec  11.8 MBytes  98.7 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   4.00-5.00   sec  5.29 MBytes  44.4 Mbits/sec                  
+[  6]   4.00-5.00   sec  6.58 MBytes  55.2 Mbits/sec                  
+[SUM]   4.00-5.00   sec  11.9 MBytes  99.6 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   5.00-6.00   sec  5.49 MBytes  46.0 Mbits/sec                  
+[  6]   5.00-6.00   sec  6.32 MBytes  53.0 Mbits/sec                  
+[SUM]   5.00-6.00   sec  11.8 MBytes  99.1 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   6.00-7.00   sec  5.84 MBytes  49.0 Mbits/sec                  
+[  6]   6.00-7.00   sec  6.22 MBytes  52.2 Mbits/sec                  
+[SUM]   6.00-7.00   sec  12.1 MBytes   101 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   7.00-8.00   sec  5.63 MBytes  47.2 Mbits/sec                  
+[  6]   7.00-8.00   sec  6.22 MBytes  52.2 Mbits/sec                  
+[SUM]   7.00-8.00   sec  11.9 MBytes  99.4 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   8.00-9.00   sec  5.76 MBytes  48.3 Mbits/sec                  
+[  6]   8.00-9.00   sec  6.22 MBytes  52.2 Mbits/sec                  
+[SUM]   8.00-9.00   sec  12.0 MBytes   100 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  4]   9.00-10.00  sec  5.66 MBytes  47.5 Mbits/sec                  
+[  6]   9.00-10.00  sec  6.11 MBytes  51.3 Mbits/sec                  
+[SUM]   9.00-10.00  sec  11.8 MBytes  98.8 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+Test Complete. Summary Results:
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  55.7 MBytes  46.8 Mbits/sec  286             sender
+[  4]   0.00-10.00  sec  55.3 MBytes  46.4 Mbits/sec                  receiver
+[  6]   0.00-10.00  sec  65.1 MBytes  54.6 Mbits/sec  180             sender
+[  6]   0.00-10.00  sec  64.5 MBytes  54.1 Mbits/sec                  receiver
+[SUM]   0.00-10.00  sec   121 MBytes   101 Mbits/sec  466             sender
+[SUM]   0.00-10.00  sec   120 MBytes   100 Mbits/sec                  receiver
+CPU Utilization: local/receiver 1.7% (0.2%u/1.5%s), remote/sender 0.3% (0.0%u/0.3%s)
+
+iperf Done.

@@ -292,26 +292,20 @@ First experiment for this section is conducted on three client machines connecte
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-qlen-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-qlen_mw.png}
   \caption{Avg. queue length}
-  \label{fig:mwb1-ro-qlen-mini}
+  \label{fig:mwb1-ro-qlen_mw}
 \end{subfigure}%
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-qtime-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-qtime_mw.png}
   \caption{Avg. queue time}
-  \label{fig:mwb1-ro-qtime-mini}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb1-ro-wtime-mini.png}
-  \caption{Avg. waiting time}
-  \label{fig:mwb1-ro-wtime-mini}
+  \label{fig:mwb1-ro-qtime_mw}
 \end{subfigure}
 \caption{Average queue lengths, queue times and waiting times for the read-only workload for baseline with middleware experiment with one middleware.}
-\label{fig:mwb1-ro-mini}
+\label{fig:mwb1-ro-qstats}
 \end{figure}
 
 \begin{figure}[h]
@@ -334,39 +328,31 @@ First experiment for this section is conducted on three client machines connecte
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-qlen-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-qlen_mw.png}
   \caption{Avg. queue length}
-  \label{fig:mwb1-wo-qlen-mini}
+  \label{fig:mwb1-wo-qlen_mw}
 \end{subfigure}%
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-qtime-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-qtime_mw.png}
   \caption{Avg. queue time}
-  \label{fig:mwb1-wo-qtime-mini}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb1-wo-wtime-mini.png}
-  \caption{Avg. waiting time}
-  \label{fig:mwb1-wo-wtime-mini}
+  \label{fig:mwb1-wo-qtime_mw}
 \end{subfigure}
 \caption{Average queue lengths, queue times and waiting times for the write-only workload for baseline with middleware experiment with one middleware.}
-\label{fig:mwb1-wo-mini}
+\label{fig:mwb1-wo-qstats}
 \end{figure}
 
 \subsubsection{Explanation} \label{sec:mwb1-exp}
 Plots in Figures \ref{fig:mwb1-ro_mw} and \ref{fig:mwb1-wo_mw} illustrate the throughput and response time measured on the middleware, respectively for read-only and write-only loads. With the read-only load, we observe a trend quite similar to the read-only results in baselines without middleware. Until we reach around 24 clients we can observe quite an increase in the throughput which is only accompanied by relatively smaller increases in the response time, regardless of the size of the thread pool in middleware. Afterwards, the trend is again the same for different number of threads: an increase in the number of clients results in a linear increase in the response times and does not change the average throughput obtained. Therefore, we state that the system saturates when there are around 24 clients in the system, regardless of the size of the worker thread pool in the middleware.
 \par The reason behind this saturation is familiar to us from the previous sections: server to middleware connection is limited by a bandwidth of 12MB per second (Table \ref{tab:iperf3-bandwidth}), so the server cannot send more replies because of the network limitations. This saturation happens so early in the system that we do not get to observe the effects of different threads in middleware. In other words, the middleware works efficiently even with 8 worker threads until the system saturates, so any number of worker threads could hypothetically handle more work if the server could be able respond more clients. It should also be noted that we cannot observe any network-wise limitations on top of the server-side send bottleneck and the CPU usage is fairly low for all the machines in the system ($80\%$ idle time at worst), as per dstat and iperf. \change{marginal change for tmw's}
-\par \change{this whole paragraph needs review} Figure \ref{fig:mwb1-ro-qlen-mini} illustrates the average queue lengths for various configurations. As the system is network bound for this workload, the server can only reply a portion of the requests while the other thread wait to send their requests. We expect these number of waiting threads to be very small, if the number of clients are smaller than the number of middleware threads. For the range the number of clients are greater than the worker of threads every additional client should increase the average queue length linearly. The plot confirms both our intuitions as for every different number of worker threads the queue length stay close to zero until the number of clients exceed the number of worker threads and the difference in queue lengths for the linear region is proportional to the number of clients. Lastly, we can see by comparing the values in Figures \ref{fig:mwb1-ro-qlen-mini} and \ref{fig:mwb1-ro-qtime-mini} that the queue times and the queue lengths have an approximately linear correlation as expected. The reason behind such relation is that as the system is network bound it is not the middleware but the server side that affects the queue times in the saturated region so changing the number of worker threads does not make a difference.
+\par \change{this whole paragraph needs review} Figure \ref{fig:mwb1-ro-qlen_mw} illustrates the average queue lengths for various configurations. As the system is network bound for this workload, the server can only reply a portion of the requests while the other thread wait to send their requests. We expect these number of waiting threads to be very small, if the number of clients are smaller than the number of middleware threads. For the range the number of clients are greater than the worker of threads every additional client should increase the average queue length linearly. The plot confirms both our intuitions as for every different number of worker threads the queue length stay close to zero until the number of clients exceed the number of worker threads and the difference in queue lengths for the linear region is proportional to the number of clients. Lastly, we can see by comparing the values in Figures \ref{fig:mwb1-ro-qlen_mw} and \ref{fig:mwb1-ro-qtime_mw} that the queue times and the queue lengths have an approximately linear correlation as expected. The reason behind such relation is that as the system is network bound it is not the middleware but the server side that affects the queue times in the saturated region so changing the number of worker threads does not make a difference.
 \\
 \par In the write-only case, we can observe a trend which is completely different from the read-only case, as the network is no longer our bottleneck. The trend until reaching 24 clients is similar with the read-only case as differences in the number of worker threads do not correspond to a difference in terms of the performance of the system, except 8 thread configuration which saturates around 24 clients. This is because the system is under-saturated for 16, 32 and 64 threads so we can expect their throughput and response time statistics to go hand in hand as the number of worker threads do not result in a noticeable difference in these metrics under light workload conditions. As we introduce more and more clients to the system we observe more divergence with respect to performance for different number of threads in the middleware.
 \par We can see that there are saturation points with different values in both axes for different worker thread configurations. Due to the inherent limitations of the experiment, the number of clients were not explored in depth for us to pinpoint exact saturation points for all worker thread configurations. For example, we say that 96 clients is where the 64 thread setup saturates, but we believe a comparably fine-grained study might show that the system saturates with fewer number of clients than 96.
-\par This time, the comparison of queue lengths and queue times (Figures \ref{fig:mwb1-wo-qlen-mini} and \ref{fig:mwb1-wo-qtime-mini}, respectively) yield a different interpretation. We can clearly see that, for the same queue lengths, different number of worker threads result in different scaling factors for the queue times. Moreover, queue length to queue time ratio increases with the number of worker threads. What that means is that the systems could process a longer queue for the same queueing times in average, since there will be more worker threads available to handle the requests.
+\par This time, the comparison of queue lengths and queue times (Figures \ref{fig:mwb1-wo-qlen_mw} and \ref{fig:mwb1-wo-qtime_mw}, respectively) yield a different interpretation. We can clearly see that, for the same queue lengths, different number of worker threads result in different scaling factors for the queue times. Moreover, queue length to queue time ratio increases with the number of worker threads. What that means is that the systems could process a longer queue for the same queueing times in average, since there will be more worker threads available to handle the requests.
 \par After interpreting all the relevant plots we can conclude that for the write-only workload the middleware is the bottleneck. dstat measurements are also cross-checked and we do not report any network or CPU usage limit for the write-only configurations. We say that the number of worker threads is the limiting parameter for our experiments for the write-only load and more worker threads mean better system performances. As a manifestation of this interpretation, we could see that we cannot achieve the levels of throughput reached in the first part of the baseline without middleware, as the middleware introduces a considerable amount of overhead between the clients and the server.
-\par However, we cannot assert the system performance would continuously increase as we introduce more and more worker threads into the middleware. Looking at the Figures \ref{fig:mwb1-ro-wtime-mini} and \ref{fig:mwb1-wo-wtime-mini} we can see that waiting times (server service times) and the number of working thread in the middleware are inversely proportional and we can expect the waiting times (server service times) to increase more as we keep increasing the worker threads. For our experimental setup this is an expected result as we configure our servers to only use one thread. \change{BE WARY, rethink that, compare against csb values}
-
 \subsection{Two Middlewares} \label{sec:mwb2}
 Second experiment for this section again has an environment with three clients and one server, but two middlewares instead of one. Again, we vary the workloads, number of clients and number of worker threads in the middleware and discuss the results.
 
@@ -391,26 +377,20 @@ Second experiment for this section again has an environment with three clients a
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-qlen-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-qlen_mw.png}
   \caption{Avg. queue length}
-  \label{fig:mwb2-wo-qlen-mini}
+  \label{fig:mwb2-wo-qlen_mw}
 \end{subfigure}%
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-qtime-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-qtime_mw.png}
   \caption{Avg. queue time}
-  \label{fig:mwb2-wo-qtime-mini}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-wo-wtime-mini.png}
-  \caption{Avg. waiting time (server service times)}
-  \label{fig:mwb2-wo-wtime-mini}
+  \label{fig:mwb2-wo-qtime_mw}
 \end{subfigure}
 \caption{Average queue lengths, queue times and waiting times (server service times) for the write-only workload for baseline with middleware experiment with two middlewares.}
-\label{fig:mwb2-wo-mini}
+\label{fig:mwb2-wo-qstats}
 \end{figure}
 
 \begin{figure}[h]
@@ -433,33 +413,27 @@ Second experiment for this section again has an environment with three clients a
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-qlen-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-ro-qlen_mw.png}
   \caption{Avg. queue length}
-  \label{fig:mwb2-ro-qlen-mini}
+  \label{fig:mwb2-ro-qlen_mw}
 \end{subfigure}%
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-qtime-mini.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/mwb2-ro-qtime_mw.png}
   \caption{Avg. queue time}
-  \label{fig:mwb2-ro-qtime-mini}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/mwb2-ro-wtime-mini.png}
-  \caption{Avg. waiting time}
-  \label{fig:mwb2-ro-wtime-mini}
+  \label{fig:mwb2-ro-qtime_mw}
 \end{subfigure}
 \caption{Average queue lengths, queue times and waiting times (server service times) for the read-only workload for baseline with middleware experiment with two middlewares.}
-\label{fig:mwb2-ro-mini}
+\label{fig:mwb2-ro-qstats}
 \end{figure}
 
 \subsubsection{Explanation} \label{sec:mwb2-exp}
-Plots in Figures \ref{fig:mwb2-wo_mw} and \ref{fig:mwb2-wo-mini} illustrate various statistics for the write-only load. We see results similar to the one middleware setup. System saturates at different number of clients for different number of worker threads. For the same average queue lengths, the queue times shorten as the number of worker threads increases. Again the number of working threads is our limiting factor for the system performance. Thus, we conclude the middleware being the bottleneck for the write-only case with two middlewares. Again, we find it intuitive that the statistics for the one middleware setup matches those of the two middleware setup with the half amount of worker threads, as it was the case with the read-only workload.
+Plots in Figures \ref{fig:mwb2-wo_mw} and \ref{fig:mwb2-wo-qstats} illustrate various statistics for the write-only load. We see results similar to the one middleware setup. System saturates at different number of clients for different number of worker threads. For the same average queue lengths, the queue times shorten as the number of worker threads increases. Again the number of working threads is our limiting factor for the system performance. Thus, we conclude the middleware being the bottleneck for the write-only case with two middlewares. Again, we find it intuitive that the statistics for the one middleware setup matches those of the two middleware setup with the half amount of worker threads, as it was the case with the read-only workload.
 \par An intuitive correlation is as follows: statistics for the 8, 16 and 32 thread configurations for two middleware setup matches respectively with the 16, 32 and 64 thread settings for the one middleware. In other words, doubling the number of threads for one midleware has the same effects as introducing another middleware with the same number of threads on the system. Although, we can only say that for our experimental setup and configurations and this equivalence may not hold for factors much greater than two.
 \par Results for the read-only workload is almost exactly the same as those from the setting with one middleware, as the bottleneck of the system is stays the same, which was detailed in the previous sections. Both the throughput and latency values (Figure \ref{fig:mwb2-ro_mw}) with respect to number of clients is quite similar to those of the configuration with one server, stemming from the same limitations.
-\par Figure \ref{fig:mwb2-ro-mini} illustrates the average queue length, queue time and waiting time (server service times) statistics for this experiment on read-only load. Here, we warn the reader to be careful when comparing the queue lengths for two and one middleware setups directly as the reported queue length is averaged over the middlewares. That is, to approximate the total number of requests waiting in the middleware queues one should multiply the averaged value by the number of middlewares in the environment. Lastly, we note the relation between queue lengths and queue times is the same as in the one middleware setup.\change{waiting times}
+\par Figure \ref{fig:mwb2-ro-qstats} illustrates the average queue length, queue time and waiting time (server service times) statistics for this experiment on read-only load. Here, we warn the reader to be careful when comparing the queue lengths for two and one middleware setups directly as the reported queue length is averaged over the middlewares. That is, to approximate the total number of requests waiting in the middleware queues one should multiply the averaged value by the number of middlewares in the environment. Lastly, we note the relation between queue lengths and queue times is the same as in the one middleware setup.
 
 \subsection{Summary} \label{sec:mwb-summary}
 Tables \ref{tab:mwb1-summary} and \ref{tab:mwb2-summary} reports the results for the middleware experiments, respectively the one middleware and the two middleware setups. All of the results shown in the tables are from the 64 worker thread configuration of the respective experiments.
@@ -525,13 +499,13 @@ This section inspects the system with three clients, two middlewares and three s
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/tpfw-tp_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/tpfw-tp_mw.png}
   \caption{Throughput}
   \label{fig:tpfw-tp_mw}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/tpfw-lat_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/tpfw-lat_mw.png}
   \caption{Latency}
   \label{fig:tpfw-lat_mw}
 \end{subfigure}
@@ -543,23 +517,17 @@ Figures \ref{fig:tpfw-tp_mw} and \ref{fig:tpfw-lat_mw} illustrate the average th
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/tpfw-qlen_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/tpfw-qlen_mw.png}
   \caption{Avg. queue length}
   \label{fig:tpfw-qlen_mw}
 \end{subfigure}%
-\begin{subfigure}{.33\textwidth}
+\begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/tpfw-qtime_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 20px 0px},clip]{img/plot/tpfw-qtime_mw.png}
   \caption{Avg. queue time}
   \label{fig:tpfw-qtime_mw}
-\end{subfigure}%
-\begin{subfigure}{.33\textwidth}
-  \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/tpfw-wtime_mw.png}
-  \caption{Avg. waiting time (server service times)}
-  \label{fig:tpfw-wtime_mw}
 \end{subfigure}
 \caption{Average queue lengths, queue times and waiting times (server service times) for the throughput for writes experiment, write-only workload.}
 \label{fig:tpfw_stats_mw}
@@ -573,13 +541,13 @@ Figures \ref{fig:tpfw-tp_mw} and \ref{fig:tpfw-lat_mw} illustrate the average th
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/auxiliary-2-tp_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 10px 0px},clip]{img/plot/auxiliary-2-tp_mw.png}
   \caption{Throughput}
   \label{fig:auxiliary-2-tp_mw}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth,trim={0px 0px 0px 0px},clip]{img/plot/auxiliary-2-lat_mw.png}
+  \includegraphics[width=1.0\linewidth,trim={5px 0px 10px 0px},clip]{img/plot/auxiliary-2-lat_mw.png}
   \caption{Latency}
   \label{fig:auxiliary-2-lat_mw}
 \end{subfigure}
@@ -607,7 +575,7 @@ Figures \ref{fig:tpfw-tp_mw} and \ref{fig:tpfw-lat_mw} illustrate the average th
 \end{table}
 
 \section{Gets and Multi-gets} \label{sec:gmg}
-This experiment again deals with the full sytem having 3 clients, 2 middlewares and 3 servers. Each of the two middleware has 8 worker threads. Clients sen multi-get requests together with set requests and set to multi-get ratio for each experiment is $1:X$ where $X$ is the number of keys in the multi-get requests. We change this key size and see how the system reacts. A comparative analysis is made on effects of the sharded and non-sharded aproaches with multi-get handling.
+This experiment again deals with the full sytem having 3 clients, 2 middlewares and 3 servers. Each of the two middleware has 8 worker threads. Clients sen multi-get requests together with set requests and set to multi-get ratio for each experiment is $1:X$ where $X$ is the number of keys in the multi-get requests. We change this key size and see how the system reacts. A comparative analysis is made on effects of the sharded and non-sharded aproaches for multi-get handling.
 \begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -631,13 +599,13 @@ In sharded case we split the multi-get requests send all splits to respective se
 \begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-perc-true.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-perc-mget-true.png}
   \caption{Sharded case}
   \label{fig:gmg-perc-true}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-perc-false.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-perc-mget-false.png}
   \caption{Non-sharded case}
   \label{fig:gmg-perc-false}
 \end{subfigure}
@@ -677,7 +645,7 @@ In sharded case we split the multi-get requests send all splits to respective se
   \caption{Non-sharded case, middleware measurements}
   \label{fig:gmg-hist6-false-mget_middlewares}
 \end{subfigure}
-\caption{Response time distribution histograms for 6 key case. Bucket size is chosen as $100\mu s$ for all histograms, except for their last bins which contains the number of outlier response times that are greater than $14ms$. When choosing this cut-off value, it is ensured that less than 1\% of the occurences are collected in the last bin for each individual result used in aggreagation.}
+\caption{Response time distribution histograms for 6 key case. Bucket size is chosen as $100\mu s$ for all histograms, except for their last bins which contains the number of outlier response times that are greater than $16ms$. When choosing this cut-off value, it is ensured that less than 1\% of the occurences are collected in the last bin for each individual result used in aggreagation.}
 \label{fig:gmg-hist6}
 \end{figure}
 
@@ -702,30 +670,30 @@ In sharded case we split the multi-get requests send all splits to respective se
 \begin{figure}[h]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-mget-lat_cli.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-extra-mget-lat_cli.png}
   \caption{Response times}
-  \label{fig:extra-gmg-mget-lat_cli}
+  \label{fig:gmg-extra-mget-lat_cli}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-mget-wtime_mw.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-extra-mget-wtime_mw.png}
   \caption{Server waiting times}
-  \label{fig:extra-gmg-mget-wtime_mw}
+  \label{fig:gmg-extra-mget-wtime_mw}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-perc-true.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-extra-perc-mget-true.png}
   \caption{Sharded case}
-  \label{fig:extra-gmg-perc-true}
+  \label{fig:gmg-extra-perc-mget-true}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/extra-gmg-perc-false.png}
+  \includegraphics[width=1.0\linewidth ,trim={5px 0px 20px 0px},clip]{img/plot/gmg-extra-perc-mget-false.png}
   \caption{Non-sharded case}
-  \label{fig:extra-gmg-perc-false}
+  \label{fig:gmg-extra-perc-mget-false}
 \end{subfigure}
-\caption{An auxiliary experiment for comparing sharded and non-sharded performances on multi-get requests with bigger key sets. Figures \ref{fig:extra-gmg-mget-lat_cli} and \ref{fig:extra-gmg-mget-wtime_mw} compare the average response time and server waiting time statistics for the sharded and non-sharded reads with 9, 18, 27, 54 and 81 key cases. Figures \ref{fig:extra-gmg-perc-true} and \ref{fig:extra-gmg-perc-false} illustrates 25th, 50th, 75th, 90th and 99th percentiles of sharded and non-sharded reads, for the experiments with aforementioned set of key sizes.}
-\label{fig:extra-gmg}
+\caption{An auxiliary experiment for comparing sharded and non-sharded performances on multi-get requests with bigger key sets. Figures \ref{fig:gmg-extra-mget-lat_cli} and \ref{fig:gmg-extra-mget-wtime_mw} compare the average response time and server waiting time statistics for the sharded and non-sharded reads with 9, 18, 27, 54 and 81 key cases. Figures \ref{fig:gmg-extra-perc-mget-true} and \ref{fig:gmg-extra-perc-mget-false} illustrates 25th, 50th, 75th, 90th and 99th percentiles of sharded and non-sharded reads, for the experiments with aforementioned set of key sizes.}
+\label{fig:gmg-extra}
 \end{figure}
 
 \section{2K Analysis} \label{sec:2k}

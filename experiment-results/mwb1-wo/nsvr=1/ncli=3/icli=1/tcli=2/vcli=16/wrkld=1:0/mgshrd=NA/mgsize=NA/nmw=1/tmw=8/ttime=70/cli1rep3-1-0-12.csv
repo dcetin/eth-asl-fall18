@@ -1,0 +1,11 @@
+Per-Second Benchmark Data
+Second,SET Requests,SET Average Latency,SET Total Bytes,GET Requests,GET Average Latency,GET Total Bytes,GET Misses,GET Hits,WAIT Requests,WAIT Average Latency
+
+Full-Test GET Latency
+Latency (<= msec),Percent
+
+Full-Test SET Latency
+Latency (<= msec),Percent
+
+Full-Test WAIT Latency
+Latency (<= msec),Percent

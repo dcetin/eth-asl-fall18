@@ -1,0 +1,36 @@
+nmw=1, nsvr=1, tmw=8 0.05718752969506421
+nmw=2, nsvr=1, tmw=8 0.04453228140686808
+nmw=1, nsvr=3, tmw=8 0.07348755257367885
+nmw=2, nsvr=3, tmw=8 0.05160964765124576
+nmw=1, nsvr=1, tmw=32 0.032940548792952294
+nmw=2, nsvr=1, tmw=32 0.026260854601005152
+nmw=1, nsvr=3, tmw=32 0.040722850928886827
+nmw=2, nsvr=3, tmw=32 0.031084354014780158
+ 
+params: [ 0.0447282  -0.00635642  0.0044979  -0.01197605 -0.00152268 -0.00134645
+  0.00227687  0.00078298]
+ 
+5.782411586589357e-19
+Mean Estimate	Sum of Squares		Variation Explained
+qa:	-0.0064	ssa:	0.000162	ssa/sst:	0.175
+qb:	0.0045	ssb:	0.000081	ssb/sst:	0.087
+qc:	-0.0120	ssc:	0.000574	ssc/sst:	0.620
+qab:	-0.0015	ssab:	0.000009	ssab/sst:	0.010
+qbc:	-0.0013	ssbc:	0.000007	ssbc/sst:	0.008
+qac:	0.0023	ssac:	0.000021	ssac/sst:	0.022
+qabc:	0.0008	ssabc:	0.000002	ssabc/sst:	0.003
+		sse:	0.000070	sse/sst:	0.076
+		sst:	0.000926
+ 
+nmw=1, nsvr=1, tmw=8: 0.05718752969506419
+nmw=2, nsvr=1, tmw=8: 0.04453228140686808
+nmw=1, nsvr=3, tmw=8: 0.07348755257367885
+nmw=2, nsvr=3, tmw=8: 0.05160964765124577
+nmw=1, nsvr=1, tmw=32: 0.03294054879295228
+nmw=2, nsvr=1, tmw=32: 0.026260854601005152
+nmw=1, nsvr=3, tmw=32: 0.04072285092888681
+nmw=2, nsvr=3, tmw=32: 0.031084354014780158
+ 
+Mean absoulte fit error:  1.0249951751077624e-09
+Total squared fit error: 1.2517042064161097e-17
+Factors a,b,c are nmw,nsvr,tmw.

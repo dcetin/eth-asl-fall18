@@ -9,16 +9,23 @@ import sys
 
 out_format = sys.argv[1] # e.g. "show" or "save"
 
+plt.rcParams.update({'font.size': 14})
+plt.rc('xtick', labelsize=12) 
+plt.rc('ytick', labelsize=12) 
+# params = {'legend.fontsize': 12,
+#           'legend.handlelength': 2}
+# plt.rcParams.update(params)
+
 # resbase="/home/doruk/Desktop/asl/asl-fall18-project/res/test/"
 resbase = "/home/doruk/Desktop/asl/asl-fall18-project/res/"
 
 vlist = [1,4,8,16,24,32,48]
 
 vlist = np.asarray(vlist)
-tptitle = 'Throughput versus number of clients for 64 worker threads'
-lattitle = 'Latency versus number of clients for 64 worker threads'
+tptitle = 'Throughput versus # of clients for 64 worker threads'
+lattitle = 'Latency versus # of clients for 64 worker threads'
 cliMult = 6
-subtitle = 'Auxiliary test 2 for tpfw and mwb2, same physical machines'
+subtitle = 'Auxiliary test for tpfw and mwb2, same physical machines'
 vlist = vlist * cliMult
 xticks = vlist
 
@@ -37,8 +44,8 @@ if (1):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,8.43*1.2))
@@ -62,8 +69,8 @@ if (1):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,34.86*1.2))
@@ -88,8 +95,8 @@ if (1):
 
 	plt.ylabel(tptlabel)
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,tptitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,tptitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,8.43*1.2))
@@ -113,8 +120,8 @@ if (1):
 
 	plt.ylabel(latlabel) # just here if need be: μ
 	plt.xlabel("Number of clients")
-	plt.figtext(.5,.94,lattitle, fontsize=12, ha='center')
-	plt.figtext(.5,.90,subtitle, fontsize=9, ha='center')
+	plt.figtext(.5,.94,lattitle, fontsize=16, ha='center')
+	plt.figtext(.5,.90,subtitle, fontsize=12, ha='center')
 	plt.legend(loc='upper left')
 	plt.xticks(vlist)
 	plt.ylim((0,32.49*1.2))
