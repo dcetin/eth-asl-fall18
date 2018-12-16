@@ -342,6 +342,8 @@ def prepHistograms(percDict, mgshrd, op_type, histmaxy, cutTime):
 	global resbase
 	global reps
 	global mlist
+	temp1 = []
+	temp2 = []
 
 	for mgsize in mlist:
 		fbase = "nsvr=3/ncli=3/icli=2/tcli=1/vcli=2/wrkld=1:" + str(mgsize) + "/mgshrd=" + mgshrd + "/mgsize=" + str(mgsize) + "/nmw=2/tmw=8/ttime="+str(ttime)+"/"
@@ -425,7 +427,7 @@ def prepHistograms(percDict, mgshrd, op_type, histmaxy, cutTime):
 		percDict[mgshrd + "-mget-" + str(mgsize) + "-avg"] = np.average(np.vstack(cli_mgsize_mgetperc), 0)
 		percDict[mgshrd + "-mget-" + str(mgsize) + "-std"] = np.std(np.vstack(cli_mgsize_mgetperc), 0)
 
-	return percDict
+	return percDict, temp1, temp2
 
 def makePlot(plot_list, plot_maxy, plot_file, title, subtitle):
 	mgshrdLabelList = ["Sharded", "Non-sharded"]
@@ -525,7 +527,7 @@ percDict = {}
 for mgshrd in mgshrdList:
 	data = dataFromFiles(mgshrd)
 	prepForPlot(data)
-	percDict = prepHistograms(percDict, mgshrd, op_type, ymax_hist, hist_cuttime)
+	percDict, cliHist, mwHist = prepHistograms(percDict, mgshrd, op_type, ymax_hist, hist_cuttime)
 
 plotPercentiles(percDict, op_type, "true", out_format, ystep, ymax=ymax_perc)
 plotPercentiles(percDict, op_type, "false", out_format, ystep, ymax=ymax_perc)
@@ -570,3 +572,18 @@ printSummary("Middleware throughput", mw_tpt_plot, mgshrdList, mlist)
 printSummary("Middleware qlen", mw_qlen_plot, mgshrdList, mlist)
 printSummary("Middleware qtime", mw_qtime_plot, mgshrdList, mlist)
 printSummary("Middleware wtime", mw_wtime_plot, mgshrdList, mlist)
+
+percDict, cliHistTrue, mwHistTrue = prepHistograms(percDict, "true", op_type, ymax_hist, hist_cuttime)
+percDict, cliHistFalse, mwHistFalse = prepHistograms(percDict, "false", op_type, ymax_hist, hist_cuttime)
+
+print percDict
+
+# histmaxy = 14000
+# drawHist(cliHistTrue[1], cliHistTrue[4] - cliHistFalse[4], subtitle="Client, True - False", out_format="show", maxy=histmaxy)
+# drawHist(mwHistTrue[1], mwHistTrue[4] - mwHistFalse[4], subtitle="Middleware, True - False", out_format="show", maxy=histmaxy)
+# drawHist(cliHistTrue[1], cliHistFalse[4] - cliHistTrue[4], subtitle="Client, False - True", out_format="show", maxy=histmaxy)
+# drawHist(mwHistTrue[1], mwHistFalse[4] - mwHistTrue[4], subtitle="Middleware, False - True", out_format="show", maxy=histmaxy)
+# drawHist(cliHistTrue[1], cliHistTrue[4] - mwHistTrue[4], subtitle="True, Client - Middleware", out_format="show", maxy=histmaxy)
+# drawHist(cliHistTrue[1], mwHistTrue[4] - cliHistTrue[4], subtitle="True, Middleware - Client", out_format="show", maxy=histmaxy)
+# drawHist(cliHistFalse[1], cliHistFalse[4] - mwHistFalse[4], subtitle="False, Client - Middleware", out_format="show", maxy=histmaxy)
+# drawHist(cliHistFalse[1], mwHistFalse[4] - cliHistFalse[4], subtitle="False, Middleware - Client", out_format="show", maxy=histmaxy)

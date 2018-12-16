@@ -92,6 +92,62 @@
 	python -W ignore 2ka-analysis.py 0:1 cli_tpt 3 mult > out/summary/2k-ro-tpt-3-mult.txt
 	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 add > out/summary/2k-ro-lat-3-add.txt
 	python -W ignore 2ka-analysis.py 0:1 cli_lat 3 mult > out/summary/2k-ro-lat-3-mult.txt
+	# Constructing each configuration on own measurements
+	python mm-queueing.py 8 6 8 > ./../plot/out/mm-queueing-8-6-8.txt
+	python mm-queueing.py 8 24 8 > ./../plot/out/mm-queueing-8-24-8.txt
+	python mm-queueing.py 8 48 8 > ./../plot/out/mm-queueing-8-48-8.txt
+	python mm-queueing.py 8 96 8 > ./../plot/out/mm-queueing-8-96-8.txt
+	python mm-queueing.py 8 192 8 > ./../plot/out/mm-queueing-8-192-8.txt
+	python mm-queueing.py 8 288 8 > ./../plot/out/mm-queueing-8-288-8.txt
+	python mm-queueing.py 16 6 16 > ./../plot/out/mm-queueing-16-6-16.txt
+	python mm-queueing.py 16 24 16 > ./../plot/out/mm-queueing-16-24-16.txt
+	python mm-queueing.py 16 36 16 > ./../plot/out/mm-queueing-16-36-16.txt
+	python mm-queueing.py 16 48 16 > ./../plot/out/mm-queueing-16-48-16.txt
+	python mm-queueing.py 16 96 16 > ./../plot/out/mm-queueing-16-96-16.txt
+	python mm-queueing.py 16 192 16 > ./../plot/out/mm-queueing-16-192-16.txt
+	python mm-queueing.py 16 288 16 > ./../plot/out/mm-queueing-16-288-16.txt
+	python mm-queueing.py 32 6 32 > ./../plot/out/mm-queueing-32-6-32.txt
+	python mm-queueing.py 32 24 32 > ./../plot/out/mm-queueing-32-24-32.txt
+	python mm-queueing.py 32 48 32 > ./../plot/out/mm-queueing-32-48-32.txt
+	python mm-queueing.py 32 72 32 > ./../plot/out/mm-queueing-32-72-32.txt
+	python mm-queueing.py 32 96 32 > ./../plot/out/mm-queueing-32-96-32.txt
+	python mm-queueing.py 32 192 32 > ./../plot/out/mm-queueing-32-192-32.txt
+	python mm-queueing.py 32 288 32 > ./../plot/out/mm-queueing-32-288-32.txt
+	python mm-queueing.py 64 6 64 > ./../plot/out/mm-queueing-64-6-64.txt
+	python mm-queueing.py 64 24 64 > ./../plot/out/mm-queueing-64-24-64.txt
+	python mm-queueing.py 64 48 64 > ./../plot/out/mm-queueing-64-48-64.txt
+	python mm-queueing.py 64 96 64 > ./../plot/out/mm-queueing-64-96-64.txt
+	python mm-queueing.py 64 144 64 > ./../plot/out/mm-queueing-64-144-64.txt
+	python mm-queueing.py 64 192 64 > ./../plot/out/mm-queueing-64-192-64.txt
+	python mm-queueing.py 64 288 64 > ./../plot/out/mm-queueing-64-288-64.txt
+	# Constructing all models based on 64 thread measurements
+	python mm-queueing.py 8 6 64 > ./../plot/out/mm-queueing-8-6-64.txt
+	python mm-queueing.py 8 24 64 > ./../plot/out/mm-queueing-8-24-64.txt
+	python mm-queueing.py 8 48 64 > ./../plot/out/mm-queueing-8-48-64.txt
+	python mm-queueing.py 8 96 64 > ./../plot/out/mm-queueing-8-96-64.txt
+	python mm-queueing.py 8 192 64 > ./../plot/out/mm-queueing-8-192-64.txt
+	python mm-queueing.py 8 288 64 > ./../plot/out/mm-queueing-8-288-64.txt
+	python mm-queueing.py 16 6 64 > ./../plot/out/mm-queueing-16-6-64.txt
+	python mm-queueing.py 16 24 64 > ./../plot/out/mm-queueing-16-24-64.txt
+	python mm-queueing.py 16 36 64 > ./../plot/out/mm-queueing-16-36-64.txt
+	python mm-queueing.py 16 48 64 > ./../plot/out/mm-queueing-16-48-64.txt
+	python mm-queueing.py 16 96 64 > ./../plot/out/mm-queueing-16-96-64.txt
+	python mm-queueing.py 16 192 64 > ./../plot/out/mm-queueing-16-192-64.txt
+	python mm-queueing.py 16 288 64 > ./../plot/out/mm-queueing-16-288-64.txt
+	python mm-queueing.py 32 6 64 > ./../plot/out/mm-queueing-32-6-64.txt
+	python mm-queueing.py 32 24 64 > ./../plot/out/mm-queueing-32-24-64.txt
+	python mm-queueing.py 32 48 64 > ./../plot/out/mm-queueing-32-48-64.txt
+	python mm-queueing.py 32 72 64 > ./../plot/out/mm-queueing-32-72-64.txt
+	python mm-queueing.py 32 96 64 > ./../plot/out/mm-queueing-32-96-64.txt
+	python mm-queueing.py 32 192 64 > ./../plot/out/mm-queueing-32-192-64.txt
+	python mm-queueing.py 32 288 64 > ./../plot/out/mm-queueing-32-288-64.txt
+	python mm-queueing.py 64 6 64 > ./../plot/out/mm-queueing-64-6-64.txt
+	python mm-queueing.py 64 24 64 > ./../plot/out/mm-queueing-64-24-64.txt
+	python mm-queueing.py 64 48 64 > ./../plot/out/mm-queueing-64-48-64.txt
+	python mm-queueing.py 64 96 64 > ./../plot/out/mm-queueing-64-96-64.txt
+	python mm-queueing.py 64 144 64 > ./../plot/out/mm-queueing-64-144-64.txt
+	python mm-queueing.py 64 192 64 > ./../plot/out/mm-queueing-64-192-64.txt
+	python mm-queueing.py 64 288 64 > ./../plot/out/mm-queueing-64-288-64.txt
 
 # CLIENT-SERVER BASELINE 1
 	# Clients on VMs 1,2,3

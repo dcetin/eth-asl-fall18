@@ -1,0 +1,153 @@
+Client latency
+Sharded
+9 keys	6.063 ± 0.048
+18 keys	10.557 ± 0.212
+27 keys	13.635 ± 0.348
+54 keys	19.038 ± 0.138
+81 keys	20.575 ± 0.361
+Non-sharded
+9 keys	6.130 ± 0.043
+18 keys	10.937 ± 0.040
+27 keys	14.333 ± 0.051
+54 keys	18.957 ± 0.091
+81 keys	19.754 ± 0.158
+ 
+Client throughput
+Sharded
+9 keys	0.972 ± 0.005
+18 keys	0.492 ± 0.006
+27 keys	0.335 ± 0.001
+54 keys	0.167 ± 0.000
+81 keys	0.111 ± 0.000
+Non-sharded
+9 keys	0.984 ± 0.002
+18 keys	0.505 ± 0.002
+27 keys	0.337 ± 0.002
+54 keys	0.167 ± 0.000
+81 keys	0.110 ± 0.000
+ 
+Client num_items
+Sharded
+9 keys	8.750 ± 0.049
+18 keys	8.859 ± 0.107
+27 keys	9.054 ± 0.039
+54 keys	9.035 ± 0.004
+81 keys	9.017 ± 0.007
+Non-sharded
+9 keys	8.859 ± 0.017
+18 keys	9.084 ± 0.040
+27 keys	9.086 ± 0.052
+54 keys	9.042 ± 0.005
+81 keys	8.876 ± 0.011
+ 
+Middleware latency
+Sharded
+9 keys	4.128 ± 0.048
+18 keys	10.269 ± 1.779
+27 keys	12.217 ± 0.280
+54 keys	17.626 ± 0.116
+81 keys	19.150 ± 0.282
+Non-sharded
+9 keys	3.990 ± 0.069
+18 keys	9.217 ± 0.023
+27 keys	12.564 ± 0.029
+54 keys	17.487 ± 0.183
+81 keys	18.354 ± 0.144
+ 
+Middleware throughput
+Sharded
+9 keys	0.976 ± 0.005
+18 keys	0.490 ± 0.005
+27 keys	0.333 ± 0.000
+54 keys	0.167 ± 0.000
+81 keys	0.111 ± 0.000
+Non-sharded
+9 keys	0.987 ± 0.003
+18 keys	0.502 ± 0.000
+27 keys	0.335 ± 0.000
+54 keys	0.167 ± 0.000
+81 keys	0.110 ± 0.000
+ 
+Middleware qlen
+Sharded
+9 keys	0.087 ± 0.017
+18 keys	0.044 ± 0.024
+27 keys	0.027 ± 0.032
+54 keys	0.030 ± 0.017
+81 keys	0.011 ± 0.004
+Non-sharded
+9 keys	0.074 ± 0.020
+18 keys	0.038 ± 0.020
+27 keys	0.008 ± 0.007
+54 keys	0.022 ± 0.017
+81 keys	0.003 ± 0.004
+ 
+Middleware qtime
+Sharded
+9 keys	0.119 ± 0.003
+18 keys	0.127 ± 0.003
+27 keys	0.121 ± 0.004
+54 keys	0.114 ± 0.005
+81 keys	0.097 ± 0.005
+Non-sharded
+9 keys	0.117 ± 0.001
+18 keys	0.112 ± 0.001
+27 keys	0.102 ± 0.001
+54 keys	0.087 ± 0.003
+81 keys	0.087 ± 0.006
+ 
+Middleware wtime
+Sharded
+9 keys	4.009 ± 0.046
+18 keys	10.142 ± 1.777
+27 keys	12.096 ± 0.280
+54 keys	17.511 ± 0.113
+81 keys	19.053 ± 0.287
+Non-sharded
+9 keys	3.874 ± 0.070
+18 keys	9.105 ± 0.022
+27 keys	12.462 ± 0.029
+54 keys	17.400 ± 0.180
+81 keys	18.267 ± 0.138
+ 
+{u'true-set-27-avg': array([ 8.877778, 13.833333, 15.166667, 23.055555, 30.777779],
+      dtype=float32), u'true-set-27-std': array([0.42651325, 0.23570225, 0.23570225, 2.4545245 , 0.3142694 ],
+      dtype=float32), u'false-mget-18-avg': array([ 5.972222,  9.288888, 16.444445, 27.944445, 44.277782],
+      dtype=float32), u'true-set-54-std': array([0.27216566, 0.13608263, 0.3142694 , 0.        , 0.79737186],
+      dtype=float32), u'true-set-81-std': array([0.69832224, 1.6555182 , 0.3424677 , 0.        , 1.1331159 ],
+      dtype=float32), u'true-mget-81-avg': array([ 72.72222 ,  84.666664,  98.05555 , 111.111115, 141.1111  ],
+      dtype=float32), u'true-set-54-avg': array([12.666667, 15.833333, 28.777779, 30.      , 34.777782],
+      dtype=float32), u'true-set-9-avg': array([ 3.3      ,  6.0499997,  7.855555 ,  9.377778 , 14.722222 ],
+      dtype=float32), u'true-set-18-std': array([0.07494877, 0.2118407 , 0.        , 0.        , 0.43744466],
+      dtype=float32), u'false-mget-18-std': array([0.17497808, 0.11412582, 0.07856712, 1.0304022 , 1.4989713 ],
+      dtype=float32), u'true-set-9-std': array([0.0235702 , 0.04714063, 0.05499716, 0.06712835, 0.20786983],
+      dtype=float32), u'true-set-81-avg': array([12.111111, 19.833334, 29.555555, 31.      , 38.444443],
+      dtype=float32), u'false-mget-9-avg': array([ 3.1444445,  5.6611114,  7.7833343,  9.433334 , 15.888889 ],
+      dtype=float32), u'false-set-18-std': array([0.0684934 , 0.03424663, 0.13608263, 0.13608302, 0.13608302],
+      dtype=float32), u'false-mget-81-avg': array([ 31.944443,  75.05555 , 126.666664, 184.44444 , 277.77774 ],
+      dtype=float32), u'true-mget-9-std': array([0.02078697, 0.04779054, 0.05665616, 0.08164997, 0.13608302],
+      dtype=float32), u'true-set-18-avg': array([ 6.261111, 10.255555, 14.      , 15.      , 22.944445],
+      dtype=float32), u'false-set-81-std': array([0.4779071 , 0.23570226, 0.4082483 , 0.15713514, 0.20787008],
+      dtype=float32), u'true-mget-54-std': array([0.4157395 , 0.20786975, 0.20786975, 1.0213765 , 1.363093  ],
+      dtype=float32), u'false-set-54-std': array([0.38801518, 0.2078699 , 0.07856802, 0.07856712, 0.34246695],
+      dtype=float32), u'false-mget-81-std': array([4.1328254, 2.0427542, 2.7216542, 6.431019 , 6.849345 ],
+      dtype=float32), u'true-mget-81-std': array([0.96545357, 0.1360838 , 0.6712808 , 1.5713495 , 5.1520076 ],
+      dtype=float32), u'true-mget-9-avg': array([ 3.361111,  6.222222,  7.938889,  9.583333, 15.5     ],
+      dtype=float32), u'false-mget-54-std': array([1.0999439, 1.699673 , 0.4714045, 2.8327878, 3.6004107],
+      dtype=float32), u'false-mget-54-avg': array([ 15.611112,  41.666668,  78.666664, 108.888885, 165.      ],
+      dtype=float32), u'true-mget-27-avg': array([15.611111, 19.5     , 29.388891, 32.111115, 46.166668],
+      dtype=float32), u'false-mget-27-std': array([0.02078705, 0.62853926, 0.2078699 , 0.20786975, 1.2933819 ],
+      dtype=float32), u'false-set-9-std': array([0.0490654 , 0.07973725, 0.04906529, 0.10213744, 0.39283696],
+      dtype=float32), u'true-mget-18-std': array([0.02078709, 0.07856757, 0.07856712, 0.13608302, 0.23570225],
+      dtype=float32), u'false-set-9-avg': array([ 3.3999999,  6.172222 ,  7.8333335,  9.388888 , 14.944446 ],
+      dtype=float32), u'false-set-27-std': array([0.08202653, 0.15713514, 0.2078699 , 0.15713423, 0.15713423],
+      dtype=float32), u'false-set-27-avg': array([ 7.7055554, 12.944444 , 18.222221 , 27.444445 , 34.88889  ],
+      dtype=float32), u'false-set-18-avg': array([ 6.3444443,  9.5611105, 14.333333 , 18.166666 , 30.166666 ],
+      dtype=float32), u'true-mget-18-avg': array([ 9.294444, 13.555556, 16.055555, 18.833334, 31.166666],
+      dtype=float32), u'false-set-81-avg': array([12.111112, 19.      , 28.166666, 31.277777, 36.88889 ],
+      dtype=float32), u'false-mget-27-avg': array([ 7.738889, 13.944444, 31.444443, 47.277775, 73.38889 ],
+      dtype=float32), u'false-set-54-avg': array([10.683333, 17.555557, 27.222221, 30.944445, 36.944443],
+      dtype=float32), u'true-mget-27-std': array([0.1571347 , 0.490653  , 0.3424677 , 0.07856802, 0.23570225],
+      dtype=float32), u'false-mget-9-std': array([0.09060846, 0.04374433, 0.0471404 , 0.03600371, 0.1571347 ],
+      dtype=float32), u'true-mget-54-avg': array([43.777775, 48.944447, 62.555553, 70.27778 , 91.72223 ],
+      dtype=float32)}

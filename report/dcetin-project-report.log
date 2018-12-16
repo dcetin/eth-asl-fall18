@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.12.10)  11 DEC 2018 00:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.12.10)  16 DEC 2018 18:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -600,18 +600,25 @@ Package: l3keys2e 2018/02/21 LaTeX2e option processing using LaTeX3 keys
 (/usr/share/texlive/texmf-dist/tex/latex/translator/translator.sty
 Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
 ))
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
+\multirow@colwidth=\skip58
+\multirow@cntb=\count277
+\multirow@dima=\skip59
+\bigstrutjot=\dimen167
+)
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
 s
-\f@nch@headwidth=\skip58
-\f@nch@O@elh=\skip59
-\f@nch@O@erh=\skip60
-\f@nch@O@olh=\skip61
-\f@nch@O@orh=\skip62
-\f@nch@O@elf=\skip63
-\f@nch@O@erf=\skip64
-\f@nch@O@olf=\skip65
-\f@nch@O@orf=\skip66
+\f@nch@headwidth=\skip60
+\f@nch@O@elh=\skip61
+\f@nch@O@erh=\skip62
+\f@nch@O@olh=\skip63
+\f@nch@O@orh=\skip64
+\f@nch@O@elf=\skip65
+\f@nch@O@erf=\skip66
+\f@nch@O@olf=\skip67
+\f@nch@O@orf=\skip68
 )
 (/usr/share/texlive/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2015/07/09 .dtx Todonotes source and documentation.
@@ -622,8 +629,8 @@ Package: todonotes 2012/07/25
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks27
-\pgfutil@tempdima=\dimen167
-\pgfutil@tempdimb=\dimen168
+\pgfutil@tempdima=\dimen168
+\pgfutil@tempdimb=\dimen169
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.t
 ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
@@ -649,20 +656,20 @@ Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
 ex
 \pgfkeys@tmptoks=\toks30
 ))
-\pgf@x=\dimen169
-\pgf@y=\dimen170
-\pgf@xa=\dimen171
-\pgf@ya=\dimen172
-\pgf@xb=\dimen173
-\pgf@yb=\dimen174
-\pgf@xc=\dimen175
-\pgf@yc=\dimen176
+\pgf@x=\dimen170
+\pgf@y=\dimen171
+\pgf@xa=\dimen172
+\pgf@ya=\dimen173
+\pgf@xb=\dimen174
+\pgf@yb=\dimen175
+\pgf@xc=\dimen176
+\pgf@yc=\dimen177
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count277
-\c@pgf@countb=\count278
-\c@pgf@countc=\count279
-\c@pgf@countd=\count280
+\c@pgf@counta=\count278
+\c@pgf@countb=\count279
+\c@pgf@countc=\count280
+\c@pgf@countd=\count281
 \t@pgf@toka=\toks31
 \t@pgf@tokb=\toks32
 \t@pgf@tokc=\toks33
@@ -681,8 +688,8 @@ File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
 tex
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count281
-\pgfsyssoftpath@bigbuffer@items=\count282
+\pgfsyssoftpath@smallbuffer@items=\count282
+\pgfsyssoftpath@bigbuffer@items=\count283
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
 tex
@@ -695,8 +702,8 @@ Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen177
-\pgfmath@count=\count283
+\pgfmath@dimen=\dimen178
+\pgfmath@count=\count284
 \pgfmath@box=\box51
 \pgfmath@toks=\toks34
 \pgfmath@stack@operand=\toks35
@@ -720,37 +727,37 @@ tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
 thmetics.code.tex)))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count284
+\c@pgfmathroundto@lastzeros=\count285
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
 x
 File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
-\pgf@picminx=\dimen178
-\pgf@picmaxx=\dimen179
-\pgf@picminy=\dimen180
-\pgf@picmaxy=\dimen181
-\pgf@pathminx=\dimen182
-\pgf@pathmaxx=\dimen183
-\pgf@pathminy=\dimen184
-\pgf@pathmaxy=\dimen185
-\pgf@xx=\dimen186
-\pgf@xy=\dimen187
-\pgf@yx=\dimen188
-\pgf@yy=\dimen189
-\pgf@zx=\dimen190
-\pgf@zy=\dimen191
+\pgf@picminx=\dimen179
+\pgf@picmaxx=\dimen180
+\pgf@picminy=\dimen181
+\pgf@picmaxy=\dimen182
+\pgf@pathminx=\dimen183
+\pgf@pathmaxx=\dimen184
+\pgf@pathminy=\dimen185
+\pgf@pathmaxy=\dimen186
+\pgf@xx=\dimen187
+\pgf@xy=\dimen188
+\pgf@yx=\dimen189
+\pgf@yy=\dimen190
+\pgf@zx=\dimen191
+\pgf@zy=\dimen192
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
 code.tex
 File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
-\pgf@path@lastx=\dimen192
-\pgf@path@lasty=\dimen193
+\pgf@path@lastx=\dimen193
+\pgf@path@lasty=\dimen194
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
 .tex
 File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
-\pgf@shorten@end@additional=\dimen194
-\pgf@shorten@start@additional=\dimen195
+\pgf@shorten@end@additional=\dimen195
+\pgf@shorten@start@additional=\dimen196
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
 x
@@ -758,19 +765,19 @@ File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 \pgfpic=\box52
 \pgf@hbox=\box53
 \pgf@layerbox@main=\box54
-\pgf@picture@serial@count=\count285
+\pgf@picture@serial@count=\count286
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
 ode.tex
 File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
-\pgflinewidth=\dimen196
+\pgflinewidth=\dimen197
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
 s.code.tex
 File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
-\pgf@pt@x=\dimen197
-\pgf@pt@y=\dimen198
-\pgf@pt@temp=\dimen199
+\pgf@pt@x=\dimen198
+\pgf@pt@y=\dimen199
+\pgf@pt@temp=\dimen256
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
@@ -786,12 +793,12 @@ File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
 x
 File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
-\pgfarrowsep=\dimen256
+\pgfarrowsep=\dimen257
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
-\pgf@max=\dimen257
-\pgf@sys@shading@range@num=\count286
+\pgf@max=\dimen258
+\pgf@sys@shading@range@num=\count287
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
@@ -822,8 +829,8 @@ File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
 .sty
 Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen258
-\pgf@nodesepend=\dimen259
+\pgf@nodesepstart=\dimen259
+\pgf@nodesepend=\dimen260
 )
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
 .sty
@@ -837,8 +844,8 @@ Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
 Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen260
-\pgffor@skip=\dimen261
+\pgffor@iter=\dimen261
+\pgffor@skip=\dimen262
 \pgffor@stack=\toks37
 \pgffor@toks=\toks38
 ))
@@ -848,31 +855,31 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
 .code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count287
-\pgfplotmarksize=\dimen262
+\pgf@plot@mark@count=\count288
+\pgfplotmarksize=\dimen263
 )
-\tikz@lastx=\dimen263
-\tikz@lasty=\dimen264
-\tikz@lastxsaved=\dimen265
-\tikz@lastysaved=\dimen266
-\tikzleveldistance=\dimen267
-\tikzsiblingdistance=\dimen268
+\tikz@lastx=\dimen264
+\tikz@lasty=\dimen265
+\tikz@lastxsaved=\dimen266
+\tikz@lastysaved=\dimen267
+\tikzleveldistance=\dimen268
+\tikzsiblingdistance=\dimen269
 \tikz@figbox=\box57
 \tikz@figbox@bg=\box58
 \tikz@tempbox=\box59
 \tikz@tempbox@bg=\box60
-\tikztreelevel=\count288
-\tikznumberofchildren=\count289
-\tikznumberofcurrentchild=\count290
-\tikz@fig@count=\count291
+\tikztreelevel=\count289
+\tikznumberofchildren=\count290
+\tikznumberofcurrentchild=\count291
+\tikz@fig@count=\count292
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count292
-\pgfmatrixcurrentcolumn=\count293
-\pgf@matrix@numberofcolumns=\count294
+\pgfmatrixcurrentrow=\count293
+\pgfmatrixcurrentcolumn=\count294
+\pgf@matrix@numberofcolumns=\count295
 )
-\tikz@expandcount=\count295
+\tikz@expandcount=\count296
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarytopaths.code.tex
@@ -884,18 +891,18 @@ File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count296
-\calc@Bcount=\count297
-\calc@Adimen=\dimen269
-\calc@Bdimen=\dimen270
-\calc@Askip=\skip67
-\calc@Bskip=\skip68
+\calc@Acount=\count297
+\calc@Bcount=\count298
+\calc@Adimen=\dimen270
+\calc@Bdimen=\dimen271
+\calc@Askip=\skip69
+\calc@Bskip=\skip70
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count298
-\calc@Cskip=\skip69
+\calc@Ccount=\count299
+\calc@Cskip=\skip71
 )
-\c@@todonotes@numberoftodonotes=\count299
+\c@@todonotes@numberoftodonotes=\count300
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
@@ -1220,22 +1227,22 @@ Now handling font encoding PD1 ...
 (./dcetin-project-report.aux)
 \openout1 = `dcetin-project-report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
 \AtBeginShipoutBox=\box61
-Package hyperref Info: Link coloring OFF on input line 36.
+Package hyperref Info: Link coloring OFF on input line 37.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -1243,11 +1250,11 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count300
+\c@section@level=\count301
 )
-LaTeX Info: Redefining \ref on input line 36.
-LaTeX Info: Redefining \pageref on input line 36.
-LaTeX Info: Redefining \nameref on input line 36.
+LaTeX Info: Redefining \ref on input line 37.
+LaTeX Info: Redefining \pageref on input line 37.
+LaTeX Info: Redefining \nameref on input line 37.
 
 (./dcetin-project-report.out) (./dcetin-project-report.out)
 \@outlinefile=\write4
@@ -1256,16 +1263,16 @@ LaTeX Info: Redefining \nameref on input line 36.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count301
-\scratchdimen=\dimen271
+\scratchcounter=\count302
+\scratchdimen=\dimen272
 \scratchbox=\box62
-\nofMPsegments=\count302
-\nofMParguments=\count303
+\nofMPsegments=\count303
+\nofMParguments=\count304
 \everyMPshowfont=\toks41
-\MPscratchCnt=\count304
-\MPscratchDim=\dimen272
-\MPnumerator=\count305
-\makeMPintoPDFobject=\count306
+\MPscratchCnt=\count305
+\MPscratchDim=\dimen273
+\MPnumerator=\count306
+\makeMPintoPDFobject=\count307
 \everyMPtoPDFconversion=\toks42
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -1369,470 +1376,512 @@ Dictionary: translator-basic-dictionary, Language: English
 File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
 ABD: EveryShipout initializing macros
-\c__siunitx_mathsf_int=\count307
+\c__siunitx_mathsf_int=\count308
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 36.
+(Font)              <10.95> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 36.
+(Font)              <8> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 36.
-\c__siunitx_mathtt_int=\count308
+(Font)              <6> on input line 37.
+\c__siunitx_mathtt_int=\count309
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 58.
+(Font)              <12> on input line 59.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 <img/system-diagram.png, id=161, 871.00406pt x 569.12625pt>
 File: img/system-diagram.png Graphic file (type png)
 <use img/system-diagram.png>
-Package pdftex.def Info: img/system-diagram.png  used on input line 69.
+Package pdftex.def Info: img/system-diagram.png  used on input line 70.
 (pdftex.def)             Requested size: 362.37569pt x 236.77351pt.
  [2 <./img/system-diagram.png>]
-Overfull \hbox (31.7568pt too wide) in paragraph at lines 86--87
+<img/timing.png, id=171, 738.25812pt x 206.7725pt>
+File: img/timing.png Graphic file (type png)
+<use img/timing.png>
+Package pdftex.def Info: img/timing.png  used on input line 86.
+(pdftex.def)             Requested size: 362.37569pt x 101.49294pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (31.7568pt too wide) in paragraph at lines 90--91
 []\OT1/cmr/m/n/10.95 Timestamps are all ob-tained in nanosec-onds us-ing Java's
  \OT1/cmtt/m/n/10.95 System.nanoTime\OT1/cmr/m/n/10.95 . $[]$
  []
 
 [3]
-<img/plot/equal-load-all.png, id=178, 867.24pt x 361.35pt>
+<img/flowchart.png, id=180, 754.82pt x 383.4325pt>
+File: img/flowchart.png Graphic file (type png)
+<use img/flowchart.png>
+Package pdftex.def Info: img/flowchart.png  used on input line 96.
+(pdftex.def)             Requested size: 452.9679pt x 230.09637pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<img/plot/equal-load-all.png, id=184, 867.24pt x 361.35pt>
 File: img/plot/equal-load-all.png Graphic file (type png)
 <use img/plot/equal-load-all.png>
-Package pdftex.def Info: img/plot/equal-load-all.png  used on input line 119.
+Package pdftex.def Info: img/plot/equal-load-all.png  used on input line 128.
 (pdftex.def)             Requested size: 452.9679pt x 188.73566pt.
- [4 <./img/plot/equal-load-all.png>] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 150--152
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4 <./img/timing.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[5 <./img/flowchart.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 159--161
 
  []
 
-<img/plot/csb1-wo-law_tpt.png, id=216, 599.841pt x 361.35pt>
+[6 <./img/plot/equal-load-all.png>]
+<img/plot/csb1-wo-law_tpt.png, id=236, 599.841pt x 361.35pt>
 File: img/plot/csb1-wo-law_tpt.png Graphic file (type png)
 <use img/plot/csb1-wo-law_tpt.png>
-Package pdftex.def Info: img/plot/csb1-wo-law_tpt.png  used on input line 165.
+Package pdftex.def Info: img/plot/csb1-wo-law_tpt.png  used on input line 174.
 (pdftex.def)             Requested size: 226.48395pt x 150.26622pt.
-<img/plot/csb1-wo-law_lat.png, id=218, 599.841pt x 361.35pt>
+<img/plot/csb1-wo-law_lat.png, id=238, 599.841pt x 361.35pt>
 File: img/plot/csb1-wo-law_lat.png Graphic file (type png)
 <use img/plot/csb1-wo-law_lat.png>
-Package pdftex.def Info: img/plot/csb1-wo-law_lat.png  used on input line 171.
+Package pdftex.def Info: img/plot/csb1-wo-law_lat.png  used on input line 180.
 (pdftex.def)             Requested size: 226.48395pt x 151.6612pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<img/plot/csb1-ro-law_tpt.png, id=220, 599.841pt x 361.35pt>
+<img/plot/csb1-ro-law_tpt.png, id=240, 599.841pt x 361.35pt>
 File: img/plot/csb1-ro-law_tpt.png Graphic file (type png)
 <use img/plot/csb1-ro-law_tpt.png>
-Package pdftex.def Info: img/plot/csb1-ro-law_tpt.png  used on input line 183.
+Package pdftex.def Info: img/plot/csb1-ro-law_tpt.png  used on input line 192.
 (pdftex.def)             Requested size: 226.48395pt x 150.26622pt.
-<img/plot/csb1-ro-law_lat.png, id=222, 599.841pt x 361.35pt>
+<img/plot/csb1-ro-law_lat.png, id=242, 599.841pt x 361.35pt>
 File: img/plot/csb1-ro-law_lat.png Graphic file (type png)
 <use img/plot/csb1-ro-law_lat.png>
-Package pdftex.def Info: img/plot/csb1-ro-law_lat.png  used on input line 189.
+Package pdftex.def Info: img/plot/csb1-ro-law_lat.png  used on input line 198.
 (pdftex.def)             Requested size: 226.48395pt x 151.6612pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7 <./img/plot/csb1-wo-law_tpt.png> <./img/plot/csb1-wo-law_lat.png> <./img
+[7 <./img/plot/csb1-wo-law_tpt.png> <./img/plot/csb1-wo-law_lat.png>] [8 <./img
 /plot/csb1-ro-law_tpt.png> <./img/plot/csb1-ro-law_lat.png>]
-<img/plot/csb2-wo-law_tpt.png, id=251, 599.841pt x 361.35pt>
+<img/plot/csb2-wo-law_tpt.png, id=265, 599.841pt x 361.35pt>
 File: img/plot/csb2-wo-law_tpt.png Graphic file (type png)
 <use img/plot/csb2-wo-law_tpt.png>
-Package pdftex.def Info: img/plot/csb2-wo-law_tpt.png  used on input line 213.
+Package pdftex.def Info: img/plot/csb2-wo-law_tpt.png  used on input line 222.
 (pdftex.def)             Requested size: 226.48395pt x 150.26622pt.
-<img/plot/csb2-wo-law_lat.png, id=253, 599.841pt x 361.35pt>
+<img/plot/csb2-wo-law_lat.png, id=267, 599.841pt x 361.35pt>
 File: img/plot/csb2-wo-law_lat.png Graphic file (type png)
 <use img/plot/csb2-wo-law_lat.png>
-Package pdftex.def Info: img/plot/csb2-wo-law_lat.png  used on input line 219.
+Package pdftex.def Info: img/plot/csb2-wo-law_lat.png  used on input line 228.
 (pdftex.def)             Requested size: 226.48395pt x 151.6612pt.
-<img/plot/csb2-ro-law_tpt.png, id=255, 599.841pt x 361.35pt>
+<img/plot/csb2-ro-law_tpt.png, id=269, 599.841pt x 361.35pt>
 File: img/plot/csb2-ro-law_tpt.png Graphic file (type png)
 <use img/plot/csb2-ro-law_tpt.png>
-Package pdftex.def Info: img/plot/csb2-ro-law_tpt.png  used on input line 231.
+Package pdftex.def Info: img/plot/csb2-ro-law_tpt.png  used on input line 240.
 (pdftex.def)             Requested size: 226.48395pt x 150.26622pt.
-<img/plot/csb2-ro-law_lat.png, id=257, 599.841pt x 361.35pt>
+<img/plot/csb2-ro-law_lat.png, id=271, 599.841pt x 361.35pt>
 File: img/plot/csb2-ro-law_lat.png Graphic file (type png)
 <use img/plot/csb2-ro-law_lat.png>
-Package pdftex.def Info: img/plot/csb2-ro-law_lat.png  used on input line 237.
+Package pdftex.def Info: img/plot/csb2-ro-law_lat.png  used on input line 246.
 (pdftex.def)             Requested size: 226.48395pt x 151.6612pt.
- [8 <./img/plot/csb2-wo-law_tpt.png> <./img/plot/csb2-wo-law_lat.png> <./img/pl
+ [9 <./img/plot/csb2-wo-law_tpt.png> <./img/plot/csb2-wo-law_lat.png> <./img/pl
 ot/csb2-ro-law_tpt.png> <./img/plot/csb2-ro-law_lat.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 257.
+(Font)              <7> on input line 266.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 257.
+(Font)              <5> on input line 266.
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--258
+Underfull \hbox (badness 10000) in paragraph at lines 267--267
 []|\OT1/cmr/m/n/10 Read-only
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--258
+Underfull \hbox (badness 10000) in paragraph at lines 267--267
 []|\OT1/cmr/m/n/10 Write-only
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--268
+Underfull \hbox (badness 10000) in paragraph at lines 275--277
 
  []
-
-[9]
-<img/plot/mwb1-ro-tp_mw.png, id=288, 462.528pt x 346.896pt>
-File: img/plot/mwb1-ro-tp_mw.png Graphic file (type png)
-<use img/plot/mwb1-ro-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb1-ro-tp_mw.png  used on input line 280.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb1-ro-lat_mw.png, id=290, 462.528pt x 346.896pt>
-File: img/plot/mwb1-ro-lat_mw.png Graphic file (type png)
-<use img/plot/mwb1-ro-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb1-ro-lat_mw.png  used on input line 286.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb1-ro-qlen_mw.png, id=292, 462.528pt x 346.896pt>
-File: img/plot/mwb1-ro-qlen_mw.png Graphic file (type png)
-<use img/plot/mwb1-ro-qlen_mw.png>
-Package pdftex.def Info: img/plot/mwb1-ro-qlen_mw.png  used on input line 297.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb1-ro-qtime_mw.png, id=294, 462.528pt x 346.896pt>
-File: img/plot/mwb1-ro-qtime_mw.png Graphic file (type png)
-<use img/plot/mwb1-ro-qtime_mw.png>
-Package pdftex.def Info: img/plot/mwb1-ro-qtime_mw.png  used on input line 303.
-
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<img/plot/mwb1-wo-tp_mw.png, id=296, 462.528pt x 346.896pt>
-File: img/plot/mwb1-wo-tp_mw.png Graphic file (type png)
-<use img/plot/mwb1-wo-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb1-wo-tp_mw.png  used on input line 316.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb1-wo-lat_mw.png, id=298, 462.528pt x 346.896pt>
-File: img/plot/mwb1-wo-lat_mw.png Graphic file (type png)
-<use img/plot/mwb1-wo-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb1-wo-lat_mw.png  used on input line 322.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<img/plot/mwb1-wo-qlen_mw.png, id=300, 462.528pt x 346.896pt>
-File: img/plot/mwb1-wo-qlen_mw.png Graphic file (type png)
-<use img/plot/mwb1-wo-qlen_mw.png>
-Package pdftex.def Info: img/plot/mwb1-wo-qlen_mw.png  used on input line 334.
-(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-<img/plot/mwb1-wo-qtime_mw.png, id=302, 462.528pt x 346.896pt>
-File: img/plot/mwb1-wo-qtime_mw.png Graphic file (type png)
-<use img/plot/mwb1-wo-qtime_mw.png>
-Package pdftex.def Info: img/plot/mwb1-wo-qtime_mw.png  used on input line 340.
-
-(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 349--351
+<img/plot/mwb1-ro-tp_mw.png, id=302, 462.528pt x 346.896pt>
+File: img/plot/mwb1-ro-tp_mw.png Graphic file (type png)
+<use img/plot/mwb1-ro-tp_mw.png>
+Package pdftex.def Info: img/plot/mwb1-ro-tp_mw.png  used on input line 289.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+<img/plot/mwb1-ro-lat_mw.png, id=304, 462.528pt x 346.896pt>
+File: img/plot/mwb1-ro-lat_mw.png Graphic file (type png)
+<use img/plot/mwb1-ro-lat_mw.png>
+Package pdftex.def Info: img/plot/mwb1-ro-lat_mw.png  used on input line 295.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+<img/plot/mwb1-ro-qlen_mw.png, id=306, 462.528pt x 346.896pt>
+File: img/plot/mwb1-ro-qlen_mw.png Graphic file (type png)
+<use img/plot/mwb1-ro-qlen_mw.png>
+Package pdftex.def Info: img/plot/mwb1-ro-qlen_mw.png  used on input line 306.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+<img/plot/mwb1-ro-qtime_mw.png, id=308, 462.528pt x 346.896pt>
+File: img/plot/mwb1-ro-qtime_mw.png Graphic file (type png)
+<use img/plot/mwb1-ro-qtime_mw.png>
+Package pdftex.def Info: img/plot/mwb1-ro-qtime_mw.png  used on input line 312.
+
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<img/plot/mwb1-wo-tp_mw.png, id=310, 462.528pt x 346.896pt>
+File: img/plot/mwb1-wo-tp_mw.png Graphic file (type png)
+<use img/plot/mwb1-wo-tp_mw.png>
+Package pdftex.def Info: img/plot/mwb1-wo-tp_mw.png  used on input line 325.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+<img/plot/mwb1-wo-lat_mw.png, id=312, 462.528pt x 346.896pt>
+File: img/plot/mwb1-wo-lat_mw.png Graphic file (type png)
+<use img/plot/mwb1-wo-lat_mw.png>
+Package pdftex.def Info: img/plot/mwb1-wo-lat_mw.png  used on input line 331.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<img/plot/mwb1-wo-qlen_mw.png, id=314, 462.528pt x 346.896pt>
+File: img/plot/mwb1-wo-qlen_mw.png Graphic file (type png)
+<use img/plot/mwb1-wo-qlen_mw.png>
+Package pdftex.def Info: img/plot/mwb1-wo-qlen_mw.png  used on input line 343.
+(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
+<img/plot/mwb1-wo-qtime_mw.png, id=316, 462.528pt x 346.896pt>
+File: img/plot/mwb1-wo-qtime_mw.png Graphic file (type png)
+<use img/plot/mwb1-wo-qtime_mw.png>
+Package pdftex.def Info: img/plot/mwb1-wo-qtime_mw.png  used on input line 349.
+
+(pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11 <./img/plot/mwb1-ro-tp_mw.png> <./img/plot/mwb1-ro-lat_mw.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 358--360
 
  []
 
-[11 <./img/plot/mwb1-ro-tp_mw.png> <./img/plot/mwb1-ro-lat_mw.png> <./img/plot/
-mwb1-ro-qlen_mw.png> <./img/plot/mwb1-ro-qtime_mw.png>] [12 <./img/plot/mwb1-wo
--tp_mw.png> <./img/plot/mwb1-wo-lat_mw.png>]
-<img/plot/mwb2-wo-tp_mw.png, id=343, 462.528pt x 346.896pt>
+[12 <./img/plot/mwb1-ro-qlen_mw.png> <./img/plot/mwb1-ro-qtime_mw.png>]
+[13 <./img/plot/mwb1-wo-tp_mw.png> <./img/plot/mwb1-wo-lat_mw.png>]
+<img/plot/mwb2-wo-tp_mw.png, id=359, 462.528pt x 346.896pt>
 File: img/plot/mwb2-wo-tp_mw.png Graphic file (type png)
 <use img/plot/mwb2-wo-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-tp_mw.png  used on input line 364.
+Package pdftex.def Info: img/plot/mwb2-wo-tp_mw.png  used on input line 373.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb2-wo-lat_mw.png, id=345, 462.528pt x 346.896pt>
+<img/plot/mwb2-wo-lat_mw.png, id=361, 462.528pt x 346.896pt>
 File: img/plot/mwb2-wo-lat_mw.png Graphic file (type png)
 <use img/plot/mwb2-wo-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-lat_mw.png  used on input line 370.
+Package pdftex.def Info: img/plot/mwb2-wo-lat_mw.png  used on input line 379.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<img/plot/mwb2-wo-qlen_mw.png, id=347, 462.528pt x 346.896pt>
+<img/plot/mwb2-wo-qlen_mw.png, id=363, 462.528pt x 346.896pt>
 File: img/plot/mwb2-wo-qlen_mw.png Graphic file (type png)
 <use img/plot/mwb2-wo-qlen_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-qlen_mw.png  used on input line 382.
+Package pdftex.def Info: img/plot/mwb2-wo-qlen_mw.png  used on input line 391.
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
-<img/plot/mwb2-wo-qtime_mw.png, id=349, 462.528pt x 346.896pt>
+<img/plot/mwb2-wo-qtime_mw.png, id=365, 462.528pt x 346.896pt>
 File: img/plot/mwb2-wo-qtime_mw.png Graphic file (type png)
 <use img/plot/mwb2-wo-qtime_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-qtime_mw.png  used on input line 388.
+Package pdftex.def Info: img/plot/mwb2-wo-qtime_mw.png  used on input line 397.
 
 (pdftex.def)             Requested size: 226.48395pt x 169.86406pt.
 
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/mwb2-ro-tp_mw.png, id=351, 462.528pt x 346.896pt>
+<img/plot/mwb2-ro-tp_mw.png, id=367, 462.528pt x 346.896pt>
 File: img/plot/mwb2-ro-tp_mw.png Graphic file (type png)
 <use img/plot/mwb2-ro-tp_mw.png>
-Package pdftex.def Info: img/plot/mwb2-ro-tp_mw.png  used on input line 400.
+Package pdftex.def Info: img/plot/mwb2-ro-tp_mw.png  used on input line 409.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb2-ro-lat_mw.png, id=353, 462.528pt x 346.896pt>
+<img/plot/mwb2-ro-lat_mw.png, id=369, 462.528pt x 346.896pt>
 File: img/plot/mwb2-ro-lat_mw.png Graphic file (type png)
 <use img/plot/mwb2-ro-lat_mw.png>
-Package pdftex.def Info: img/plot/mwb2-ro-lat_mw.png  used on input line 406.
+Package pdftex.def Info: img/plot/mwb2-ro-lat_mw.png  used on input line 415.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/mwb2-ro-qlen_mw.png, id=355, 462.528pt x 346.896pt>
+<img/plot/mwb2-ro-qlen_mw.png, id=371, 462.528pt x 346.896pt>
 File: img/plot/mwb2-ro-qlen_mw.png Graphic file (type png)
 <use img/plot/mwb2-ro-qlen_mw.png>
-Package pdftex.def Info: img/plot/mwb2-ro-qlen_mw.png  used on input line 418.
+Package pdftex.def Info: img/plot/mwb2-ro-qlen_mw.png  used on input line 427.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb2-ro-qtime_mw.png, id=357, 462.528pt x 346.896pt>
+<img/plot/mwb2-ro-qtime_mw.png, id=373, 462.528pt x 346.896pt>
 File: img/plot/mwb2-ro-qtime_mw.png Graphic file (type png)
 <use img/plot/mwb2-ro-qtime_mw.png>
-Package pdftex.def Info: img/plot/mwb2-ro-qtime_mw.png  used on input line 424.
+Package pdftex.def Info: img/plot/mwb2-ro-qtime_mw.png  used on input line 433.
 
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13 <./img/plot/mwb1-wo-qlen_mw.png> <./img/plot/mwb1-wo-qtime_mw.png>]
-[14 <./img/plot/mwb2-wo-tp_mw.png> <./img/plot/mwb2-wo-lat_mw.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 475--477
+[14 <./img/plot/mwb1-wo-qlen_mw.png> <./img/plot/mwb1-wo-qtime_mw.png> <./img/p
+lot/mwb2-wo-tp_mw.png> <./img/plot/mwb2-wo-lat_mw.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[15 <./img/plot/mwb2-wo-qlen_mw.png> <./img/plot/mwb2-wo-qtime_mw.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 484--486
 
  []
 
-[15 <./img/plot/mwb2-wo-qlen_mw.png> <./img/plot/mwb2-wo-qtime_mw.png>]
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 480.
-<img/plot/mwb2-wo-tp_law_cli.png, id=401, 462.528pt x 346.896pt>
-File: img/plot/mwb2-wo-tp_law_cli.png Graphic file (type png)
-<use img/plot/mwb2-wo-tp_law_cli.png>
-Package pdftex.def Info: img/plot/mwb2-wo-tp_law_cli.png  used on input line 48
-6.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/mwb2-wo-tp_law_mw.png, id=403, 462.528pt x 346.896pt>
-File: img/plot/mwb2-wo-tp_law_mw.png Graphic file (type png)
-<use img/plot/mwb2-wo-tp_law_mw.png>
-Package pdftex.def Info: img/plot/mwb2-wo-tp_law_mw.png  used on input line 492
-.
-(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
 
+Underfull \hbox (badness 10000) in paragraph at lines 486--488
 
-LaTeX Warning: Marginpar on page 16 moved.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+ []
 
 [16 <./img/plot/mwb2-ro-tp_mw.png> <./img/plot/mwb2-ro-lat_mw.png>] [17 <./img/
-plot/mwb2-ro-qlen_mw.png> <./img/plot/mwb2-ro-qtime_mw.png> <./img/plot/mwb2-wo
--tp_law_cli.png> <./img/plot/mwb2-wo-tp_law_mw.png>]
-<img/plot/tpfw-tp_mw.png, id=432, 462.528pt x 346.896pt>
+plot/mwb2-ro-qlen_mw.png> <./img/plot/mwb2-ro-qtime_mw.png>]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 491.
+<img/plot/mwb2-wo-tp_law_cli.png, id=429, 462.528pt x 346.896pt>
+File: img/plot/mwb2-wo-tp_law_cli.png Graphic file (type png)
+<use img/plot/mwb2-wo-tp_law_cli.png>
+Package pdftex.def Info: img/plot/mwb2-wo-tp_law_cli.png  used on input line 49
+6.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+<img/plot/mwb2-wo-tp_law_mw.png, id=431, 462.528pt x 346.896pt>
+File: img/plot/mwb2-wo-tp_law_mw.png Graphic file (type png)
+<use img/plot/mwb2-wo-tp_law_mw.png>
+Package pdftex.def Info: img/plot/mwb2-wo-tp_law_mw.png  used on input line 502
+.
+(pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
+ [18 <./img/plot/mwb2-wo-tp_law_cli.png> <./img/plot/mwb2-wo-tp_law_mw.png>]
+<img/plot/tpfw-tp_mw.png, id=448, 462.528pt x 346.896pt>
 File: img/plot/tpfw-tp_mw.png Graphic file (type png)
 <use img/plot/tpfw-tp_mw.png>
-Package pdftex.def Info: img/plot/tpfw-tp_mw.png  used on input line 510.
+Package pdftex.def Info: img/plot/tpfw-tp_mw.png  used on input line 520.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/tpfw-lat_mw.png, id=434, 462.528pt x 346.896pt>
+<img/plot/tpfw-lat_mw.png, id=450, 462.528pt x 346.896pt>
 File: img/plot/tpfw-lat_mw.png Graphic file (type png)
 <use img/plot/tpfw-lat_mw.png>
-Package pdftex.def Info: img/plot/tpfw-lat_mw.png  used on input line 516.
+Package pdftex.def Info: img/plot/tpfw-lat_mw.png  used on input line 526.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/tpfw-qlen_mw.png, id=439, 462.528pt x 346.896pt>
+<img/plot/tpfw-qlen_mw.png, id=455, 462.528pt x 346.896pt>
 File: img/plot/tpfw-qlen_mw.png Graphic file (type png)
 <use img/plot/tpfw-qlen_mw.png>
-Package pdftex.def Info: img/plot/tpfw-qlen_mw.png  used on input line 530.
+Package pdftex.def Info: img/plot/tpfw-qlen_mw.png  used on input line 540.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/tpfw-qtime_mw.png, id=441, 462.528pt x 346.896pt>
+<img/plot/tpfw-qtime_mw.png, id=457, 462.528pt x 346.896pt>
 File: img/plot/tpfw-qtime_mw.png Graphic file (type png)
 <use img/plot/tpfw-qtime_mw.png>
-Package pdftex.def Info: img/plot/tpfw-qtime_mw.png  used on input line 536.
+Package pdftex.def Info: img/plot/tpfw-qtime_mw.png  used on input line 546.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[18 <./img/plot/tpfw-tp_mw.png> <./img/plot/tpfw-lat_mw.png>]
-<img/plot/tpfw-wtime_mw.png, id=455, 462.528pt x 346.896pt>
+[19 <./img/plot/tpfw-tp_mw.png> <./img/plot/tpfw-lat_mw.png>]
+<img/plot/tpfw-wtime_mw.png, id=472, 462.528pt x 346.896pt>
 File: img/plot/tpfw-wtime_mw.png Graphic file (type png)
 <use img/plot/tpfw-wtime_mw.png>
-Package pdftex.def Info: img/plot/tpfw-wtime_mw.png  used on input line 570.
+Package pdftex.def Info: img/plot/tpfw-wtime_mw.png  used on input line 580.
 (pdftex.def)             Requested size: 226.48395pt x 175.57542pt.
-<img/plot/tpfw-tp_law_mw.png, id=457, 462.528pt x 346.896pt>
+<img/plot/tpfw-tp_law_mw.png, id=474, 462.528pt x 346.896pt>
 File: img/plot/tpfw-tp_law_mw.png Graphic file (type png)
 <use img/plot/tpfw-tp_law_mw.png>
-Package pdftex.def Info: img/plot/tpfw-tp_law_mw.png  used on input line 576.
+Package pdftex.def Info: img/plot/tpfw-tp_law_mw.png  used on input line 586.
 (pdftex.def)             Requested size: 226.48395pt x 175.57542pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<img/plot/auxiliary-2-tp_mw.png, id=465, 462.528pt x 346.896pt>
+ [20 <./img/plot/tpfw-qlen_mw.png> <./img/plot/tpfw-qtime_mw.png>]
+<img/plot/auxiliary-2-tp_mw.png, id=492, 462.528pt x 346.896pt>
 File: img/plot/auxiliary-2-tp_mw.png Graphic file (type png)
 <use img/plot/auxiliary-2-tp_mw.png>
-Package pdftex.def Info: img/plot/auxiliary-2-tp_mw.png  used on input line 589
+Package pdftex.def Info: img/plot/auxiliary-2-tp_mw.png  used on input line 600
 .
 (pdftex.def)             Requested size: 226.48395pt x 175.57542pt.
-<img/plot/auxiliary-2-lat_mw.png, id=467, 462.528pt x 346.896pt>
+<img/plot/auxiliary-2-lat_mw.png, id=494, 462.528pt x 346.896pt>
 File: img/plot/auxiliary-2-lat_mw.png Graphic file (type png)
 <use img/plot/auxiliary-2-lat_mw.png>
-Package pdftex.def Info: img/plot/auxiliary-2-lat_mw.png  used on input line 59
-5.
+Package pdftex.def Info: img/plot/auxiliary-2-lat_mw.png  used on input line 60
+6.
 (pdftex.def)             Requested size: 226.48395pt x 175.57542pt.
-[19 <./img/plot/tpfw-qlen_mw.png> <./img/plot/tpfw-qtime_mw.png>]
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<img/plot/gmg-mget-lat_cli.png, id=485, 462.528pt x 346.896pt>
+[21 <./img/plot/tpfw-wtime_mw.png> <./img/plot/tpfw-tp_law_mw.png>]
+<img/plot/gmg-mget-lat_cli.png, id=511, 462.528pt x 346.896pt>
 File: img/plot/gmg-mget-lat_cli.png Graphic file (type png)
 <use img/plot/gmg-mget-lat_cli.png>
-Package pdftex.def Info: img/plot/gmg-mget-lat_cli.png  used on input line 610.
+Package pdftex.def Info: img/plot/gmg-mget-lat_cli.png  used on input line 621.
 
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-mget-wtime_mw.png, id=487, 462.528pt x 346.896pt>
-File: img/plot/gmg-mget-wtime_mw.png Graphic file (type png)
-<use img/plot/gmg-mget-wtime_mw.png>
-Package pdftex.def Info: img/plot/gmg-mget-wtime_mw.png  used on input line 616
-.
+<img/plot/gmg-mget-nitems_cli.png, id=513, 462.528pt x 346.896pt>
+File: img/plot/gmg-mget-nitems_cli.png Graphic file (type png)
+<use img/plot/gmg-mget-nitems_cli.png>
+Package pdftex.def Info: img/plot/gmg-mget-nitems_cli.png  used on input line 6
+27.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-[20 <./img/plot/tpfw-wtime_mw.png> <./img/plot/tpfw-tp_law_mw.png>]
-<img/plot/gmg-perc-mget-true.png, id=497, 462.528pt x 346.896pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[22 <./img/plot/auxiliary-2-tp_mw.png> <./img/plot/auxiliary-2-lat_mw.png>]
+<img/plot/gmg-perc-mget-true.png, id=531, 462.528pt x 346.896pt>
 File: img/plot/gmg-perc-mget-true.png Graphic file (type png)
 <use img/plot/gmg-perc-mget-true.png>
-Package pdftex.def Info: img/plot/gmg-perc-mget-true.png  used on input line 63
-0.
+Package pdftex.def Info: img/plot/gmg-perc-mget-true.png  used on input line 64
+6.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-perc-mget-false.png, id=499, 462.528pt x 346.896pt>
+<img/plot/gmg-perc-mget-false.png, id=533, 462.528pt x 346.896pt>
 File: img/plot/gmg-perc-mget-false.png Graphic file (type png)
 <use img/plot/gmg-perc-mget-false.png>
 Package pdftex.def Info: img/plot/gmg-perc-mget-false.png  used on input line 6
-36.
+52.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
- [21 <./img/plot/auxiliary-2-tp_mw.png> <./img/plot/auxiliary-2-lat_mw.png> <./
-img/plot/gmg-mget-lat_cli.png> <./img/plot/gmg-mget-wtime_mw.png>]
-<img/plot/gmg-hist6-true-mget_clients.png, id=515, 462.528pt x 346.896pt>
+
+[23 <./img/plot/gmg-mget-lat_cli.png> <./img/plot/gmg-mget-nitems_cli.png>]
+[24 <./img/plot/gmg-perc-mget-true.png> <./img/plot/gmg-perc-mget-false.png>]
+<img/plot/gmg-hist6-true-mget_clients.png, id=557, 462.528pt x 346.896pt>
 File: img/plot/gmg-hist6-true-mget_clients.png Graphic file (type png)
 <use img/plot/gmg-hist6-true-mget_clients.png>
 Package pdftex.def Info: img/plot/gmg-hist6-true-mget_clients.png  used on inpu
-t line 654.
+t line 673.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-hist6-true-mget_middlewares.png, id=517, 462.528pt x 346.896pt>
+<img/plot/gmg-hist6-true-mget_middlewares.png, id=559, 462.528pt x 346.896pt>
 File: img/plot/gmg-hist6-true-mget_middlewares.png Graphic file (type png)
 <use img/plot/gmg-hist6-true-mget_middlewares.png>
 Package pdftex.def Info: img/plot/gmg-hist6-true-mget_middlewares.png  used on 
-input line 660.
+input line 679.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-hist6-false-mget_clients.png, id=519, 462.528pt x 346.896pt>
+<img/plot/gmg-hist6-false-mget_clients.png, id=561, 462.528pt x 346.896pt>
 File: img/plot/gmg-hist6-false-mget_clients.png Graphic file (type png)
 <use img/plot/gmg-hist6-false-mget_clients.png>
 Package pdftex.def Info: img/plot/gmg-hist6-false-mget_clients.png  used on inp
-ut line 666.
+ut line 685.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-hist6-false-mget_middlewares.png, id=521, 462.528pt x 346.896pt>
+<img/plot/gmg-hist6-false-mget_middlewares.png, id=563, 462.528pt x 346.896pt>
 File: img/plot/gmg-hist6-false-mget_middlewares.png Graphic file (type png)
 <use img/plot/gmg-hist6-false-mget_middlewares.png>
 Package pdftex.def Info: img/plot/gmg-hist6-false-mget_middlewares.png  used on
- input line 672.
+ input line 691.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/plot/gmg-extra-mget-lat_cli.png, id=523, 462.528pt x 346.896pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 699--701
+
+ []
+
+[25] [26 <./img/plot/gmg-hist6-true-mget_clients.png> <./img/plot/gmg-hist6-tru
+e-mget_middlewares.png> <./img/plot/gmg-hist6-false-mget_clients.png> <./img/pl
+ot/gmg-hist6-false-mget_middlewares.png>]
+<img/plot/gmg-extra-mget-lat_cli.png, id=590, 462.528pt x 346.896pt>
 File: img/plot/gmg-extra-mget-lat_cli.png Graphic file (type png)
 <use img/plot/gmg-extra-mget-lat_cli.png>
 Package pdftex.def Info: img/plot/gmg-extra-mget-lat_cli.png  used on input lin
-e 701.
+e 726.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-extra-mget-wtime_mw.png, id=525, 462.528pt x 346.896pt>
-File: img/plot/gmg-extra-mget-wtime_mw.png Graphic file (type png)
-<use img/plot/gmg-extra-mget-wtime_mw.png>
-Package pdftex.def Info: img/plot/gmg-extra-mget-wtime_mw.png  used on input li
-ne 707.
+<img/plot/gmg-extra-mget-nitems_cli.png, id=592, 462.528pt x 346.896pt>
+File: img/plot/gmg-extra-mget-nitems_cli.png Graphic file (type png)
+<use img/plot/gmg-extra-mget-nitems_cli.png>
+Package pdftex.def Info: img/plot/gmg-extra-mget-nitems_cli.png  used on input 
+line 732.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-extra-perc-mget-true.png, id=527, 462.528pt x 346.896pt>
+<img/plot/gmg-extra-perc-mget-true.png, id=594, 462.528pt x 346.896pt>
 File: img/plot/gmg-extra-perc-mget-true.png Graphic file (type png)
 <use img/plot/gmg-extra-perc-mget-true.png>
 Package pdftex.def Info: img/plot/gmg-extra-perc-mget-true.png  used on input l
-ine 713.
+ine 738.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-<img/plot/gmg-extra-perc-mget-false.png, id=529, 462.528pt x 346.896pt>
+<img/plot/gmg-extra-perc-mget-false.png, id=596, 462.528pt x 346.896pt>
 File: img/plot/gmg-extra-perc-mget-false.png Graphic file (type png)
 <use img/plot/gmg-extra-perc-mget-false.png>
 Package pdftex.def Info: img/plot/gmg-extra-perc-mget-false.png  used on input 
-line 719.
+line 744.
 (pdftex.def)             Requested size: 226.48395pt x 179.60884pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[22 <./img/plot/gmg-perc-mget-true.png> <./img/plot/gmg-perc-mget-false.png>]
+ [27 <./img/plot/gmg-extra-mget-lat_cli.png> <./img/plot/gmg-extra-mget-nitems_
+cli.png> <./img/plot/gmg-extra-perc-mget-true.png> <./img/plot/gmg-extra-perc-m
+get-false.png>] [28]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 746.
+(Font)              <9> on input line 775.
 
-[23 <./img/plot/gmg-hist6-true-mget_clients.png> <./img/plot/gmg-hist6-true-mge
-t_middlewares.png> <./img/plot/gmg-hist6-false-mget_clients.png> <./img/plot/gm
-g-hist6-false-mget_middlewares.png>]
-Overfull \hbox (2.64552pt too wide) in paragraph at lines 767--788
+Overfull \hbox (2.64552pt too wide) in paragraph at lines 796--817
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 792--846
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 821--875
 
  []
 
-[24] [25] [26] [27 <./img/plot/gmg-extra-mget-lat_cli.png> <./img/plot/gmg-extr
-a-mget-wtime_mw.png> <./img/plot/gmg-extra-perc-mget-true.png> <./img/plot/gmg-
-extra-perc-mget-false.png>]
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 1050--1050
+[30] [31]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[32] [33] [34]
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 1267--1267
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 1050--1050
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 1267--1267
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 1050--1050
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 1267--1267
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
 
-Overfull \hbox (2.22174pt too wide) in paragraph at lines 1050--1050
+Overfull \hbox (2.22174pt too wide) in paragraph at lines 1267--1267
 [][][][]\OT1/cmr/m/n/10.95 Probably 
  []
 
-[28
+[35
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1056
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1273
 .
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1056.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1273.
 
- [29] [30]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1072.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1072.
+ [36]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1280.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1280.
 
 (./dcetin-project-report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1072.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1072.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1280.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1280.
 
 Package rerunfilecheck Info: File `dcetin-project-report.out' has not changed.
 (rerunfilecheck)             Checksum: 6AA6BC52BF82C43061ED0FCDC3505A17;2225.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1072.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1280.
  ) 
 Here is how much of TeX's memory you used:
- 28976 strings out of 492982
- 583970 string characters out of 6134895
- 724168 words of memory out of 5000000
- 32011 multiletter control sequences out of 15000+600000
+ 29063 strings out of 492982
+ 585327 string characters out of 6134895
+ 749730 words of memory out of 5000000
+ 32076 multiletter control sequences out of 15000+600000
  540435 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,15n,94p,10372b,833s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,14n,94p,10393b,750s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1849,10 +1898,10 @@ are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on dcetin-project-report.pdf (30 pages, 2137045 bytes).
+Output written on dcetin-project-report.pdf (36 pages, 2254986 bytes).
 PDF statistics:
- 739 PDF objects out of 1000 (max. 8388607)
- 535 compressed objects within 6 object streams
- 121 named destinations out of 1000 (max. 500000)
- 821 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 823 PDF objects out of 1000 (max. 8388607)
+ 608 compressed objects within 7 object streams
+ 137 named destinations out of 1000 (max. 500000)
+ 843 words of extra memory for PDF output out of 10000 (max. 10000000)
 

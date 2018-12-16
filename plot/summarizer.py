@@ -131,7 +131,7 @@ def getMiddlewareHist(fname, htype):
 	return val, ws
 
 def drawHist(times, counts, errs=None, title='Response time histogram', subtitle='', out_format="show", maxy=None):
-	if subtitle != '':
+	if isinstance(subtitle, tuple):
 		machine, mgsize, mgshrd, op_type = subtitle
 		if mgshrd == "true":
 			shardedMode = "sharded"

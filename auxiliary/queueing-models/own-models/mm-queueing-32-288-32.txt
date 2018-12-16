@@ -1,0 +1,21 @@
+Number of worker threads:  32
+Number of clients:  288
+Model based on:  32 thread results
+ 
+M/M/1 Model
+ 
+Number of clients:  288
+Arrival rate:  6776.7
+Service rate:  6776.7
+Traffic intensity:  1.0
+Stability condition:  False
+ 
+M/M/m Model
+ 
+Number of clients:  288
+Arrival rate:  6776.7
+Service rate:  211.771875
+Number of workers:  32
+Traffic intensity:  1.0
+Stability condition:  False
+ 

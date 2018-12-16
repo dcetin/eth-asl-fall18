@@ -1,0 +1,26 @@
+Number of worker threads:  32
+Number of clients:  72
+Model based on:  64 thread results
+ 
+M/M/1 Model
+ 
+Number of clients:  72
+Arrival rate:  6411.0
+Service rate:  8283.9
+Traffic intensity:  0.773910839098
+Stability condition:  True
+Probability of zero jobs in the system:  0.226089160902
+Mean number of jobs in the system:  3.42303379785
+Mean number of jobs in the queue:  2.64912295876
+Mean response time:  0.00053393133643
+Mean waiting time:  0.000413215248597
+ 
+M/M/m Model
+ 
+Number of clients:  72
+Arrival rate:  6411.0
+Service rate:  129.4359375
+Number of workers:  32
+Traffic intensity:  1.5478216782
+Stability condition:  False
+ 
