@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.12.10)  17 DEC 2018 15:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.12.10)  17 DEC 2018 16:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1849,25 +1849,25 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [38
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1511
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1512
 .
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1511.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1512.
 
  [39] [40]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1518.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1518.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1519.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1519.
 
 (./dcetin-project-report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1518.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1518.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1519.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1519.
 
 Package rerunfilecheck Info: File `dcetin-project-report.out' has not changed.
 (rerunfilecheck)             Checksum: 6AA6BC52BF82C43061ED0FCDC3505A17;2225.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1518.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1519.
  ) 
 Here is how much of TeX's memory you used:
  28969 strings out of 492982
@@ -1893,7 +1893,7 @@ are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on dcetin-project-report.pdf (40 pages, 2202063 bytes).
+Output written on dcetin-project-report.pdf (40 pages, 2202482 bytes).
 PDF statistics:
  865 PDF objects out of 1000 (max. 8388607)
  648 compressed objects within 7 object streams
