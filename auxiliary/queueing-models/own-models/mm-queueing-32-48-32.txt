@@ -19,13 +19,13 @@ M/M/m Model
  
 Number of clients:  48
 Arrival rate:  5206.5
-Service rate:  211.771875
-Number of workers:  32
+Service rate:  105.8859375
+Number of workers:  64
 Traffic intensity:  0.768294302537
 Stability condition:  True
-Probability of zero jobs in the system:  2.053347675303172e-11
-Mean number of jobs in the system:  24.93992715013151
-Mean number of jobs in the queue:  0.3545094689592568
-Mean response time:  0.004790152146380775
-Mean waiting time:  6.808978564472425e-05
+Probability of zero jobs in the system:  4.402167464190715e-22
+Mean number of jobs in the system:  49.26313274589886
+Mean number of jobs in the queue:  0.09229738355435194
+Mean response time:  0.009461852059137396
+Mean waiting time:  1.7727337665293755e-05
  

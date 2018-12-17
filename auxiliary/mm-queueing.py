@@ -149,8 +149,11 @@ def model_mmm(service_rate, arrival_rate, numCli, m):
 		# 16-	Mean waiting time
 		mean_wait_time = mean_jobs_queue / arrival_rate
 		print "Mean waiting time: ", mean_wait_time
+		print " "
+		return arrival_rate, rho, mean_jobs, mean_jobs_queue, mean_response_time, mean_wait_time
 
 	print " "
+	return None
 
 if False:
 	# avg_tps[tmw-numCli]
@@ -192,10 +195,10 @@ if False:
 	}
 
 	mmm_service_rate = {
-		"8":  3814.9 / 8,
-		"16": 5159.3 / 16,
-		"32": 6776.6 / 32,
-		"64": 8281.8 / 64
+		"8":  3814.9 / 16,
+		"16": 5159.3 / 32,
+		"32": 6776.6 / 64,
+		"64": 8281.8 / 128
 	}
 
 if True:
@@ -238,10 +241,10 @@ if True:
 	}
 
 	mmm_service_rate = {
-		"8":  3814.9 / 8,
-		"16": 5159.4 / 16,
-		"32": 6776.7 / 32,
-		"64": 8283.9 / 64
+		"8":  3814.9 / 16,
+		"16": 5159.4 / 32,
+		"32": 6776.7 / 64,
+		"64": 8283.9 / 128
 	}
 
 mm1_service_rate = mm1_service_rate[modelConfig]
@@ -253,6 +256,6 @@ print "Number of clients: ", numCli
 print "Model based on: ", modelConfig, "thread results"
 print " "
 model_mm1(mm1_service_rate, avg_tps[key], numCli)
-model_mmm(mmm_service_rate, avg_tps[key], numCli, tmw)
+arrival_rate, rho, mean_jobs, mean_jobs_queue, mean_response_time, mean_wait_time = model_mmm(mmm_service_rate, avg_tps[key], numCli, tmw*2)
 
 # Re-iterate over the probability calculations

@@ -19,8 +19,8 @@ M/M/m Model
  
 Number of clients:  48
 Arrival rate:  3783.7
-Service rate:  129.4359375
-Number of workers:  8
+Service rate:  64.71796875
+Number of workers:  16
 Traffic intensity:  3.65402769227
 Stability condition:  False
  
